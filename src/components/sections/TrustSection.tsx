@@ -62,13 +62,13 @@ export const TrustSection: React.FC = () => {
 
         {/* Three Opening Lines */}
         <div className="text-center mb-12 md:mb-16 space-y-4 md:space-y-5">
-          <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy leading-tight font-light">
+          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-light">
             Admissions doesn't have to feel chaotic.
           </p>
-          <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy leading-tight font-medium">
+          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-medium">
             Clarity is possible.
           </p>
-          <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy leading-tight font-bold">
+          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-bold">
             And it changes <span className="cursive-keyword">everything</span>.
           </p>
           <div className="flex justify-center pt-4">
@@ -76,13 +76,13 @@ export const TrustSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile: Horizontal Scroll, Desktop: Grid */}
-        <div className="w-full overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 scrollbar-hide md:overflow-visible">
-          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-max md:w-full">
+        {/* Grid on all screen sizes */}
+        <div className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
             {trustPoints.map((point, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-[280px] md:w-auto snap-start group relative bg-white p-5 md:p-6 rounded-2xl border border-gold/10 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white p-4 md:p-6 rounded-2xl border border-gold/10 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Decorative gradient border on hover */}
@@ -92,7 +92,7 @@ export const TrustSection: React.FC = () => {
                   <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br from-gold to-goldLight flex items-center justify-center mr-4 text-white group-hover:scale-110 transition-transform duration-300 shadow-sm">
                     {point.icon}
                   </div>
-                  <p className="text-sm md:text-base text-navy font-semibold leading-snug pt-2 whitespace-normal">
+                  <p className="text-sm md:text-base text-navy font-semibold leading-[1.6] pt-2">
                     {point.text}
                   </p>
                 </div>
@@ -106,7 +106,7 @@ export const TrustSection: React.FC = () => {
 
         {/* Closing Line */}
         <div className="text-center mt-10 md:mt-12">
-          <p className="text-xl md:text-2xl font-serif text-navy/90">
+          <p className="text-base md:text-2xl font-serif text-navy/90">
             Trust built on <span className="cursive-keyword">results</span>.
           </p>
         </div>

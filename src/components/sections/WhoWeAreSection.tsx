@@ -46,7 +46,7 @@ export const WhoWeAreSection: React.FC = () => {
   return (
     <Section id="about" className="relative py-14 md:py-16 flex items-center bg-cream">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
-        <div className="relative h-[300px] md:h-[400px] lg:h-[500px] order-2 lg:order-1">
+        <div className="relative h-[250px] md:h-[400px] lg:h-[500px] order-2 lg:order-1">
           {/* Decorative elements */}
           <div className="absolute -top-8 -left-8 w-40 h-40 bg-gold/10 rounded-full blur-3xl animate-pulse-slow"></div>
           <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-navy/5 rounded-full blur-3xl"></div>
@@ -64,7 +64,7 @@ export const WhoWeAreSection: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-navy/30 via-transparent to-transparent"></div>
 
               {/* Founder badge */}
-              <div className="absolute bottom-6 left-6 right-6 backdrop-blur-luxury rounded-2xl p-5 shadow-luxury">
+              <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 backdrop-blur-luxury rounded-2xl p-3 md:p-5 shadow-luxury">
                 <p className="text-sm md:text-base text-white font-bold mb-1">Founder-Led Guidance</p>
                 <p className="text-xs md:text-sm text-white/80">Every family receives personal attention</p>
               </div>
@@ -75,7 +75,7 @@ export const WhoWeAreSection: React.FC = () => {
         <TextContainer className="order-1 lg:order-2">
 
 
-          <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-navy mb-4 md:mb-6 leading-tight font-bold">
+          <h2 className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-4 md:mb-6 leading-tight font-bold">
             Beacon House exists to give families personalized, clarity-first guidance that traditional counselling models rarely offer.
           </h2>
 
@@ -83,22 +83,22 @@ export const WhoWeAreSection: React.FC = () => {
             Through our partnership with <span className="font-bold text-navy bg-gold/10 px-2 py-0.5 rounded">InGenius Prep</span>, we bring:
           </p>
 
-          {/* Mobile: Horizontal Scroll, Desktop: Vertical List */}
-          <div className="w-full overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 scrollbar-hide md:overflow-visible mb-5 md:mb-6">
-            <div className="flex md:flex-col gap-3 md:gap-4 w-max md:w-full">
+          {/* Vertical list on all screen sizes */}
+          <div className="w-full mb-5 md:mb-6">
+            <div className="flex flex-col gap-3 md:gap-4 w-full">
               {differentiators.map((item, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-[280px] md:w-auto snap-start group flex items-start p-3 md:p-4 bg-white rounded-2xl border border-navy/5 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-x-2"
+                  className="group flex items-start p-3 md:p-4 bg-white rounded-2xl border border-navy/5 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-x-2"
                 >
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-gold to-goldLight flex items-center justify-center mr-4 text-white group-hover:scale-110 transition-transform duration-300 shadow-sm">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-navy text-sm md:text-base leading-snug mb-1 whitespace-normal">
+                    <p className="font-bold text-navy text-sm md:text-base leading-snug mb-1">
                       {item.title}
                     </p>
-                    <p className="text-xs md:text-sm text-navy/60 leading-relaxed whitespace-normal">
+                    <p className="text-xs md:text-sm text-navy/60 leading-[1.6]">
                       {item.description}
                     </p>
                   </div>
@@ -108,7 +108,7 @@ export const WhoWeAreSection: React.FC = () => {
           </div>
 
           <div className="p-4 md:p-6 bg-gradient-to-br from-sage to-white rounded-2xl border border-gold/10 shadow-sm">
-            <p className="font-serif text-lg md:text-xl lg:text-2xl text-navy leading-snug font-medium">
+            <p className="font-serif text-base md:text-xl lg:text-2xl text-navy leading-snug font-medium">
               Every student's path is different — <span className="cursive-keyword">so the support must be too</span>.
             </p>
           </div>

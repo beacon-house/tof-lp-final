@@ -10,13 +10,13 @@ export const PainPointSection: React.FC = () => {
         <TextContainer>
 
 
-          <p className="font-serif text-xl md:text-2xl lg:text-3xl text-navy mb-6 md:mb-8 leading-tight font-medium">
+          <p className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-6 md:mb-8 leading-tight font-medium">
             If this feels familiar, you're not alone:
           </p>
 
-          {/* Mobile: Horizontal Scroll, Desktop: Vertical List */}
-          <div className="w-full overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 scrollbar-hide md:overflow-visible">
-            <ul className="flex md:flex-col gap-3 md:gap-4 w-max md:w-full">
+          {/* Vertical list on all screen sizes */}
+          <div className="w-full mb-6 md:mb-8">
+            <ul className="flex flex-col gap-3 md:gap-4 w-full">
               {[
                 'Many activities, no clear direction',
                 'Unsure what matters in Grades 8–12',
@@ -26,14 +26,14 @@ export const PainPointSection: React.FC = () => {
               ].map((item, index) => (
                 <li
                   key={index}
-                  className="flex-shrink-0 w-[280px] md:w-auto snap-start flex items-start group hover:translate-x-2 transition-transform duration-300 bg-white/50 md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none border border-gold/10 md:border-none"
+                  className="flex items-start group hover:translate-x-2 transition-transform duration-300 bg-white/50 md:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none border border-gold/10 md:border-none"
                 >
                   <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold/10 flex items-center justify-center mr-4 mt-0.5 group-hover:bg-gold/20 transition-colors duration-300">
                     <svg className="w-4 h-4 md:w-5 md:h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <span className="text-sm md:text-base lg:text-lg text-navy/80 leading-relaxed font-medium pt-1 whitespace-normal">
+                  <span className="text-sm md:text-base lg:text-lg text-navy/80 leading-[1.6] font-medium pt-1">
                     {item}
                   </span>
                 </li>
@@ -41,11 +41,11 @@ export const PainPointSection: React.FC = () => {
             </ul>
           </div>
 
-          <div className="space-y-2 md:space-y-3 p-4 md:p-6 bg-gradient-to-br from-sage to-cream rounded-2xl border border-gold/10 shadow-luxury">
-            <p className="text-lg md:text-xl lg:text-2xl font-serif font-medium text-navy leading-snug">
+          <div className="space-y-2 md:space-y-3 p-4 md:p-6 bg-gradient-to-br from-sage to-cream rounded-2xl border border-gold/10 shadow-luxury mt-6 md:mt-8">
+            <p className="text-base md:text-xl lg:text-2xl font-serif font-medium text-navy leading-snug">
               This isn't a <span className="font-bold text-navy">marks</span> problem.
             </p>
-            <p className="text-lg md:text-xl lg:text-2xl font-serif font-bold text-navy leading-snug">
+            <p className="text-base md:text-xl lg:text-2xl font-serif font-bold text-navy leading-snug">
               This is a <span className="cursive-keyword">clarity</span> problem.
             </p>
           </div>

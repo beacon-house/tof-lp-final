@@ -61,7 +61,7 @@ export const ResultsSection: React.FC = () => {
 
 
       {/* Main Heading - Using proper serif font like other sections */}
-      <p className="font-serif text-xl md:text-2xl lg:text-3xl text-navy mb-4 md:mb-5 leading-relaxed text-center font-medium">
+      <p className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-4 md:mb-5 leading-relaxed text-center font-medium">
         When clarity and effort come together, great outcomes follow naturally.
       </p>
 
@@ -85,23 +85,23 @@ export const ResultsSection: React.FC = () => {
       </div>
 
       {/* Comparison Cards - After stats */}
-      <div className="w-full overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 scrollbar-hide md:overflow-visible mb-5 md:mb-6">
-        <div className="flex md:grid md:grid-cols-4 gap-2 md:gap-3 w-max md:w-full">
+      <div className="w-full mb-5 md:mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 w-full">
           {comparisonData.map((item, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[240px] md:w-auto snap-start bg-white border border-gold/10 rounded-2xl p-3 md:p-4 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1"
+              className="bg-white border border-gold/10 rounded-2xl p-2 md:p-4 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1"
             >
               {/* University Name */}
-              <h3 className="text-sm md:text-base font-bold text-navy mb-2 md:mb-3">
+              <h3 className="text-xs md:text-base font-bold text-navy mb-1 md:mb-3">
                 {item.university}
               </h3>
 
               {/* Other Students */}
-              <div className="mb-2">
+              <div className="mb-1 md:mb-2">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-navy/60">Other Students</span>
-                  <span className="text-xs font-semibold text-navy/70">
+                  <span className="text-[10px] md:text-xs text-navy/60">Other Students</span>
+                  <span className="text-[10px] md:text-xs font-semibold text-navy/70">
                     {item.otherStudents} out of 100
                   </span>
                 </div>
@@ -114,10 +114,10 @@ export const ResultsSection: React.FC = () => {
               </div>
 
               {/* Our Students */}
-              <div className="mb-2">
+              <div className="mb-1 md:mb-2">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-navy/60">Our Students</span>
-                  <span className="text-xs font-semibold text-navy">
+                  <span className="text-[10px] md:text-xs text-navy/60">Our Students</span>
+                  <span className="text-[10px] md:text-xs font-semibold text-navy">
                     {item.ourStudents} out of 100
                   </span>
                 </div>
@@ -130,8 +130,8 @@ export const ResultsSection: React.FC = () => {
               </div>
 
               {/* Success Rate Badge */}
-              <div className="flex justify-center mt-2">
-                <span className="inline-block bg-navy/5 text-navy text-xs font-semibold px-2 py-1 rounded-full">
+              <div className="flex justify-center mt-1 md:mt-2">
+                <span className="inline-block bg-navy/5 text-navy text-[10px] md:text-xs font-semibold px-2 py-0.5 md:py-1 rounded-full">
                   {item.multiplier} Higher
                 </span>
               </div>
@@ -142,7 +142,7 @@ export const ResultsSection: React.FC = () => {
 
       {/* Cursive Closing Line */}
       <div className="text-center mb-4 md:mb-5">
-        <p className="text-xl md:text-2xl lg:text-3xl text-navy font-serif font-medium">
+        <p className="text-base md:text-2xl lg:text-3xl text-navy font-serif font-medium">
           <span className="cursive-keyword">Clarity</span> → Direction → Outcomes.
         </p>
       </div>

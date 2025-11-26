@@ -38,12 +38,12 @@ export const HeroSection: React.FC<{ onLearnMore: () => void }> = ({ onLearnMore
           </div>
 
           {/* Hero headline with staggered animation */}
-          <h1 className="text-[2.25rem] leading-[1.15] md:text-4xl lg:text-5xl font-serif font-bold text-navy mb-4 md:mb-5 opacity-0 animate-fade-in-up-delay tracking-tight">
+          <h1 className="text-[1.75rem] leading-[1.2] md:text-4xl lg:text-5xl font-serif font-bold text-navy mb-4 md:mb-5 opacity-0 animate-fade-in-up-delay tracking-tight">
             The Hardest Part of Admissions Is Knowing What Actually Matters.
           </h1>
 
           {/* Subheadline with emphasis on clarity */}
-          <p className="text-base md:text-lg lg:text-xl text-navy/70 mb-5 md:mb-6 leading-relaxed font-light opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
+          <p className="text-sm md:text-lg lg:text-xl text-navy/70 mb-5 md:mb-6 leading-[1.6] font-light opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
             For most students, the real challenge isn't marks —<br className="hidden sm:inline" />
             it's not having <span className="cursive-keyword">clarity</span> on the path.
           </p>
@@ -60,26 +60,26 @@ export const HeroSection: React.FC<{ onLearnMore: () => void }> = ({ onLearnMore
           </div>
 
           {/* Trust badges with enhanced styling */}
-          <div className="mt-4 md:mt-5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs md:text-sm font-medium text-navy/80 opacity-0 animate-fade-in-up-delay-2">
+          <div className="mt-4 md:mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs md:text-sm font-medium text-navy/80 opacity-0 animate-fade-in-up-delay-2 max-w-md mx-auto">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span className="whitespace-nowrap">35+ top IB & IGCSE schools</span>
+              <span>35+ top IB & IGCSE schools</span>
             </div>
             <span className="hidden sm:inline text-gold/40">•</span>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span className="whitespace-nowrap">150+ Former Admissions Officers</span>
+              <span>150+ Former Admissions Officers</span>
             </div>
             <span className="hidden sm:inline text-gold/40">•</span>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span className="whitespace-nowrap font-semibold text-navy">Founder Led Guidance</span>
+              <span className="font-semibold text-navy">Founder Led Guidance</span>
             </div>
           </div>
 
           {/* Closing Line */}
           <div className="mt-5 md:mt-6 opacity-0 animate-fade-in-up-delay-3">
-            <p className="text-lg md:text-xl font-serif text-navy/90">
+            <p className="text-base md:text-xl font-serif text-navy/90">
               Start with <span className="cursive-keyword">clarity</span>.
             </p>
           </div>
