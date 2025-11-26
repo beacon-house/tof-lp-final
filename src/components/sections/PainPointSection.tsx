@@ -1,0 +1,84 @@
+// Section B - The Real Pain Point section
+import React from 'react'
+import { Section } from '../Section'
+import { TextContainer } from '../TextContainer'
+
+export const PainPointSection: React.FC = () => {
+  return (
+    <Section id="pain-point" className="relative min-h-screen flex items-center bg-white">
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
+        <TextContainer>
+
+
+          <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy mb-10 md:mb-12 leading-tight font-medium">
+            If this feels familiar, you're not alone:
+          </p>
+
+          {/* Mobile: Horizontal Scroll, Desktop: Vertical List */}
+          <div className="w-full overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 scrollbar-hide md:overflow-visible">
+            <ul className="flex md:flex-col gap-4 md:gap-6 w-max md:w-full">
+              {[
+                'Many activities, no clear direction',
+                'Unsure what matters in Grades 8–12',
+                'Don\'t know when to do what (subjects/tests/majors)',
+                'Hardworking child, scattered interests',
+                'Conflicting advice everywhere'
+              ].map((item, index) => (
+                <li
+                  key={index}
+                  className="flex-shrink-0 w-[280px] md:w-auto snap-start flex items-start group hover:translate-x-2 transition-transform duration-300 bg-white/50 md:bg-transparent p-4 md:p-0 rounded-xl md:rounded-none border border-gold/10 md:border-none"
+                >
+                  <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold/10 flex items-center justify-center mr-4 mt-0.5 group-hover:bg-gold/20 transition-colors duration-300">
+                    <svg className="w-4 h-4 md:w-5 md:h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <span className="text-base md:text-lg lg:text-xl text-navy/80 leading-relaxed font-medium pt-1 whitespace-normal">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-3 md:space-y-4 p-6 md:p-8 bg-gradient-to-br from-sage to-cream rounded-2xl border border-gold/10 shadow-luxury">
+            <p className="text-xl md:text-2xl lg:text-3xl font-serif font-medium text-navy leading-snug">
+              This isn't a <span className="font-bold text-navy">marks</span> problem.
+            </p>
+            <p className="text-xl md:text-2xl lg:text-3xl font-serif font-bold text-navy leading-snug">
+              This is a <span className="cursive-keyword">clarity</span> problem.
+            </p>
+          </div>
+        </TextContainer>
+
+        <div className="relative lg:order-last order-first h-[350px] md:h-[450px] lg:h-[600px]">
+          {/* Decorative background elements */}
+          <div className="absolute -top-6 -right-6 w-32 h-32 bg-gold/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-navy/5 rounded-full blur-3xl"></div>
+
+          {/* Image container with enhanced styling */}
+          <div className="relative h-full rounded-3xl overflow-hidden shadow-luxury group">
+            <img
+              src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?q=80&w=2069&auto=format&fit=crop"
+              alt="Parent contemplating education choices"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            {/* Overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-navy/20 via-transparent to-transparent"></div>
+
+            {/* Floating badge */}
+            <div className="absolute bottom-6 left-6 right-6 backdrop-blur-luxury rounded-2xl p-4 md:p-5 shadow-luxury">
+              <p className="text-sm md:text-base text-navy/90 font-medium leading-relaxed">
+                "We had no idea where to even start with the admissions process."
+              </p>
+              <p className="text-xs md:text-sm text-navy/60 mt-2 font-medium">
+                — Parent, Grade 9 IB Student
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Section>
+  )
+}
