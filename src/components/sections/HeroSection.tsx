@@ -26,26 +26,26 @@ export const HeroSection: React.FC<{ onLearnMore: () => void }> = ({ onLearnMore
       </div>
 
 
-      <div className="relative z-10 max-w-content mx-auto px-6 md:px-8 lg:px-12 py-8 md:py-12 lg:py-16">
+      <div className="relative z-10 max-w-content mx-auto px-6 md:px-8 lg:px-12 py-4 md:py-12 lg:py-16">
         <div className="max-w-text mx-auto text-center">
           {/* Stat pill with animation */}
-          <div className="flex flex-col items-center justify-center gap-2 mb-4 md:mb-6 opacity-0 animate-fade-in-up">
+          <div className="flex flex-col items-center justify-center gap-2 mb-3 md:mb-6 opacity-0 animate-fade-in-up">
             <StatPill />
           </div>
 
           {/* Hero headline with staggered animation */}
-          <h1 className="text-[1.75rem] leading-[1.2] md:text-4xl lg:text-5xl font-serif font-bold text-navy mb-4 md:mb-5 opacity-0 animate-fade-in-up-delay tracking-tight">
+          <h1 className="text-[1.75rem] leading-[1.2] md:text-4xl lg:text-5xl font-serif font-bold text-navy mb-3 md:mb-5 opacity-0 animate-fade-in-up-delay tracking-tight">
             The Hardest Part of Admissions Is Knowing What Actually Matters.
           </h1>
 
           {/* Subheadline with emphasis on clarity */}
-          <p className="text-sm md:text-lg lg:text-xl text-navy/70 mb-5 md:mb-6 leading-[1.6] font-light opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
+          <p className="text-sm md:text-lg lg:text-xl text-navy/70 mb-4 md:mb-6 leading-[1.6] font-light opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
             For most students, the real challenge isn't marks —<br className="hidden sm:inline" />
             it's not having <span className="cursive-keyword">clarity</span> on the path.
           </p>
 
           {/* CTA Button with glow effect */}
-          <div className="opacity-0 animate-fade-in-up-delay-2 mb-5 md:mb-6 flex justify-center">
+          <div className="opacity-0 animate-fade-in-up-delay-2 mb-3 md:mb-6 flex justify-center">
             <Button
               onClick={onLearnMore}
               variant="primary"
@@ -56,32 +56,23 @@ export const HeroSection: React.FC<{ onLearnMore: () => void }> = ({ onLearnMore
           </div>
 
           {/* Trust badges with enhanced styling */}
-          <div className="mt-4 md:mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs md:text-sm font-medium text-navy/80 opacity-0 animate-fade-in-up-delay-2 max-w-md mx-auto">
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span>35+ top IB & IGCSE schools</span>
-            </div>
-            <span className="hidden sm:inline text-gold/40">•</span>
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span>150+ Former Admissions Officers</span>
-            </div>
-            <span className="hidden sm:inline text-gold/40">•</span>
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-gold rounded-full"></div>
-              <span>Founder Led Guidance</span>
-            </div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-xs md:text-sm font-medium text-navy/80 opacity-0 animate-fade-in-up-delay-2">
+            <span>35+ top IB & IGCSE schools</span>
+            <span className="hidden md:inline text-navy/40">|</span>
+            <span>150+ Former Admissions Officers</span>
+            <span className="hidden md:inline text-navy/40">|</span>
+            <span>Founder Led Guidance</span>
           </div>
 
           {/* Closing Line */}
-          <div className="mt-5 md:mt-6 opacity-0 animate-fade-in-up-delay-3">
+          <div className="mt-3 md:mt-6 opacity-0 animate-fade-in-up-delay-3">
             <p className="text-base md:text-xl font-serif text-navy/90">
               Start with <span className="cursive-keyword">clarity</span>.
             </p>
           </div>
 
           {/* Scroll indicator */}
-          <div className="mt-4 md:mt-6 flex justify-center opacity-0 animate-fade-in-up-delay-2">
+          <div className="mt-3 md:mt-6 flex justify-center opacity-0 animate-fade-in-up-delay-2">
             <div className="animate-float">
               <svg
                 className="w-6 h-6 md:w-7 md:h-7 text-gold/60"
