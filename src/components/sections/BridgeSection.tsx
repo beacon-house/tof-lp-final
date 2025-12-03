@@ -76,11 +76,18 @@ export const BridgeSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Closing Statement */}
-        <div className="text-center max-w-2xl mx-auto p-6 md:p-7 bg-gradient-to-br from-navy via-navyLight to-navy rounded-3xl shadow-luxury">
-          <p className="text-base md:text-2xl lg:text-3xl font-serif font-bold text-white leading-tight">
-            This is where <span className="cursive-keyword">clarity</span> begins.
-          </p>
+        {/* CTA Button */}
+        <div className="text-center">
+          <a
+            href="#achievements"
+            className="inline-block h-12 md:h-14 px-8 md:px-10 rounded-lg font-semibold text-base md:text-lg bg-gradient-to-r from-gold to-goldLight text-navy shadow-sm hover:shadow-glow hover:-translate-y-0.5 transition-all duration-300 ease-in-out leading-[3rem] md:leading-[3.5rem]"
+            onClick={(e) => {
+              e.preventDefault()
+              document.getElementById('achievements')?.scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            Understand Our Approach
+          </a>
         </div>
       </div>
     </Section>
