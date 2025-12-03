@@ -53,12 +53,7 @@ export const AchievementsSection: React.FC = () => {
     <Section id="achievements" className="relative py-10 md:py-12 flex items-center bg-navy">
       <div className="w-full">
         <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-white mb-8 md:mb-10 leading-tight text-center max-w-4xl mx-auto font-medium">
-          Beacon House Exists To Give Families Personalized,{' '}
-          <span className="relative inline-block">
-            <span className="relative z-10">Clarity-First</span>
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 md:h-1 bg-gold"></span>
-          </span>{' '}
-          Guidance That Traditional Counseling Models Rarely Offer
+          Beacon House exists to give families personalized, <span className="cursive-keyword">clarity-first</span> guidance that traditional counseling models rarely offer
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
