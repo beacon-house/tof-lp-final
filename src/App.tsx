@@ -5,6 +5,7 @@ import { HeroSection } from './components/sections/HeroSection'
 import { PainPointSection } from './components/sections/PainPointSection'
 import { AuthoritySection } from './components/sections/AuthoritySection'
 import { BridgeSection } from './components/sections/BridgeSection'
+import { AchievementsSection } from './components/sections/AchievementsSection'
 import { WhoWeAreSection } from './components/sections/WhoWeAreSection'
 import { ResultsSection } from './components/sections/ResultsSection'
 import { ProcessSection } from './components/sections/ProcessSection'
@@ -21,6 +22,7 @@ function App() {
         <PainPointSection />
         <AuthoritySection />
         <BridgeSection />
+        <AchievementsSection />
         <WhoWeAreSection />
         <ResultsSection />
         <ProcessSection />
