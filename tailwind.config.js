@@ -29,6 +29,13 @@ export default {
         'content': '1320px',
         'text': '900px',
       },
+      backgroundSize: {
+        '200': '200%',
+      },
+      backgroundPosition: {
+        '0': '0%',
+        '100': '100%',
+      },
       animation: {
         'marquee': 'marquee 40s linear infinite',
         'marquee-slow': 'marquee 60s linear infinite',

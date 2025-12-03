@@ -60,7 +60,7 @@ export const HeroSection: React.FC = () => {
           </p>
 
           {/* Trust stat boxes */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-5 md:mb-6 opacity-0 animate-fade-in-up-delay-2 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8 md:mb-10 opacity-0 animate-fade-in-up-delay-2 max-w-4xl mx-auto">
             {/* Box 1 */}
             <div className="bg-white rounded-2xl p-3 md:p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
               <div className="flex justify-center mb-2">
@@ -116,7 +116,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="mt-4 md:mt-6">
+          <div>
             <Button onClick={scrollToNextSection}>
               Learn More
             </Button>

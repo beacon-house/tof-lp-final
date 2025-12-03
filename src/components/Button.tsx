@@ -16,10 +16,10 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button'
 }) => {
-  const baseStyles = 'h-12 px-8 rounded-lg font-semibold text-base transition-all duration-200 ease-in-out'
+  const baseStyles = 'h-12 px-8 rounded-lg font-semibold text-base transition-all duration-300 ease-in-out'
 
   const variants = {
-    primary: 'bg-gold text-navy hover:bg-gold/90 hover:shadow-lg hover:-translate-y-0.5',
+    primary: 'bg-gradient-to-r from-gold to-goldLight text-navy shadow-sm hover:shadow-glow hover:-translate-y-0.5',
     secondary: 'bg-white text-navy border-2 border-navy hover:bg-navy hover:text-white'
   }
 
