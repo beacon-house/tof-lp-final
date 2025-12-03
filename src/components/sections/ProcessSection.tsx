@@ -1,6 +1,7 @@
-// Section G - How We Work section with 5-step process
+// Section G - How We Work section with 5-step timeline process
 import React from 'react'
 import { Section } from '../Section'
+import { Button } from '../Button'
 
 interface ProcessStep {
   number: string
@@ -12,60 +13,98 @@ const processSteps: ProcessStep[] = [
   {
     number: '1',
     title: 'Discovery & Clarity',
-    description: 'Understand your child profile, strengths, interests and direction.'
+    description: 'Strengths, interests, potential pathways'
   },
   {
     number: '2',
     title: 'Strategy & Planning',
-    description: 'FAOs and Graduate Coaches build a clear plan and admissions strategy.'
+    description: 'A clear 8–12 multi-year plan + sequencing'
   },
   {
     number: '3',
-    title: 'Profile Building & Direction',
-    description: 'Guided development of depth, initiative, curiosity, impact and narrative.'
+    title: 'Profile Building',
+    description: 'Depth, initiative, impact, aligned to major'
   },
   {
     number: '4',
-    title: 'Application Execution',
-    description: 'Essays, recommendations, interviews, portfolios - all done with structure and clarity.'
+    title: 'Applications',
+    description: 'Essays, recos, interviews, portfolios — one coherent narrative'
   },
   {
     number: '5',
-    title: 'Decisions & Guidance',
-    description: 'Support through the entire admissions cycle.'
+    title: 'Guidance through decisions',
+    description: 'Every choice covered'
   }
 ]
 
 export const ProcessSection: React.FC = () => {
   return (
-    <Section id="process" className="relative py-16 md:py-20 flex items-center bg-cream">
-      <div className="w-full">
-        {/* Label */}
+    <Section id="process" className="relative py-12 md:py-16 flex items-center bg-navy">
+      <div className="w-full max-w-4xl mx-auto">
+        {/* Heading */}
+        <h2 className="font-serif text-3xl md:text-4xl text-white mb-10 md:mb-14 leading-tight text-center font-medium">
+          How We Work
+        </h2>
 
+        {/* Mobile: Vertical Timeline */}
+        <div className="md:hidden relative pl-16 pr-4 mb-10">
+          {processSteps.map((step, index) => (
+            <div key={step.number} className="relative mb-8 last:mb-0">
+              {/* Vertical Line */}
+              {index < processSteps.length - 1 && (
+                <div className="absolute left-[-44px] top-12 w-1 h-full bg-gradient-to-b from-gold to-goldLight" />
+              )}
 
-        {/* Hook */}
-        <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy mb-10 md:mb-12 leading-tight text-center max-w-3xl mx-auto font-medium">
-          Every journey is different, but the framework is the same: understand, plan, build, execute.
-        </p>
-
-        {/* Process Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
-          {processSteps.map((step) => (
-            <div
-              key={step.number}
-              className="bg-white rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1 border border-gold/10"
-            >
-              <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center mb-4 shadow-sm">
-                <span className="text-xl md:text-2xl font-bold text-navy">{step.number}</span>
+              {/* Circle */}
+              <div className="absolute left-[-60px] top-0 w-14 h-14 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg">
+                <span className="text-2xl font-bold text-navy">{step.number}</span>
               </div>
-              <h3 className="text-base md:text-lg font-bold text-navy mb-2 md:mb-3 leading-snug">
-                {step.title}
-              </h3>
-              <p className="text-sm md:text-base text-navy/70 leading-relaxed">
-                {step.description}
-              </p>
+
+              {/* Content */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1.5 leading-tight">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-white/70 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* Desktop: Horizontal Timeline */}
+        <div className="hidden md:block relative mb-12">
+          <div className="flex justify-between items-start relative">
+            {/* Horizontal Line */}
+            <div className="absolute top-8 left-8 right-8 h-1 bg-gradient-to-r from-gold via-gold to-goldLight" />
+
+            {processSteps.map((step) => (
+              <div key={step.number} className="relative flex flex-col items-center" style={{ width: '18%' }}>
+                {/* Circle */}
+                <div className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg mb-6">
+                  <span className="text-2xl font-bold text-navy">{step.number}</span>
+                </div>
+
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-base font-bold text-white mb-2 leading-tight">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-white/70 leading-snug">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Button */}
+        <div className="flex justify-center mt-10 md:mt-12">
+          <Button variant="primary" className="w-full max-w-sm md:w-auto">
+            See How This Works
+          </Button>
         </div>
       </div>
     </Section>
