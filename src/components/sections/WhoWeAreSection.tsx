@@ -53,6 +53,7 @@ export const WhoWeAreSection: React.FC = () => {
 
           {/* Founder spotlight frame */}
           <div className="relative h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-navy/20 rounded-3xl transform rotate-3"></div>
             <div className="relative h-full rounded-3xl overflow-hidden shadow-luxury group transform -rotate-1 hover:rotate-0 transition-transform duration-500">
               <img
                 src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
