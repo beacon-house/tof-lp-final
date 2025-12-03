@@ -120,7 +120,7 @@ export const ResultsSection: React.FC = () => {
 
         {/* Comparison Cards */}
         <div className="w-full mb-5 md:mb-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-3 w-full">
             {comparisonData.map((item, index) => (
               <div
                 key={index}

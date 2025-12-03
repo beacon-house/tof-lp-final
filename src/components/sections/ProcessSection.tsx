@@ -47,17 +47,17 @@ export const ProcessSection: React.FC = () => {
         </h2>
 
         {/* Mobile: Vertical Timeline */}
-        <div className="md:hidden relative pl-16 pr-4 mb-10">
+        <div className="md:hidden relative pl-12 pr-4 mb-10">
           {processSteps.map((step, index) => (
             <div key={step.number} className="relative mb-8 last:mb-0">
               {/* Vertical Line */}
               {index < processSteps.length - 1 && (
-                <div className="absolute left-[-44px] top-12 w-1 h-full bg-gradient-to-b from-gold to-goldLight" />
+                <div className="absolute left-[-32px] top-10 w-1 h-full bg-gradient-to-b from-gold to-goldLight" />
               )}
 
               {/* Circle */}
-              <div className="absolute left-[-60px] top-0 w-14 h-14 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg">
-                <span className="text-2xl font-bold text-navy">{step.number}</span>
+              <div className="absolute left-[-43px] top-0 w-10 h-10 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg">
+                <span className="text-lg font-bold text-navy">{step.number}</span>
               </div>
 
               {/* Content */}
@@ -77,13 +77,13 @@ export const ProcessSection: React.FC = () => {
         <div className="hidden md:block relative mb-12">
           <div className="flex justify-between items-start relative">
             {/* Horizontal Line */}
-            <div className="absolute top-8 left-8 right-8 h-1 bg-gradient-to-r from-gold via-gold to-goldLight" />
+            <div className="absolute top-7 left-8 right-8 h-1 bg-gradient-to-r from-gold via-gold to-goldLight" />
 
             {processSteps.map((step) => (
               <div key={step.number} className="relative flex flex-col items-center" style={{ width: '18%' }}>
                 {/* Circle */}
-                <div className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg mb-6">
-                  <span className="text-2xl font-bold text-navy">{step.number}</span>
+                <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-gold to-goldLight flex items-center justify-center shadow-lg mb-6">
+                  <span className="text-xl font-bold text-navy">{step.number}</span>
                 </div>
 
                 {/* Content */}
