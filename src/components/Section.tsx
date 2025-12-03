@@ -5,7 +5,7 @@ interface SectionProps {
   children: React.ReactNode
   className?: string
   id?: string
-  background?: 'white' | 'lightGray'
+  background?: 'white' | 'lightGray' | 'navy'
 }
 
 export const Section: React.FC<SectionProps> = ({
@@ -16,7 +16,8 @@ export const Section: React.FC<SectionProps> = ({
 }) => {
   const bgColors = {
     white: 'bg-white',
-    lightGray: 'bg-lightGray'
+    lightGray: 'bg-lightGray',
+    navy: 'bg-navy'
   }
 
   return (

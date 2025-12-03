@@ -74,7 +74,7 @@ export const ResultsSection: React.FC = () => {
   return (
     <>
       {/* Navy Background Section - Proven Results */}
-      <Section id="results" className="relative bg-navy py-10 md:py-12">
+      <Section id="results" background="navy" className="relative py-10 md:py-12">
         {/* Main Heading */}
         <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-white mb-4 md:mb-5 leading-tight text-center font-bold">
           Proven Results

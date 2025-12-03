@@ -39,7 +39,7 @@ const processSteps: ProcessStep[] = [
 
 export const ProcessSection: React.FC = () => {
   return (
-    <Section id="process" className="relative py-12 md:py-16 flex items-center bg-navy">
+    <Section id="process" background="navy" className="relative py-12 md:py-16 flex items-center">
       <div className="w-full max-w-4xl mx-auto">
         {/* Heading */}
         <h2 className="font-serif text-3xl md:text-4xl text-white mb-10 md:mb-14 leading-tight text-center font-medium">

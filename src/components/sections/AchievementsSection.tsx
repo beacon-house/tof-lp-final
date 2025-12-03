@@ -50,7 +50,7 @@ const achievements: Achievement[] = [
 
 export const AchievementsSection: React.FC = () => {
   return (
-    <Section id="achievements" className="relative py-10 md:py-12 flex items-center bg-navy">
+    <Section id="achievements" background="navy" className="relative py-10 md:py-12 flex items-center">
       <div className="w-full">
         <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-white mb-8 md:mb-10 leading-tight text-center max-w-4xl mx-auto font-medium">
           Beacon House exists to give families personalized, <span className="cursive-keyword">clarity-first</span> guidance that traditional counseling models rarely offer
