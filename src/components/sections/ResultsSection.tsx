@@ -108,6 +108,16 @@ export const ResultsSection: React.FC = () => {
 
       {/* White Background Section - Comparison Data */}
       <Section id="comparison" className="relative">
+        {/* Main Heading */}
+        <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy mb-3 md:mb-4 leading-tight text-center font-bold">
+          Your Odds Of Admission, <span className="bg-highlight">Multiplied By 5x</span>
+        </h2>
+
+        {/* Subheading */}
+        <p className="font-serif text-sm md:text-lg lg:text-xl text-navy/70 mb-6 md:mb-8 leading-relaxed text-center max-w-3xl mx-auto">
+          Here's a comparison of the university selection rates of other students vs our students
+        </p>
+
         {/* Comparison Cards */}
         <div className="w-full mb-5 md:mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 w-full">
@@ -167,7 +177,7 @@ export const ResultsSection: React.FC = () => {
         {/* Cursive Closing Line */}
         <div className="text-center">
           <p className="text-base md:text-2xl lg:text-3xl text-navy font-serif font-medium">
-            <span className="cursive-keyword">Clarity</span> → Direction → Outcomes.
+            <span className="cursive-keyword">Clarity</span> → <span className="cursive-keyword">Direction</span> → <span className="cursive-keyword">Outcomes</span>.
           </p>
         </div>
       </Section>
