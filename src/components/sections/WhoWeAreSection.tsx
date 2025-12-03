@@ -73,12 +73,6 @@ export const WhoWeAreSection: React.FC = () => {
         </div>
 
         <TextContainer className="order-1 lg:order-2">
-
-
-          <h2 className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-4 md:mb-6 leading-tight font-bold">
-            Beacon House exists to give families personalized, clarity-first guidance that traditional counselling models rarely offer.
-          </h2>
-
           <p className="text-sm md:text-base text-navy/70 mb-4 md:mb-6 leading-relaxed">
             Through our partnership with <span className="font-bold text-navy bg-gold/10 px-2 py-0.5 rounded">InGenius Prep</span>, we bring:
           </p>
