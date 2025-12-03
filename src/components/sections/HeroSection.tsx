@@ -116,7 +116,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="opacity-0 animate-fade-in-up-delay-3">
+          <div className="mt-4 md:mt-6">
             <Button onClick={scrollToNextSection}>
               Learn More
             </Button>
