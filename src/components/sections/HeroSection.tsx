@@ -50,7 +50,7 @@ export const HeroSection: React.FC = () => {
           </h1>
 
           {/* Subheadline with emphasis on clarity */}
-          <p className="text-sm md:text-lg lg:text-xl text-navy/70 mb-4 md:mb-5 leading-[1.65] md:leading-[1.7] font-light opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg lg:text-xl text-navy/70 mb-4 md:mb-5 leading-[1.65] md:leading-[1.7] font-normal opacity-0 animate-fade-in-up-delay-2 max-w-2xl mx-auto">
             For most families, the real challenge isn't marks.<br className="md:hidden" /> It's <span className="cursive-keyword">clarity</span>.
           </p>
 

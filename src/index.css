@@ -32,14 +32,14 @@
     font-family: 'Caveat', cursive;
     font-weight: 700;
     font-size: 1.5em;
-    color: #ffc736;
+    color: #d4a829;
     position: relative;
     display: inline-block;
-    background: linear-gradient(135deg, #ffc736 0%, #ffd45c 100%);
+    background: linear-gradient(135deg, #d4a829 0%, #e6b932 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 20px rgba(255, 199, 54, 0.3);
+    text-shadow: 0 2px 20px rgba(212, 168, 41, 0.3);
   }
 
   .cursive-keyword::after {
