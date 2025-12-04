@@ -112,7 +112,7 @@ export const HeroSection: React.FC = () => {
 
           {/* Target audience text */}
           <p className="text-xs md:text-sm text-navy/60 mb-5 md:mb-6 opacity-0 animate-fade-in-up-delay-2">
-            Designed for ambitious IB and IGCSE families across Grades 8–12.
+            Designed for ambitious IB and IGCSE families<br className="md:hidden" /> across Grades 8–12.
           </p>
 
           {/* CTA Button */}
