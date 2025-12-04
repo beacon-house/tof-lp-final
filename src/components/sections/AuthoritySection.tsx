@@ -28,7 +28,7 @@ export const AuthoritySection: React.FC = () => {
         <TextContainer className="order-1 lg:order-2">
 
 
-          <p className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-6 md:mb-8 leading-tight font-medium">
+          <p className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-6 md:mb-8 leading-tight font-medium mt-8 md:mt-0">
             Admissions teams of top colleges look for
           </p>
 
