@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { useFormStore } from '../../store/formStore'
 import { page2ASchema } from '../../lib/validation'
 import { saveFormDataIncremental } from '../../lib/formTracking'
@@ -40,6 +40,7 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
   const formState = useFormStore()
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const parentDetailsTracked = useRef(false)
 
   const counselor = counselorData[formState.leadCategory as 'bch' | 'lum-l1' | 'lum-l2']
 
@@ -98,6 +99,25 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
     if (!selectedDate) return []
     return timeSlots.filter(slot => isSlotAvailable(slot, selectedDate))
   }, [formState.selectedDate, availableDates])
+
+  useEffect(() => {
+    const isParentDetailsComplete =
+      formState.parentName.trim().length >= 2 &&
+      formState.email.trim().length > 0 &&
+      formState.email.includes('@')
+
+    if (isParentDetailsComplete && !parentDetailsTracked.current) {
+      parentDetailsTracked.current = true
+      saveFormDataIncremental(
+        formState.sessionId,
+        {
+          parentName: formState.parentName,
+          email: formState.email,
+        },
+        '09_page_2_parent_details_filled'
+      )
+    }
+  }, [formState.parentName, formState.email, formState.sessionId])
 
   const handleFieldChange = (field: string, value: any) => {
     formState.updateField(field as any, value)

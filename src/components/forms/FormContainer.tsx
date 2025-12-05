@@ -31,12 +31,13 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
   }, [formState.sessionId])
 
   const handlePage1Complete = async () => {
-    const { leadCategory, currentGrade, formFillerType } = formState
+    const freshState = useFormStore.getState()
+    const { leadCategory, currentGrade, formFillerType, sessionId } = freshState
 
     if (currentGrade === '7_below') {
       formState.updateField('funnelStage', '10_form_submit')
       await saveFormDataIncremental(
-        formState.sessionId,
+        sessionId,
         {
           pageCompleted: 1,
           funnelStage: '10_form_submit',
@@ -52,7 +53,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
     if (formFillerType === 'student') {
       formState.updateField('funnelStage', '10_form_submit')
       await saveFormDataIncremental(
-        formState.sessionId,
+        sessionId,
         {
           pageCompleted: 1,
           funnelStage: '10_form_submit',
@@ -71,12 +72,12 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
       formState.updateField('pageCompleted', 2)
       formState.updateField('funnelStage', '07_page_2_view')
       await saveFormDataIncremental(
-        formState.sessionId,
+        sessionId,
         {
           pageCompleted: 2,
           funnelStage: '07_page_2_view',
-          isQualifiedLead: formState.isQualifiedLead,
-          leadCategory: formState.leadCategory
+          isQualifiedLead: freshState.isQualifiedLead,
+          leadCategory: freshState.leadCategory
         },
         '07_page_2_view'
       )

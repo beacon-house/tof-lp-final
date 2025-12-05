@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useFormStore } from '../../store/formStore'
 import { page2BSchema } from '../../lib/validation'
 import { saveFormDataIncremental } from '../../lib/formTracking'
@@ -12,6 +12,7 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
   const formState = useFormStore()
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const parentDetailsTracked = useRef(false)
 
   const getMessage = () => {
     if (formState.leadCategory === 'masters') {
@@ -27,6 +28,25 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
   }
 
   const message = getMessage()
+
+  useEffect(() => {
+    const isParentDetailsComplete =
+      formState.parentName.trim().length >= 2 &&
+      formState.email.trim().length > 0 &&
+      formState.email.includes('@')
+
+    if (isParentDetailsComplete && !parentDetailsTracked.current) {
+      parentDetailsTracked.current = true
+      saveFormDataIncremental(
+        formState.sessionId,
+        {
+          parentName: formState.parentName,
+          email: formState.email,
+        },
+        '09_page_2_parent_details_filled'
+      )
+    }
+  }, [formState.parentName, formState.email, formState.sessionId])
 
   const handleFieldChange = (field: string, value: any) => {
     formState.updateField(field as any, value)

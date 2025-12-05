@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useFormStore } from '../../store/formStore'
 import { page1Schema } from '../../lib/validation'
 import { categorizeLeadByProgram } from '../../lib/leadCategorization'
@@ -13,6 +13,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
   const formState = useFormStore()
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const sectionsTracked = useRef({ section1: false, section2: false, section3: false })
 
   const handleFieldChange = async (field: string, value: any) => {
     formState.updateField(field as any, value)
@@ -20,6 +21,72 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
   }
+
+  useEffect(() => {
+    const isSection1Complete =
+      formState.formFillerType !== '' &&
+      formState.studentName.trim().length >= 2 &&
+      formState.currentGrade !== '' &&
+      formState.location.trim().length >= 2 &&
+      formState.phoneNumber.length === 10
+
+    if (isSection1Complete && !sectionsTracked.current.section1) {
+      sectionsTracked.current.section1 = true
+      saveFormDataIncremental(
+        formState.sessionId,
+        {
+          formFillerType: formState.formFillerType,
+          studentName: formState.studentName,
+          currentGrade: formState.currentGrade,
+          location: formState.location,
+          countryCode: formState.countryCode,
+          phoneNumber: formState.phoneNumber,
+        },
+        '02_page1_student_info_filled'
+      )
+    }
+  }, [formState.formFillerType, formState.studentName, formState.currentGrade, formState.location, formState.phoneNumber, formState.sessionId, formState.countryCode])
+
+  useEffect(() => {
+    const isSection2Complete =
+      formState.curriculumType !== '' &&
+      formState.schoolName.trim().length >= 2 &&
+      ((formState.gradeFormat === 'gpa' && formState.gpaValue !== '') ||
+       (formState.gradeFormat === 'percentage' && formState.percentageValue !== ''))
+
+    if (isSection2Complete && !sectionsTracked.current.section2) {
+      sectionsTracked.current.section2 = true
+      saveFormDataIncremental(
+        formState.sessionId,
+        {
+          curriculumType: formState.curriculumType,
+          schoolName: formState.schoolName,
+          gradeFormat: formState.gradeFormat,
+          gpaValue: formState.gpaValue,
+          percentageValue: formState.percentageValue,
+        },
+        '03_page1_academic_info_filled'
+      )
+    }
+  }, [formState.curriculumType, formState.schoolName, formState.gradeFormat, formState.gpaValue, formState.percentageValue, formState.sessionId])
+
+  useEffect(() => {
+    const isSection3Complete =
+      formState.scholarshipRequirement !== '' &&
+      formState.targetGeographies.length > 0
+
+    if (isSection3Complete && !sectionsTracked.current.section3) {
+      sectionsTracked.current.section3 = true
+      saveFormDataIncremental(
+        formState.sessionId,
+        {
+          scholarshipRequirement: formState.scholarshipRequirement,
+          targetGeographies: formState.targetGeographies,
+        },
+        '04_page1_scholarship_info_filled'
+      )
+    }
+  }, [formState.scholarshipRequirement, formState.targetGeographies, formState.sessionId])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
