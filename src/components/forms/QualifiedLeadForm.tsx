@@ -229,195 +229,229 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
     }
   }
 
+  const [isCounselorExpanded, setIsCounselorExpanded] = useState(true)
+
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-6xl mx-auto">
-      <div className="bg-gradient-to-br from-gold/5 via-white to-gold/5 rounded-2xl border border-gold/20 p-4 md:p-6 mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-navy text-center">
-          Great news! {formState.studentName} qualifies for founder-led strategy session
+      <div className="bg-gradient-to-br from-navy/5 via-white to-navy/5 rounded-xl border border-navy/20 p-3 md:p-4 mb-4">
+        <h2 className="text-lg md:text-xl font-bold text-navy text-center leading-tight">
+          Congratulations! {formState.studentName} has strong potential for Ivy League universities and global top-tier programs
         </h2>
+        <p className="text-xs md:text-sm text-gray-600 text-center mt-2">
+          Book a founder-led strategy session to explore personalized pathways
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <div className="flex items-start gap-3 mb-3">
-              <div className="w-16 h-16 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-2 ring-gold/30">
-                <img
-                  src={counselor.image}
-                  alt={counselor.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                  }}
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3 className="text-base font-bold text-navy leading-tight">{counselor.name}</h3>
-                  <span className="px-2 py-0.5 bg-gold/20 text-gold font-semibold text-[10px] uppercase tracking-wide rounded whitespace-nowrap flex-shrink-0">
-                    Founder
-                  </span>
-                </div>
-                <p className="text-xs text-gray-600 mb-2">{counselor.title}</p>
-                <div className="space-y-1 text-xs text-gray-700">
-                  {counselor.bio.split('.').filter(s => s.trim()).slice(0, 2).map((point, idx) => (
-                    <div key={idx} className="flex items-start gap-1.5">
-                      <span className="text-gold mt-0.5 flex-shrink-0">•</span>
-                      <span className="leading-snug">{point.trim()}</span>
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        <div className="lg:w-[35%] lg:flex-shrink-0">
+          <div className={`bg-white rounded-xl border border-gray-200 transition-all ${isCounselorExpanded ? 'p-4' : 'p-2'} lg:p-4`}>
+            {isCounselorExpanded ? (
+              <>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-2 ring-navy/20">
+                    <img
+                      src={counselor.image}
+                      alt={counselor.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <h3 className="text-sm lg:text-base font-bold text-navy leading-tight">{counselor.name}</h3>
+                      <span className="px-2 py-0.5 bg-navy text-white font-semibold text-[9px] uppercase tracking-wide rounded whitespace-nowrap flex-shrink-0">
+                        Founder
+                      </span>
                     </div>
-                  ))}
+                    <p className="text-[11px] lg:text-xs text-gray-600 mb-2">{counselor.title}</p>
+                    <p className="text-[11px] lg:text-xs text-gray-700 leading-snug">{counselor.bio}</p>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <a
-              href={counselor.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-gold hover:text-gold/80 font-medium transition-colors"
-            >
-              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-              LinkedIn
-            </a>
-          </div>
-
-          <div className="bg-gradient-to-br from-navy/5 to-gold/5 rounded-xl border border-navy/10 p-4 space-y-2">
-            <div className="flex items-center gap-2 text-xs text-navy">
-              <svg className="w-4 h-4 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              <span>Complimentary 45-min session</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-navy">
-              <svg className="w-4 h-4 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              <span>Personalized roadmap discussion</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-navy">
-              <svg className="w-4 h-4 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-              </svg>
-              <span>Confirmed within 24 hours</span>
-            </div>
+                <a
+                  href={counselor.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] lg:text-xs text-navy hover:text-navy/70 font-medium transition-colors"
+                >
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  LinkedIn Profile
+                </a>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsCounselorExpanded(true)}
+                className="flex items-center gap-2 w-full"
+              >
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-1 ring-navy/20">
+                  <img
+                    src={counselor.image}
+                    alt={counselor.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="text-xs font-bold text-navy">{counselor.name}</p>
+                  <p className="text-[10px] text-gray-600">View profile</p>
+                </div>
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="lg:col-span-3 space-y-5">
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <label className="text-sm font-semibold text-navy">Select Date</label>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5">
-              {availableDates.map((date) => {
-                const formattedDate = formatDate(date)
-                const dayName = formattedDate.split(',')[0]
-                const dateStr = formattedDate.split(',')[1].trim().split(' ').slice(1, 3).join(' ')
-                return (
-                  <button
-                    key={formattedDate}
-                    type="button"
-                    onClick={() => handleFieldChange('selectedDate', formattedDate)}
-                    className={`px-3 py-2.5 rounded-lg border transition-all text-left ${
-                      formState.selectedDate === formattedDate
-                        ? 'border-gold bg-gold/10 shadow-sm'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className={`text-xs font-semibold ${formState.selectedDate === formattedDate ? 'text-gold' : 'text-navy'}`}>
-                      {dayName}
-                    </div>
-                    <div className={`text-xs ${formState.selectedDate === formattedDate ? 'text-navy' : 'text-gray-600'}`}>
-                      {dateStr}
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-            {errors.selectedDate && (
-              <p className="mt-2 text-xs text-red-600">{errors.selectedDate}</p>
-            )}
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <div className="flex items-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <label className="text-sm font-semibold text-navy">Select Time</label>
-            </div>
-            {!formState.selectedDate ? (
-              <p className="text-xs text-gray-500 italic">Please select a date first</p>
-            ) : availableSlots.length === 0 ? (
-              <p className="text-xs text-gray-500 italic">No slots available</p>
-            ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {availableSlots.map((slot) => (
-                  <button
-                    key={slot}
-                    type="button"
-                    onClick={() => handleFieldChange('selectedSlot', slot)}
-                    className={`px-3 py-2 rounded-lg border transition-all text-xs font-medium ${
-                      formState.selectedSlot === slot
-                        ? 'border-gold bg-gold/10 text-navy shadow-sm'
-                        : 'border-gray-200 text-gray-700 hover:border-gray-300'
-                    }`}
-                  >
-                    {slot}
-                  </button>
-                ))}
-              </div>
-            )}
-            {errors.selectedSlot && (
-              <p className="mt-2 text-xs text-red-600">{errors.selectedSlot}</p>
-            )}
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        <div className="lg:w-[65%] lg:flex-shrink-0 space-y-4">
+          {formState.selectedDate && !isCounselorExpanded ? (
+            <div className="bg-white rounded-lg border border-gray-200 p-3 flex items-center justify-between lg:hidden">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <label htmlFor="parentName" className="text-sm font-medium text-navy">Parent's Name</label>
+                <span className="text-xs font-medium text-navy">{formState.selectedDate.split(',')[0]}, {formState.selectedDate.split(',')[1].trim().split(' ').slice(1, 3).join(' ')}</span>
               </div>
-              <input
-                type="text"
-                id="parentName"
-                value={formState.parentName}
-                onChange={(e) => handleFieldChange('parentName', e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold/50 focus:border-gold text-sm"
-                placeholder="Full name"
-              />
-              {errors.parentName && (
-                <p className="mt-1 text-xs text-red-600">{errors.parentName}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  handleFieldChange('selectedDate', '')
+                  handleFieldChange('selectedSlot', '')
+                  setIsCounselorExpanded(true)
+                }}
+                className="text-[11px] text-navy hover:text-navy/70 font-medium"
+              >
+                Change
+              </button>
+            </div>
+          ) : null}
+
+          {(!formState.selectedDate || isCounselorExpanded) && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <label className="text-sm font-semibold text-navy">Select Date</label>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                {availableDates.map((date) => {
+                  const formattedDate = formatDate(date)
+                  const dayName = formattedDate.split(',')[0]
+                  const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                  const monthName = fullMonths[date.getMonth()]
+                  const dayNum = date.getDate()
+
+                  return (
+                    <button
+                      key={formattedDate}
+                      type="button"
+                      onClick={() => {
+                        handleFieldChange('selectedDate', formattedDate)
+                        setIsCounselorExpanded(false)
+                      }}
+                      className={`px-2 py-2 rounded-lg border transition-all text-center ${
+                        formState.selectedDate === formattedDate
+                          ? 'border-navy bg-navy/10 shadow-sm'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className={`text-[11px] font-semibold leading-tight mb-0.5 ${formState.selectedDate === formattedDate ? 'text-navy' : 'text-navy'}`}>
+                        {dayName}
+                      </div>
+                      <div className={`text-[11px] leading-tight ${formState.selectedDate === formattedDate ? 'text-navy' : 'text-gray-600'}`}>
+                        {dayNum} {monthName}
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+              {errors.selectedDate && (
+                <p className="mt-2 text-xs text-red-600">{errors.selectedDate}</p>
               )}
             </div>
+          )}
 
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          {formState.selectedDate && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <label htmlFor="email" className="text-sm font-medium text-navy">Email Address</label>
+                <label className="text-sm font-semibold text-navy">Select Time</label>
               </div>
-              <input
-                type="email"
-                id="email"
-                value={formState.email}
-                onChange={(e) => handleFieldChange('email', e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold/50 focus:border-gold text-sm"
-                placeholder="parent@example.com"
-              />
-              {errors.email && (
-                <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+              {availableSlots.length === 0 ? (
+                <p className="text-xs text-gray-500 italic">No slots available for this date</p>
+              ) : (
+                <div className="grid grid-cols-3 lg:grid-cols-5 gap-2">
+                  {availableSlots.map((slot) => (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => handleFieldChange('selectedSlot', slot)}
+                      className={`px-2 py-2 rounded-lg border transition-all text-xs font-medium ${
+                        formState.selectedSlot === slot
+                          ? 'border-navy bg-navy/10 text-navy shadow-sm'
+                          : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {errors.selectedSlot && (
+                <p className="mt-2 text-xs text-red-600">{errors.selectedSlot}</p>
               )}
             </div>
-          </div>
+          )}
+
+          {formState.selectedDate && formState.selectedSlot && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <label htmlFor="parentName" className="text-sm font-medium text-navy">Parent's Name</label>
+                </div>
+                <input
+                  type="text"
+                  id="parentName"
+                  value={formState.parentName}
+                  onChange={(e) => handleFieldChange('parentName', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  placeholder="Full name"
+                />
+                {errors.parentName && (
+                  <p className="mt-1 text-xs text-red-600">{errors.parentName}</p>
+                )}
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <label htmlFor="email" className="text-sm font-medium text-navy">Email Address</label>
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  value={formState.email}
+                  onChange={(e) => handleFieldChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  placeholder="parent@example.com"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+                )}
+              </div>
+            </div>
+          )}
 
           {errors.submit && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -425,17 +459,19 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
             </div>
           )}
 
-          <div className="pt-2">
-            <Button
-              type="submit"
-              variant="primary"
-              onClick={() => {}}
-              className="w-full text-base"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Confirming...' : 'Confirm Booking'}
-            </Button>
-          </div>
+          {formState.selectedDate && formState.selectedSlot && (
+            <div className="pt-1">
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {}}
+                className="w-full text-sm md:text-base py-3"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Confirming...' : 'Confirm Booking'}
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </form>
