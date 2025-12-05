@@ -41,7 +41,6 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
   const formState = useFormStore()
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showFullBio, setShowFullBio] = useState(false)
   const parentDetailsTracked = useRef(false)
 
   const counselor = counselorData[formState.leadCategory as 'bch' | 'lum-l1' | 'lum-l2']
@@ -230,188 +229,262 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
     }
   }
 
+  const [isCounselorExpanded, setIsCounselorExpanded] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-6 md:space-y-8">
-      <div className="bg-gradient-to-br from-gold/10 via-gold/5 to-transparent rounded-xl border-2 border-gold/30 p-6 md:p-8 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-navy mb-3">
-          Great news about {formState.studentName}! 🎉
+    <form onSubmit={handleSubmit} className="w-full max-w-6xl mx-auto min-h-[600px]">
+      <div className="bg-gradient-to-br from-navy/5 via-white to-navy/5 rounded-xl border border-navy/20 p-3 md:p-4 mb-4 mt-20 lg:mt-0">
+        <h2 className="text-lg md:text-xl font-bold text-navy text-center leading-tight">
+          Congratulations! {formState.studentName} has strong potential for Ivy League universities and global top-tier programs
         </h2>
-        <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-          <span className="font-semibold text-navy">{formState.studentName}</span> has strong potential for elite university admissions! Book a strategy session with our Managing Partner.
+        <p className="text-xs md:text-sm text-gray-600 text-center mt-2">
+          Book a founder-led strategy session to explore personalized pathways
         </p>
       </div>
 
-      <div className="bg-white rounded-xl border-2 border-gray-200 shadow-lg p-6 md:p-8 space-y-4">
-        <div className="text-center md:text-left mb-4">
-          <span className="inline-block px-3 py-1 bg-gold/20 text-gold font-semibold text-xs uppercase tracking-wide rounded-full">
-            Founder-Led Session
-          </span>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
-          <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-4 ring-gold/20">
-            <img
-              src={counselor.image}
-              alt={counselor.name}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
-          </div>
-
-          <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl md:text-2xl font-bold text-navy mb-1">{counselor.name}</h3>
-            <p className="text-sm md:text-base text-gold font-semibold mb-3">{counselor.title}</p>
-
-            <div className="md:hidden">
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {showFullBio ? counselor.bio : `${counselor.bio.substring(0, 80)}...`}
-              </p>
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+        <div className="lg:w-[35%] lg:flex-shrink-0">
+          <div className={`bg-white rounded-xl border border-gray-200 transition-all ${isCounselorExpanded || !isMobile ? 'p-4' : 'p-2'}`}>
+            {isCounselorExpanded || !isMobile ? (
+              <>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-2 ring-navy/20">
+                    <img
+                      src={counselor.image}
+                      alt={counselor.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <h3 className="text-sm lg:text-base font-bold text-navy leading-tight">{counselor.name}</h3>
+                      <span className="px-2 py-0.5 bg-navy text-white font-semibold text-[9px] uppercase tracking-wide rounded whitespace-nowrap flex-shrink-0">
+                        Founder
+                      </span>
+                    </div>
+                    <p className="text-[11px] lg:text-xs text-gray-600 mb-2">{counselor.title}</p>
+                    <p className="text-[11px] lg:text-xs text-gray-700 leading-snug">{counselor.bio}</p>
+                  </div>
+                </div>
+                <a
+                  href={counselor.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] lg:text-xs text-navy hover:text-navy/70 font-medium transition-colors"
+                >
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  LinkedIn Profile
+                </a>
+              </>
+            ) : (
               <button
                 type="button"
-                onClick={() => setShowFullBio(!showFullBio)}
-                className="text-sm text-gold hover:text-gold/80 font-medium mt-2 transition-colors"
+                onClick={() => setIsCounselorExpanded(true)}
+                className="flex items-center gap-2 w-full"
               >
-                {showFullBio ? 'View Less ↑' : 'View More ↓'}
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden ring-1 ring-navy/20">
+                  <img
+                    src={counselor.image}
+                    alt={counselor.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="text-xs font-bold text-navy">{counselor.name}</p>
+                  <p className="text-[10px] text-gray-600">View profile</p>
+                </div>
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="lg:w-[65%] lg:flex-shrink-0 space-y-4">
+          {formState.selectedDate && !isCounselorExpanded ? (
+            <div className="bg-white rounded-lg border border-gray-200 p-3 flex items-center justify-between lg:hidden">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span className="text-xs font-medium text-navy">{formState.selectedDate.split(',')[0]}, {formState.selectedDate.split(',')[1].trim().split(' ').slice(1, 3).join(' ')}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  handleFieldChange('selectedDate', '')
+                  handleFieldChange('selectedSlot', '')
+                  setIsCounselorExpanded(true)
+                }}
+                className="text-[11px] text-navy hover:text-navy/70 font-medium"
+              >
+                Change
               </button>
             </div>
+          ) : null}
 
-            <div className="hidden md:block">
-              <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
-                {counselor.bio}
-              </p>
-            </div>
+          {(!isMobile || !formState.selectedDate || isCounselorExpanded) && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <label className="text-sm font-semibold text-navy">Select Date</label>
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                {availableDates.map((date) => {
+                  const formattedDate = formatDate(date)
+                  const dayName = formattedDate.split(',')[0]
+                  const fullMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                  const monthName = fullMonths[date.getMonth()]
+                  const dayNum = date.getDate()
 
-            <a
-              href={counselor.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-gold hover:text-gold/80 font-medium transition-colors mt-2"
-            >
-              View LinkedIn Profile →
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Select Date *
-          </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {availableDates.map((date) => {
-              const formattedDate = formatDate(date)
-              return (
-                <button
-                  key={formattedDate}
-                  type="button"
-                  onClick={() => handleFieldChange('selectedDate', formattedDate)}
-                  className={`px-4 py-3 rounded-lg border-2 transition-all text-left ${
-                    formState.selectedDate === formattedDate
-                      ? 'border-gold bg-gold/10 text-navy font-medium'
-                      : 'border-gray-300 text-gray-700 hover:border-gray-400'
-                  }`}
-                >
-                  <div className="text-sm font-medium">{formattedDate.split(',')[0]}</div>
-                  <div className="text-xs text-gray-600 mt-1">
-                    {formattedDate.split(',').slice(1).join(',')}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-          {errors.selectedDate && (
-            <p className="mt-1 text-sm text-red-600">{errors.selectedDate}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Select Time Slot *
-          </label>
-          {!formState.selectedDate ? (
-            <p className="text-sm text-gray-500 italic">Please select a date first</p>
-          ) : availableSlots.length === 0 ? (
-            <p className="text-sm text-gray-500 italic">No slots available for this date</p>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {availableSlots.map((slot) => (
-                <button
-                  key={slot}
-                  type="button"
-                  onClick={() => handleFieldChange('selectedSlot', slot)}
-                  className={`px-4 py-3 rounded-lg border-2 transition-all ${
-                    formState.selectedSlot === slot
-                      ? 'border-gold bg-gold/10 text-navy font-medium'
-                      : 'border-gray-300 text-gray-700 hover:border-gray-400'
-                  }`}
-                >
-                  {slot}
-                </button>
-              ))}
+                  return (
+                    <button
+                      key={formattedDate}
+                      type="button"
+                      onClick={() => {
+                        handleFieldChange('selectedDate', formattedDate)
+                        if (isMobile) {
+                          setIsCounselorExpanded(false)
+                        }
+                      }}
+                      className={`px-2 py-2 rounded-lg border transition-all text-center ${
+                        formState.selectedDate === formattedDate
+                          ? 'border-navy bg-navy/10 shadow-sm'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className={`text-[11px] font-semibold leading-tight mb-0.5 ${formState.selectedDate === formattedDate ? 'text-navy' : 'text-navy'}`}>
+                        {dayName}
+                      </div>
+                      <div className={`text-[11px] leading-tight ${formState.selectedDate === formattedDate ? 'text-navy' : 'text-gray-600'}`}>
+                        {dayNum} {monthName}
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+              {errors.selectedDate && (
+                <p className="mt-2 text-xs text-red-600">{errors.selectedDate}</p>
+              )}
             </div>
           )}
-          {errors.selectedSlot && (
-            <p className="mt-1 text-sm text-red-600">{errors.selectedSlot}</p>
+
+          {formState.selectedDate && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <label className="text-sm font-semibold text-navy">Select Time</label>
+              </div>
+              {availableSlots.length === 0 ? (
+                <p className="text-xs text-gray-500 italic">No slots available for this date</p>
+              ) : (
+                <div className="grid grid-cols-3 lg:grid-cols-5 gap-2">
+                  {availableSlots.map((slot) => (
+                    <button
+                      key={slot}
+                      type="button"
+                      onClick={() => handleFieldChange('selectedSlot', slot)}
+                      className={`px-2 py-2 rounded-lg border transition-all text-xs font-medium ${
+                        formState.selectedSlot === slot
+                          ? 'border-navy bg-navy/10 text-navy shadow-sm'
+                          : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {errors.selectedSlot && (
+                <p className="mt-2 text-xs text-red-600">{errors.selectedSlot}</p>
+              )}
+            </div>
+          )}
+
+          {formState.selectedDate && formState.selectedSlot && (
+            <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <label htmlFor="parentName" className="text-sm font-medium text-navy">Parent's Name</label>
+                </div>
+                <input
+                  type="text"
+                  id="parentName"
+                  value={formState.parentName}
+                  onChange={(e) => handleFieldChange('parentName', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  placeholder="Full name"
+                />
+                {errors.parentName && (
+                  <p className="mt-1 text-xs text-red-600">{errors.parentName}</p>
+                )}
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-4 h-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <label htmlFor="email" className="text-sm font-medium text-navy">Email Address</label>
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  value={formState.email}
+                  onChange={(e) => handleFieldChange('email', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  placeholder="parent@example.com"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {errors.submit && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-xs text-red-600">{errors.submit}</p>
+            </div>
+          )}
+
+          {formState.selectedDate && formState.selectedSlot && (
+            <div className="pt-1">
+              <Button
+                type="submit"
+                variant="primary"
+                onClick={() => {}}
+                className="w-full text-sm md:text-base py-3"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Confirming...' : 'Confirm Booking'}
+              </Button>
+            </div>
           )}
         </div>
-
-        <div>
-          <label htmlFor="parentName" className="block text-sm font-medium text-gray-700 mb-2">
-            Parent's Name *
-          </label>
-          <input
-            type="text"
-            id="parentName"
-            value={formState.parentName}
-            onChange={(e) => handleFieldChange('parentName', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
-            placeholder="Enter parent's full name"
-          />
-          {errors.parentName && (
-            <p className="mt-1 text-sm text-red-600">{errors.parentName}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Parent's Email *
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={formState.email}
-            onChange={(e) => handleFieldChange('email', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
-            placeholder="parent@example.com"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-          )}
-        </div>
-      </div>
-
-      {errors.submit && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{errors.submit}</p>
-        </div>
-      )}
-
-      <div className="flex flex-col items-center pt-4 space-y-3">
-        <Button
-          type="submit"
-          variant="primary"
-          onClick={() => {}}
-          className="px-12 w-full sm:w-auto"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Submitting...' : 'Book Strategy Session'}
-        </Button>
-        <p className="text-xs text-gray-500 text-center max-w-md">
-          This is a complimentary strategy session. You'll receive confirmation within 24 hours.
-        </p>
       </div>
     </form>
   )

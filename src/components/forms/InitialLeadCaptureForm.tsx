@@ -212,7 +212,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-8">
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-8 min-h-[600px]">
       <div className="space-y-6">
         <h3 className="text-xl font-semibold text-navy">Student Information</h3>
 

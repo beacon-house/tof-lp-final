@@ -7,7 +7,7 @@ import { DisqualifiedLeadForm } from './DisqualifiedLeadForm'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { trackPage2View } from '../../lib/metaEvents'
 
-type FormStep = 'page1' | 'evaluation' | 'page2a' | 'page2b' | 'success'
+export type FormStep = 'page1' | 'evaluation' | 'page2a' | 'page2b' | 'success'
 
 interface FormContainerProps {
   onClose?: () => void
