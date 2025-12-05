@@ -596,7 +596,7 @@ session_id = crypto.randomUUID()
 #### 8. environment
 **File:** `src/lib/formTracking.ts`
 **When:** Set on every database write
-**Values:** `'development'` | `'production'`
+**Values:** should be picked up from the environment variables only.
 
 **Logic:**
 ```javascript
