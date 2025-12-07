@@ -92,7 +92,7 @@ export const ResultsSection: React.FC = () => {
               key={index}
               className="flex flex-col items-center justify-center text-center p-4 md:p-6 bg-white rounded-2xl shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="text-gold mb-3 md:mb-4">
+              <div className="flex-shrink-0 w-16 h-16 md:w-18 md:h-18 rounded-xl bg-gradient-to-br from-gold to-goldLight flex items-center justify-center mb-3 md:mb-4 shadow-sm text-white">
                 {stat.icon}
               </div>
               <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-navy mb-2">
@@ -110,7 +110,7 @@ export const ResultsSection: React.FC = () => {
       <Section id="comparison" className="relative">
         {/* Main Heading */}
         <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy mb-3 md:mb-4 leading-tight text-center font-bold">
-          Your Odds Of Admission, <span className="bg-highlight">Multiplied By 5x</span>
+          Your Odds Of Admission, <span className="relative inline-block px-3 py-1 bg-goldLight/30 rounded">Multiplied By 5x</span>
         </h2>
 
         {/* Subheading */}

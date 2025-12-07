@@ -24,14 +24,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onLearnMore }) => {
         <div
           className="absolute inset-0 opacity-30"
           style={{
-            background: 'radial-gradient(ellipse 1200px 800px at 50% 30%, rgba(255, 199, 54, 0.15) 0%, transparent 50%)',
+            background: 'radial-gradient(ellipse 1200px 800px at 50% 30%, rgba(245, 158, 11, 0.15) 0%, transparent 50%)',
           }}
         ></div>
         {/* Subtle grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, #003366 1px, transparent 0)',
+            backgroundImage: 'radial-gradient(circle at 1px 1px, #001F3F 1px, transparent 0)',
             backgroundSize: '40px 40px',
           }}
         ></div>

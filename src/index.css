@@ -44,14 +44,14 @@
     font-family: 'Caveat', cursive;
     font-weight: 700;
     font-size: 1.3em;
-    color: #d4a829;
+    color: #F59E0B;
     position: relative;
     display: inline-block;
-    background: linear-gradient(135deg, #d4a829 0%, #e6b932 100%);
+    background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 2px 20px rgba(212, 168, 41, 0.3);
+    text-shadow: 0 2px 20px rgba(245, 158, 11, 0.3);
   }
 
   @media (min-width: 768px) {
@@ -67,7 +67,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent 0%, #ffc736 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, #F59E0B 50%, transparent 100%);
     border-radius: 2px;
     opacity: 0.6;
   }
@@ -102,7 +102,7 @@
 
   /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, #003366 0%, #004080 100%);
+    background: linear-gradient(135deg, #001F3F 0%, #003366 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -110,11 +110,11 @@
 
   /* Premium shadow effects */
   .shadow-luxury {
-    box-shadow: 0 20px 60px -15px rgba(0, 51, 102, 0.2), 0 10px 30px -10px rgba(255, 199, 54, 0.15);
+    box-shadow: 0 20px 60px -15px rgba(0, 31, 63, 0.2), 0 10px 30px -10px rgba(245, 158, 11, 0.15);
   }
 
   .shadow-glow {
-    box-shadow: 0 10px 40px -10px rgba(255, 199, 54, 0.4), 0 0 20px rgba(255, 199, 54, 0.2);
+    box-shadow: 0 10px 40px -10px rgba(245, 158, 11, 0.4), 0 0 20px rgba(245, 158, 11, 0.2);
   }
 
   /* Backdrop blur effects */
