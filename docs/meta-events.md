@@ -118,6 +118,26 @@ Environment value comes from `VITE_ENVIRONMENT` variable.
 
 ## Event Storage
 
-- Events are tracked in form state via `triggeredEvents` array  
-- Events are included in webhook payload for database storage  
+- Events are tracked in form state via `triggeredEvents` array
+- Events are included in webhook payload for database storage
 - Events are sent to both Meta Pixel and Google Analytics
+
+## Proposed Event Architecture Mapping
+
+### Unique Events Not Yet Implemented
+
+- `bh_mof_page_view` - MOF page view tracking
+- `bh_mof_cta_click` - MOF CTA button clicks
+- `bh_call_scheduled` - Call booking confirmation
+
+### Event Mapping Table
+
+| Proposed Event | Implemented Event | Status |
+| :---- | :---- | :---- |
+| `bh_tof_approach_click` | `tof_cta_understand_our_approach_{env}` | ✅ Implemented |
+| `bh_mof_page_view` | - | ❌ Not Implemented |
+| `bh_mof_cta_click` | - | ❌ Not Implemented |
+| `bh_questionnaire_load` | `tof_page_2_view_{env}` | ✅ Implemented |
+| `bh_questionnaire_submit` | `tof_form_complete_{env}` | ✅ Implemented |
+| `bh_qualified_lead` | `tof_qualfd_prnt_{env}` / `tof_qualfd_stdnt_{env}` | ✅ Implemented |
+| `bh_call_scheduled` | - | ❌ Not Implemented |
