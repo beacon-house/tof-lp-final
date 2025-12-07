@@ -42,7 +42,7 @@ export const PainPointSection = forwardRef<HTMLDivElement>((_props, ref) => {
           </div>
 
           <div className="p-4 md:p-6 bg-gradient-to-br from-gray50 to-white rounded-2xl border border-gold/10 shadow-luxury mt-4 md:mt-8">
-            <p className="text-base md:text-xl lg:text-2xl font-serif text-navy leading-snug space-y-2 md:space-y-0">
+            <p className="text-base md:text-xl lg:text-2xl font-serif text-navy leading-snug">
               <span className="block md:inline font-medium">
                 This isn't a <span className="font-bold text-navy">marks</span> problem.
               </span>
