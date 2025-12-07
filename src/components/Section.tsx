@@ -1,5 +1,5 @@
 // Section container component with generous padding and max-width
-import React from 'react'
+import { forwardRef } from 'react'
 
 interface SectionProps {
   children: React.ReactNode
@@ -8,12 +8,12 @@ interface SectionProps {
   background?: 'white' | 'lightGray' | 'navy'
 }
 
-export const Section: React.FC<SectionProps> = ({
+export const Section = forwardRef<HTMLDivElement, SectionProps>(({
   children,
   className = '',
   id,
   background = 'white'
-}) => {
+}, ref) => {
   const bgColors = {
     white: 'bg-white',
     lightGray: 'bg-lightGray',
@@ -22,6 +22,7 @@ export const Section: React.FC<SectionProps> = ({
 
   return (
     <section
+      ref={ref}
       id={id}
       className={`${bgColors[background]} py-6 md:py-20 lg:py-24 ${className}`}
     >
@@ -30,4 +31,4 @@ export const Section: React.FC<SectionProps> = ({
       </div>
     </section>
   )
-}
+})

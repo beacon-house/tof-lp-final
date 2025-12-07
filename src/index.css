@@ -21,6 +21,18 @@
     scroll-snap-align: start;
     scroll-snap-stop: normal;
   }
+
+  #pain-point,
+  #achievements {
+    scroll-margin-top: 64px;
+  }
+
+  @media (min-width: 768px) {
+    #pain-point,
+    #achievements {
+      scroll-margin-top: 80px;
+    }
+  }
 }
 
 @layer utilities {
@@ -31,7 +43,7 @@
   .cursive-keyword {
     font-family: 'Caveat', cursive;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.3em;
     color: #d4a829;
     position: relative;
     display: inline-block;
@@ -42,16 +54,29 @@
     text-shadow: 0 2px 20px rgba(212, 168, 41, 0.3);
   }
 
+  @media (min-width: 768px) {
+    .cursive-keyword {
+      font-size: 1.5em;
+    }
+  }
+
   .cursive-keyword::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -2px;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, transparent 0%, #ffc736 50%, transparent 100%);
     border-radius: 2px;
     opacity: 0.6;
+  }
+
+  @media (min-width: 768px) {
+    .cursive-keyword::after {
+      bottom: -4px;
+      height: 3px;
+    }
   }
 
   /* Scroll-triggered animations */

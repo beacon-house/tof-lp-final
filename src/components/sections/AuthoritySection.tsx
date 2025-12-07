@@ -66,7 +66,7 @@ export const AuthoritySection: React.FC = () => {
           </div>
 
           <div className="p-4 md:p-6 bg-gradient-to-br from-navy to-navyLight rounded-2xl shadow-luxury mt-4 md:mt-8">
-            <p className="text-base md:text-xl lg:text-2xl font-serif font-bold text-white leading-snug space-y-1 md:space-y-0">
+            <p className="text-base md:text-xl lg:text-2xl font-serif font-bold text-white leading-tight md:leading-snug">
               <span className="block md:inline">
                 <span className="cursive-keyword">Clarity</span> is not a good-to-have.
               </span>

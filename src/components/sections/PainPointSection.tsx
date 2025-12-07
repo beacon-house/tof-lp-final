@@ -1,11 +1,11 @@
 // Section B - The Real Pain Point section
-import React from 'react'
+import { forwardRef } from 'react'
 import { Section } from '../Section'
 import { TextContainer } from '../TextContainer'
 
-export const PainPointSection: React.FC = () => {
+export const PainPointSection = forwardRef<HTMLDivElement>((_props, ref) => {
   return (
-    <Section id="pain-point" className="relative md:min-h-screen flex items-center bg-white">
+    <Section ref={ref} id="pain-point" className="relative md:min-h-screen flex items-center bg-white">
       <div className="grid lg:grid-cols-2 gap-4 md:gap-8 lg:gap-16 items-center w-full">
         <TextContainer>
 
@@ -42,7 +42,7 @@ export const PainPointSection: React.FC = () => {
           </div>
 
           <div className="p-4 md:p-6 bg-gradient-to-br from-gray50 to-white rounded-2xl border border-gold/10 shadow-luxury mt-4 md:mt-8">
-            <p className="text-base md:text-xl lg:text-2xl font-serif text-navy leading-snug space-y-2 md:space-y-0">
+            <p className="text-base md:text-xl lg:text-2xl font-serif text-navy leading-tight md:leading-snug">
               <span className="block md:inline font-medium">
                 This isn't a <span className="font-bold text-navy">marks</span> problem.
               </span>
@@ -74,4 +74,4 @@ export const PainPointSection: React.FC = () => {
       </div>
     </Section>
   )
-}
+})

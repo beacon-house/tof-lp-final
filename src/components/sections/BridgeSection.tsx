@@ -10,37 +10,37 @@ const benefits = [
   {
     title: 'What actually matters vs what\'s noise',
     description: 'So you stop guessing.',
-    icon: '🎯'
+    icon: '/icons/frame_2.png'
   },
   {
     title: 'What to do in each grade (8–12)',
     description: 'Know exactly what matters each year — with no confusion.',
-    icon: '📅'
+    icon: '/icons/frame_3.png'
   },
   {
     title: 'How interests become real pathways',
     description: 'From "they like many things" → "this direction makes sense."',
-    icon: '🧭'
+    icon: '/icons/frame_4.png'
   },
   {
     title: 'How admissions teams think at every stage',
     description: 'So your child\'s choices align with what colleges actually value.',
-    icon: '🎓'
+    icon: '/icons/frame_5.png'
   },
   {
     title: 'What to ignore completely',
     description: 'So your child isn\'t pulled into unnecessary pressure.',
-    icon: '✨'
+    icon: '/icons/frame_6.png'
   },
   {
     title: 'How to build direction with busy schedules',
     description: 'Sports, school load, multiple interests — balanced.',
-    icon: '⚖️'
+    icon: '/icons/frame_7.png'
   },
   {
     title: 'How strengths turn into depth + impact',
     description: 'The base of a strong college story.',
-    icon: '🚀'
+    icon: '/icons/frame_8.png'
   }
 ]
 
@@ -67,8 +67,13 @@ export const BridgeSection: React.FC<BridgeSectionProps> = ({ onUnderstandApproa
               className="group p-3 md:p-5 bg-gradient-to-br from-white to-gray50 rounded-2xl border border-gold/10 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1 md:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] flex flex-col"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="text-xl md:text-3xl mb-2 md:mb-3 group-hover:scale-110 transition-transform duration-300">
-                {benefit.icon}
+              <div className="w-5 h-5 md:w-8 md:h-8 mb-2 md:mb-3 group-hover:scale-110 transition-transform duration-300">
+                <img
+                  src={benefit.icon}
+                  alt={benefit.title}
+                  className="w-full h-full object-contain"
+                  style={{ imageRendering: 'crisp-edges' }}
+                />
               </div>
               <h3 className="text-xs md:text-base font-bold text-navy mb-1 md:mb-2 leading-snug">
                 {benefit.title}

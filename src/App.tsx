@@ -26,18 +26,38 @@ function App() {
   const secondTriggerRef = useRef<HTMLDivElement>(null)
   const bridgeSectionRef = useRef<HTMLDivElement>(null)
   const trustSectionRef = useRef<HTMLDivElement>(null)
+  const painPointRef = useRef<HTMLDivElement>(null)
+  const achievementsRef = useRef<HTMLDivElement>(null)
 
   const handleLearnMore = () => {
     setShowFirstGroup(true)
     setTimeout(() => {
-      firstGroupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (painPointRef.current) {
+        const headerOffset = window.innerWidth < 768 ? 64 : 80
+        const elementPosition = painPointRef.current.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
     }, 100)
   }
 
   const handleUnderstandApproach = () => {
     setShowSecondGroup(true)
     setTimeout(() => {
-      secondGroupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (achievementsRef.current) {
+        const headerOffset = window.innerWidth < 768 ? 64 : 80
+        const elementPosition = achievementsRef.current.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
     }, 100)
   }
 
@@ -134,7 +154,7 @@ function App() {
         <div ref={firstTriggerRef} className="h-1" />
 
         <div ref={firstGroupRef} className={`transition-all duration-500 ${showFirstGroup ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
-          <PainPointSection />
+          <PainPointSection ref={painPointRef} />
           <AuthoritySection />
           <div ref={bridgeSectionRef}>
             <BridgeSection onUnderstandApproach={handleUnderstandApproach} />
@@ -144,7 +164,7 @@ function App() {
         <div ref={secondTriggerRef} className="h-1" />
 
         <div ref={secondGroupRef} className={`transition-all duration-500 ${showSecondGroup ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
-          <AchievementsSection />
+          <AchievementsSection ref={achievementsRef} />
           <WhoWeAreSection />
           <ResultsSection />
           <ProcessSection />
