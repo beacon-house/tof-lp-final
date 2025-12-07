@@ -12,7 +12,7 @@ import { WhoWeAreSection } from './components/sections/WhoWeAreSection'
 import { ResultsSection } from './components/sections/ResultsSection'
 import { ProcessSection } from './components/sections/ProcessSection'
 import { TrustSection } from './components/sections/TrustSection'
-import { initializeMetaPixel, trackPageView } from './lib/metaEvents'
+import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA } from './lib/metaEvents'
 
 function App() {
   const [showFirstGroup, setShowFirstGroup] = useState(false)
@@ -46,6 +46,7 @@ function App() {
   }
 
   const handleUnderstandApproach = () => {
+    trackUnderstandApproachCTA()
     setShowSecondGroup(true)
     setTimeout(() => {
       if (achievementsRef.current) {

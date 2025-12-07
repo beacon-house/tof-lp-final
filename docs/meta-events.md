@@ -15,12 +15,13 @@
 | `tof_qualfd_stdnt_{env}` | Page 1 completion | Student filled \+ would qualify as parent |
 | `tof_disqualfd_stdnt_{env}` | Page 1 completion | Student filled \+ would not qualify as parent OR spam |
 
-### General Funnel Events (7 events)
+### General Funnel Events (8 events)
 
 | Event Name | Trigger | Description |
 | :---- | :---- | :---- |
 | `tof_page_view_{env}` | Component mount/step change | Page view tracking |
 | `tof_cta_hero_{env}` | Hero CTA button click | Landing page hero section CTA |
+| `tof_cta_understand_our_approach_{env}` | Bridge Section CTA button click | "Understand Our Approach" button click |
 | `tof_page_1_continue_{env}` | Page 1 submission | User clicks continue on Page 1 |
 | `tof_page_2_view_{env}` | Page 2 load | User reaches Page 2 |
 | `tof_page_2_submit_{env}` | Page 2 submission | User submits Page 2 |

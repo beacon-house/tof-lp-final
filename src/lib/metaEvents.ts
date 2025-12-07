@@ -131,6 +131,10 @@ export function trackHeroCTA(): string[] {
   return [trackMetaEvent('tof_cta_hero')]
 }
 
+export function trackUnderstandApproachCTA(): string[] {
+  return [trackMetaEvent('tof_cta_understand_our_approach')]
+}
+
 export function trackPage1Continue(): string[] {
   return [trackMetaEvent('tof_page_1_continue')]
 }
