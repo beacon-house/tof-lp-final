@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react'
 interface HeaderProps {
   showStickyCTA?: boolean
   onCTAClick?: () => void
+  onNavigate?: (sectionId: string) => void
 }
 
-export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClick }) => {
+export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClick, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -19,12 +20,11 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      setIsMobileMenuOpen(false)
+  const handleNavClick = (id: string) => {
+    if (onNavigate) {
+      onNavigate(id)
     }
+    setIsMobileMenuOpen(false)
   }
 
   const scrollToTop = () => {
@@ -57,28 +57,28 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
               {!showStickyCTA ? (
                 <>
                   <button
-                    onClick={() => scrollToSection('pain-point')}
+                    onClick={() => handleNavClick('pain-point')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     The Challenge
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
                   <button
-                    onClick={() => scrollToSection('about')}
+                    onClick={() => handleNavClick('about')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     About Us
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
                   <button
-                    onClick={() => scrollToSection('results')}
+                    onClick={() => handleNavClick('results')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     Results
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
                   <button
-                    onClick={() => scrollToSection('process')}
+                    onClick={() => handleNavClick('process')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     Our Process
@@ -88,14 +88,14 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
               ) : (
                 <>
                   <button
-                    onClick={() => scrollToSection('about')}
+                    onClick={() => handleNavClick('about')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     About
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
                   <button
-                    onClick={() => scrollToSection('results')}
+                    onClick={() => handleNavClick('results')}
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     Results
@@ -140,25 +140,25 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
         <div className="md:hidden fixed inset-0 top-16 bg-[#ffffff] z-[999] shadow-2xl">
           <nav className="px-6 py-8 space-y-4 h-full overflow-y-auto bg-white">
             <button
-              onClick={() => scrollToSection('pain-point')}
+              onClick={() => handleNavClick('pain-point')}
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
             >
               The Challenge
             </button>
             <button
-              onClick={() => scrollToSection('about')}
+              onClick={() => handleNavClick('about')}
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
             >
               About Us
             </button>
             <button
-              onClick={() => scrollToSection('results')}
+              onClick={() => handleNavClick('results')}
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
             >
               Results
             </button>
             <button
-              onClick={() => scrollToSection('process')}
+              onClick={() => handleNavClick('process')}
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
             >
               Our Process

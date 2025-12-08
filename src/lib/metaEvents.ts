@@ -124,39 +124,39 @@ export function initializeMetaPixel(): void {
 }
 
 export function trackPageView(): string[] {
-  return [trackMetaEvent('tof_page_view')]
+  return [trackMetaEvent('tof_v1_page_view')]
 }
 
 export function trackHeroCTA(): string[] {
-  return [trackMetaEvent('tof_cta_hero')]
+  return [trackMetaEvent('tof_v1_cta_hero')]
 }
 
 export function trackUnderstandApproachCTA(): string[] {
-  return [trackMetaEvent('tof_cta_understand_our_approach')]
+  return [trackMetaEvent('tof_v1_cta_understand_our_approach')]
 }
 
 export function trackPage1Continue(): string[] {
-  return [trackMetaEvent('tof_page_1_continue')]
+  return [trackMetaEvent('mof_v1_page_1_continue')]
 }
 
 export function trackPage2View(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
   const events: string[] = []
 
-  events.push(trackMetaEvent('tof_page_2_view'))
+  events.push(trackMetaEvent('mof_v1_page_2_view'))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('tof_bch_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_bch_page_2_view'))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('tof_lum_l1_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_view'))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('tof_lum_l2_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_view'))
   }
 
   if (isQualified) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('tof_qualfd_prnt_page_2_view'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_view'))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('tof_qualfd_stdnt_page_2_view'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_view'))
     }
   }
 
@@ -166,21 +166,21 @@ export function trackPage2View(leadCategory?: LeadCategory, isQualified?: boolea
 export function trackPage2Submit(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
   const events: string[] = []
 
-  events.push(trackMetaEvent('tof_page_2_submit'))
+  events.push(trackMetaEvent('mof_v1_page_2_submit'))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('tof_bch_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_bch_page_2_submit'))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('tof_lum_l1_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_submit'))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('tof_lum_l2_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_submit'))
   }
 
   if (isQualified) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('tof_qualfd_prnt_page_2_submit'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_submit'))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('tof_qualfd_stdnt_page_2_submit'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_submit'))
     }
   }
 
@@ -190,21 +190,21 @@ export function trackPage2Submit(leadCategory?: LeadCategory, isQualified?: bool
 export function trackFormComplete(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
   const events: string[] = []
 
-  events.push(trackMetaEvent('tof_form_complete'))
+  events.push(trackMetaEvent('mof_v1_form_complete'))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('tof_bch_form_complete'))
+    events.push(trackMetaEvent('mof_v1_bch_form_complete'))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('tof_lum_l1_form_complete'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_form_complete'))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('tof_lum_l2_form_complete'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_form_complete'))
   }
 
   if (isQualified) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('tof_qualfd_prnt_form_complete'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_form_complete'))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('tof_qualfd_stdnt_form_complete'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_form_complete'))
     }
   }
 
@@ -219,16 +219,16 @@ export function trackPrimaryClassificationEvents(data: MetaEventData): string[] 
 
   if (isParent) {
     if (isSpam) {
-      events.push(trackMetaEvent('tof_spam_prnt', data))
+      events.push(trackMetaEvent('mof_v1_spam_prnt', data))
     } else {
-      events.push(trackMetaEvent('tof_prnt_event', data))
+      events.push(trackMetaEvent('mof_v1_prnt_event', data))
 
       const isQualified = data.leadCategory && ['bch', 'lum-l1', 'lum-l2'].includes(data.leadCategory)
 
       if (isQualified) {
-        events.push(trackMetaEvent('tof_qualfd_prnt', data))
+        events.push(trackMetaEvent('mof_v1_qualfd_prnt', data))
       } else {
-        events.push(trackMetaEvent('tof_disqualfd_prnt', data))
+        events.push(trackMetaEvent('mof_v1_disqualfd_prnt', data))
       }
     }
   } else if (isStudent) {
@@ -236,15 +236,15 @@ export function trackPrimaryClassificationEvents(data: MetaEventData): string[] 
     const wouldQualify = ['bch', 'lum-l1', 'lum-l2'].includes(simulatedCategory)
 
     if (isSpam) {
-      events.push(trackMetaEvent('tof_spam_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_spam_stdnt', data))
     } else {
-      events.push(trackMetaEvent('tof_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_stdnt', data))
     }
 
     if (wouldQualify) {
-      events.push(trackMetaEvent('tof_qualfd_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt', data))
     } else {
-      events.push(trackMetaEvent('tof_disqualfd_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_disqualfd_stdnt', data))
     }
   }
 
@@ -258,27 +258,63 @@ export function trackPage1CompleteWithCategory(
   const events: string[] = []
   const isQualified = ['bch', 'lum-l1', 'lum-l2'].includes(leadCategory)
 
-  events.push(trackMetaEvent('tof_page_1_continue'))
+  events.push(trackMetaEvent('mof_v1_page_1_continue'))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('tof_bch_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_bch_page_1_continue'))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('tof_lum_l1_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_1_continue'))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('tof_lum_l2_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_1_continue'))
   }
 
   if (isQualified) {
     if (data.formFillerType === 'parent') {
-      events.push(trackMetaEvent('tof_qualfd_prnt_page_1_continue'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_1_continue'))
     } else if (data.formFillerType === 'student') {
       const simulatedCategory = simulateStudentAsParent(data)
       const wouldQualify = ['bch', 'lum-l1', 'lum-l2'].includes(simulatedCategory)
       if (wouldQualify) {
-        events.push(trackMetaEvent('tof_qualfd_stdnt_page_1_continue'))
+        events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_1_continue'))
       }
     }
   }
 
   return events
+}
+
+export function trackMofPageView(): string[] {
+  return [trackMetaEvent('mof_v1_page_view')]
+}
+
+export function trackMofCtaClick(ctaType: 'book_call' | 'request_evaluation'): string[] {
+  const events: string[] = []
+
+  // Common event that fires for ALL CTA clicks
+  events.push(trackMetaEvent('mof_v1_cta_click'))
+
+  // Specific event based on button type
+  if (ctaType === 'book_call') {
+    events.push(trackMetaEvent('mof_v1_book_call'))
+  } else if (ctaType === 'request_evaluation') {
+    events.push(trackMetaEvent('mof_v1_request_evaluation'))
+  }
+
+  return events
+}
+
+export function trackMofStickyCtaClick(): string[] {
+  const events: string[] = []
+
+  // Common event that fires for ALL CTA clicks
+  events.push(trackMetaEvent('mof_v1_cta_click'))
+
+  // Specific event for sticky CTA
+  events.push(trackMetaEvent('mof_v1_sticky_cta_click'))
+
+  return events
+}
+
+export function trackCallScheduled(data?: MetaEventData): string[] {
+  return [trackMetaEvent('mof_v1_call_scheduled', data)]
 }

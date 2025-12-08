@@ -135,8 +135,8 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         const firstErrorField = Object.keys(newErrors)[0]
         const errorElement = document.getElementById(firstErrorField)
         if (errorElement) {
-          errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-          errorElement.focus()
+          errorElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          setTimeout(() => errorElement.focus(), 300)
         }
         return
       }
@@ -220,13 +220,15 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Who is filling this form? *
           </label>
-          <div className="flex gap-4">
+          <div id="formFillerType" className="flex gap-4">
             <button
               type="button"
               onClick={() => handleFieldChange('formFillerType', 'parent')}
               className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
                 formState.formFillerType === 'parent'
                   ? 'border-gold bg-gold/10 text-navy font-medium'
+                  : errors.formFillerType
+                  ? 'border-red-300 bg-red-50/50 text-gray-700 hover:border-red-400'
                   : 'border-gray-300 text-gray-700 hover:border-gray-400'
               }`}
             >
@@ -238,6 +240,8 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
               className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${
                 formState.formFillerType === 'student'
                   ? 'border-gold bg-gold/10 text-navy font-medium'
+                  : errors.formFillerType
+                  ? 'border-red-300 bg-red-50/50 text-gray-700 hover:border-red-400'
                   : 'border-gray-300 text-gray-700 hover:border-gray-400'
               }`}
             >
@@ -258,7 +262,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
             id="studentName"
             value={formState.studentName}
             onChange={(e) => handleFieldChange('studentName', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.studentName
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
             placeholder="Enter student's full name"
           />
           {errors.studentName && (
@@ -274,7 +282,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
             id="currentGrade"
             value={formState.currentGrade}
             onChange={(e) => handleFieldChange('currentGrade', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.currentGrade
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
           >
             <option value="">Select Grade</option>
             <option value="12">Grade 12</option>
@@ -299,7 +311,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
             id="location"
             value={formState.location}
             onChange={(e) => handleFieldChange('location', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.location
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
             placeholder="Enter city or town"
           />
           {errors.location && (
@@ -314,16 +330,26 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
           <div className="flex gap-3">
             <input
               type="text"
+              id="countryCode"
               value={formState.countryCode}
               onChange={(e) => handleFieldChange('countryCode', e.target.value)}
-              className="w-24 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+              className={`w-24 px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+                errors.countryCode
+                  ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                  : 'border-gray-300 focus:ring-gold focus:border-transparent'
+              }`}
               placeholder="+91"
             />
             <input
               type="tel"
+              id="phoneNumber"
               value={formState.phoneNumber}
               onChange={(e) => handleFieldChange('phoneNumber', e.target.value)}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+              className={`flex-1 px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+                errors.phoneNumber
+                  ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                  : 'border-gray-300 focus:ring-gold focus:border-transparent'
+              }`}
               placeholder="10-digit phone number"
             />
           </div>
@@ -346,7 +372,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
             id="curriculumType"
             value={formState.curriculumType}
             onChange={(e) => handleFieldChange('curriculumType', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.curriculumType
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
           >
             <option value="">Select Curriculum</option>
             <option value="IB">IB</option>
@@ -370,7 +400,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
             id="schoolName"
             value={formState.schoolName}
             onChange={(e) => handleFieldChange('schoolName', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.schoolName
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
             placeholder="Enter school name"
           />
           {errors.schoolName && (
@@ -410,6 +444,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
           {formState.gradeFormat === 'gpa' ? (
             <input
               type="text"
+              id="gpaValue"
               value={formState.gpaValue}
               onChange={(e) => {
                 const value = e.target.value
@@ -417,12 +452,17 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
                   handleFieldChange('gpaValue', value)
                 }
               }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+              className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+                errors.gpaValue
+                  ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                  : 'border-gray-300 focus:ring-gold focus:border-transparent'
+              }`}
               placeholder="Enter GPA (1.0 to 10.0)"
             />
           ) : (
             <input
               type="text"
+              id="percentageValue"
               value={formState.percentageValue}
               onChange={(e) => {
                 const value = e.target.value
@@ -430,7 +470,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
                   handleFieldChange('percentageValue', value)
                 }
               }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+              className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+                errors.percentageValue
+                  ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                  : 'border-gray-300 focus:ring-gold focus:border-transparent'
+              }`}
               placeholder="Enter Percentage (1 to 100)"
             />
           )}
@@ -452,7 +496,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
           <p className="text-sm text-gray-600 italic mb-3">
             Please select your scholarship requirements:
           </p>
-          <div className="space-y-3">
+          <div id="scholarshipRequirement" className="space-y-3">
             {[
               {
                 value: 'full_scholarship',
@@ -477,6 +521,8 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
                 className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-left flex items-start gap-3 ${
                   formState.scholarshipRequirement === option.value
                     ? 'border-gold bg-gold/10'
+                    : errors.scholarshipRequirement
+                    ? 'border-red-300 bg-red-50/50 hover:border-red-400'
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
@@ -519,7 +565,9 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Target Geographies * (Select all that apply)
           </label>
-          <div className="space-y-2">
+          <div id="targetGeographies" className={`space-y-2 p-3 rounded-lg transition-colors ${
+            errors.targetGeographies ? 'bg-red-50 border border-red-300' : ''
+          }`}>
             {['US', 'UK', 'Rest of World', 'Need Guidance'].map((geo) => (
               <label key={geo} className="flex items-center space-x-3 cursor-pointer">
                 <input
@@ -531,7 +579,11 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
                       : formState.targetGeographies.filter((g) => g !== geo)
                     handleFieldChange('targetGeographies', newGeographies)
                   }}
-                  className="w-5 h-5 text-gold border-gray-300 rounded focus:ring-gold"
+                  className={`w-5 h-5 rounded focus:ring-2 ${
+                    errors.targetGeographies
+                      ? 'text-red-600 border-red-300 focus:ring-red-400'
+                      : 'text-gold border-gray-300 focus:ring-gold'
+                  }`}
                 />
                 <span className="text-gray-700">{geo}</span>
               </label>

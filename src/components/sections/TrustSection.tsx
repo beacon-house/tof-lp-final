@@ -2,6 +2,7 @@
 import React from 'react'
 import { Section } from '../Section'
 import { Button } from '../Button'
+import { trackMofCtaClick } from '../../lib/metaEvents'
 
 interface TrustSectionProps {
   onShowForm: () => void
@@ -9,10 +10,12 @@ interface TrustSectionProps {
 
 export const TrustSection: React.FC<TrustSectionProps> = ({ onShowForm }) => {
   const handleBookCall = () => {
+    trackMofCtaClick('book_call')
     onShowForm()
   }
 
   const handleRequestEvaluation = () => {
+    trackMofCtaClick('request_evaluation')
     onShowForm()
   }
 

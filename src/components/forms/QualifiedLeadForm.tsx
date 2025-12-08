@@ -3,7 +3,7 @@ import { useFormStore } from '../../store/formStore'
 import { page2ASchema } from '../../lib/validation'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
-import { trackPage2Submit, trackFormComplete } from '../../lib/metaEvents'
+import { trackPage2Submit, trackFormComplete, trackCallScheduled } from '../../lib/metaEvents'
 
 interface QualifiedLeadFormProps {
   onComplete: () => void
@@ -139,12 +139,23 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
 
       if (hasDate && hasSlot) {
         formState.updateField('isCounsellingBooked', true)
+
+        const callScheduledEvents = trackCallScheduled({
+          leadCategory: formState.leadCategory || undefined,
+          isQualified: formState.isQualifiedLead,
+          formFillerType: formState.formFillerType as 'parent' | 'student',
+          selectedDate: hasDate,
+          selectedSlot: hasSlot,
+        })
+        formState.addTriggeredEvents(callScheduledEvents)
+
         saveFormDataIncremental(
           formState.sessionId,
           {
             selectedDate: hasDate,
             selectedSlot: hasSlot,
             isCounsellingBooked: true,
+            triggeredEvents: formState.triggeredEvents,
           },
           '08_page_2_counselling_slot_selected'
         )
@@ -176,6 +187,13 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
         })
         setErrors(newErrors)
         setIsSubmitting(false)
+
+        const firstErrorField = Object.keys(newErrors)[0]
+        const errorElement = document.getElementById(firstErrorField)
+        if (errorElement) {
+          errorElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          setTimeout(() => errorElement.focus(), 300)
+        }
         return
       }
 
@@ -347,7 +365,7 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                 </svg>
                 <label className="text-sm font-semibold text-navy">Select Date</label>
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+              <div id="selectedDate" className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                 {availableDates.map((date) => {
                   const formattedDate = formatDate(date)
                   const dayName = formattedDate.split(',')[0]
@@ -368,6 +386,8 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                       className={`px-2 py-2 rounded-lg border transition-all text-center ${
                         formState.selectedDate === formattedDate
                           ? 'border-navy bg-navy/10 shadow-sm'
+                          : errors.selectedDate
+                          ? 'border-red-300 bg-red-50/50 hover:border-red-400'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
@@ -398,7 +418,7 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
               {availableSlots.length === 0 ? (
                 <p className="text-xs text-gray-500 italic">No slots available for this date</p>
               ) : (
-                <div className="grid grid-cols-3 lg:grid-cols-5 gap-2">
+                <div id="selectedSlot" className="grid grid-cols-3 lg:grid-cols-5 gap-2">
                   {availableSlots.map((slot) => (
                     <button
                       key={slot}
@@ -407,6 +427,8 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                       className={`px-2 py-2 rounded-lg border transition-all text-xs font-medium ${
                         formState.selectedSlot === slot
                           ? 'border-navy bg-navy/10 text-navy shadow-sm'
+                          : errors.selectedSlot
+                          ? 'border-red-300 bg-red-50/50 text-gray-700 hover:border-red-400'
                           : 'border-gray-200 text-gray-700 hover:border-gray-300'
                       }`}
                     >
@@ -435,7 +457,11 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                   id="parentName"
                   value={formState.parentName}
                   onChange={(e) => handleFieldChange('parentName', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  className={`w-full px-3 py-2 border rounded-lg transition-colors focus:ring-2 text-sm ${
+                    errors.parentName
+                      ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                      : 'border-gray-200 focus:ring-navy/30 focus:border-navy'
+                  }`}
                   placeholder="Full name"
                 />
                 {errors.parentName && (
@@ -455,7 +481,11 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                   id="email"
                   value={formState.email}
                   onChange={(e) => handleFieldChange('email', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-navy/30 focus:border-navy text-sm"
+                  className={`w-full px-3 py-2 border rounded-lg transition-colors focus:ring-2 text-sm ${
+                    errors.email
+                      ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                      : 'border-gray-200 focus:ring-navy/30 focus:border-navy'
+                  }`}
                   placeholder="parent@example.com"
                 />
                 {errors.email && (

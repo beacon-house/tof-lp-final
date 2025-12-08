@@ -78,6 +78,13 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
         })
         setErrors(newErrors)
         setIsSubmitting(false)
+
+        const firstErrorField = Object.keys(newErrors)[0]
+        const errorElement = document.getElementById(firstErrorField)
+        if (errorElement) {
+          errorElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          setTimeout(() => errorElement.focus(), 300)
+        }
         return
       }
 
@@ -144,7 +151,11 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
             id="parentName"
             value={formState.parentName}
             onChange={(e) => handleFieldChange('parentName', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.parentName
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
             placeholder="Enter parent's full name"
           />
           {errors.parentName && (
@@ -161,7 +172,11 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
             id="email"
             value={formState.email}
             onChange={(e) => handleFieldChange('email', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent"
+            className={`w-full px-4 py-3 border rounded-lg transition-colors focus:ring-2 ${
+              errors.email
+                ? 'border-red-300 bg-red-50 focus:ring-red-400 focus:border-red-400'
+                : 'border-gray-300 focus:ring-gold focus:border-transparent'
+            }`}
             placeholder="parent@example.com"
           />
           {errors.email && (

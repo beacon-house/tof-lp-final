@@ -1,5 +1,6 @@
 // Main App component integrating all sections with progressive reveal functionality
 import { useState, useRef, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { HeroSection } from './components/sections/HeroSection'
@@ -12,9 +13,10 @@ import { WhoWeAreSection } from './components/sections/WhoWeAreSection'
 import { ResultsSection } from './components/sections/ResultsSection'
 import { ProcessSection } from './components/sections/ProcessSection'
 import { TrustSection } from './components/sections/TrustSection'
-import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA } from './lib/metaEvents'
+import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA, trackMofPageView } from './lib/metaEvents'
 
 function App() {
+  const location = useLocation()
   const [showFirstGroup, setShowFirstGroup] = useState(false)
   const [showSecondGroup, setShowSecondGroup] = useState(false)
   const [showForm, setShowForm] = useState(false)
@@ -28,6 +30,7 @@ function App() {
   const processSectionRef = useRef<HTMLDivElement>(null)
   const painPointRef = useRef<HTMLDivElement>(null)
   const achievementsRef = useRef<HTMLDivElement>(null)
+  const whoWeAreRef = useRef<HTMLDivElement>(null)
 
   const handleLearnMore = () => {
     setShowFirstGroup(true)
@@ -49,6 +52,7 @@ function App() {
     trackUnderstandApproachCTA()
     setShowSecondGroup(true)
     setStickyCtaActivated(true)
+    trackMofPageView()
     setTimeout(() => {
       if (achievementsRef.current) {
         const headerOffset = window.innerWidth < 768 ? 64 : 80
@@ -74,11 +78,63 @@ function App() {
     setShowForm(false)
   }
 
+  const handleNavigationClick = (sectionId: string) => {
+    const firstGroupSections = ['pain-point']
+    const secondGroupSections = ['about', 'results', 'comparison', 'process']
+
+    if (firstGroupSections.includes(sectionId)) {
+      setShowFirstGroup(true)
+    } else if (secondGroupSections.includes(sectionId)) {
+      setShowFirstGroup(true)
+      setShowSecondGroup(true)
+      setStickyCtaActivated(true)
+      trackMofPageView()
+    }
+
+    setTimeout(() => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        const headerOffset = window.innerWidth < 768 ? 64 : 80
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+      }
+    }, 300)
+  }
+
   useEffect(() => {
     console.log('🎯 Initializing Meta Pixel and tracking page view...')
     initializeMetaPixel()
     trackPageView()
   }, [])
+
+  useEffect(() => {
+    if (location.pathname === '/about-us') {
+      console.log('🎯 About-us route detected, revealing all sections and scrolling...')
+      setShowFirstGroup(true)
+      setShowSecondGroup(true)
+      setStickyCtaActivated(true)
+      trackMofPageView()
+
+      setTimeout(() => {
+        const element = document.getElementById('about')
+        if (element) {
+          const headerOffset = window.innerWidth < 768 ? 64 : 80
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
+        }
+      }, 300)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     const stickyObserver = new IntersectionObserver(
@@ -117,7 +173,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      <Header showStickyCTA={showStickyCTA && !showForm} onCTAClick={handleShowForm} />
+      <Header
+        showStickyCTA={showStickyCTA && !showForm}
+        onCTAClick={handleShowForm}
+        onNavigate={handleNavigationClick}
+      />
 
       <main className={showForm ? 'hidden' : ''}>
         <HeroSection onLearnMore={handleLearnMore} />
@@ -132,7 +192,9 @@ function App() {
 
         <div className={`transition-all duration-200 ${showSecondGroup ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
           <AchievementsSection ref={achievementsRef} />
-          <WhoWeAreSection />
+          <div ref={whoWeAreRef}>
+            <WhoWeAreSection />
+          </div>
           <ResultsSection />
           <div ref={processSectionRef}>
             <ProcessSection />
