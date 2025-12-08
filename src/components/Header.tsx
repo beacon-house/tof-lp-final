@@ -84,13 +84,6 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
                     Our Process
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
-                  <button
-                    onClick={() => scrollToSection('contact')}
-                    className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
-                  >
-                    Contact
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
-                  </button>
                 </>
               ) : (
                 <>
@@ -106,13 +99,6 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
                     className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
                   >
                     Results
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('contact')}
-                    className="text-navy hover:text-gold transition-colors font-medium text-sm relative group"
-                  >
-                    Contact
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all duration-300"></span>
                   </button>
                   <button
@@ -176,12 +162,6 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
             >
               Our Process
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
-            >
-              Contact
             </button>
           </nav>
         </div>

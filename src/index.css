@@ -23,13 +23,21 @@
   }
 
   #pain-point,
-  #achievements {
+  #achievements,
+  #about,
+  #results,
+  #process,
+  #contact {
     scroll-margin-top: 64px;
   }
 
   @media (min-width: 768px) {
     #pain-point,
-    #achievements {
+    #achievements,
+    #about,
+    #results,
+    #process,
+    #contact {
       scroll-margin-top: 80px;
     }
   }
