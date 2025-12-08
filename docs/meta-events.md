@@ -15,13 +15,17 @@
 | `mof_v1_qualfd_stdnt_{env}` | Page 1 completion | Student filled \+ would qualify as parent |
 | `mof_v1_disqualfd_stdnt_{env}` | Page 1 completion | Student filled \+ would not qualify as parent OR spam |
 
-### General Funnel Events (8 events)
+### General Funnel Events (12 events)
 
 | Event Name | Trigger | Description |
 | :---- | :---- | :---- |
 | `tof_v1_page_view_{env}` | Component mount/step change | Page view tracking |
 | `tof_v1_cta_hero_{env}` | Hero CTA button click | Landing page hero section CTA |
 | `tof_v1_cta_understand_our_approach_{env}` | Bridge Section CTA button click | "Understand Our Approach" button click |
+| `mof_v1_page_view_{env}` | MOF sections become visible | Fires after clicking "Understand Our Approach" |
+| `mof_v1_cta_click_{env}` | TrustSection CTA clicks | Fires when user clicks either "Book a Founder Strategy Call" or "Request an Evaluation" button (includes ctaType parameter: 'book_call' or 'request_evaluation') |
+| `mof_v1_sticky_cta_click_{env}` | Mobile sticky CTA click | Fires when user clicks mobile sticky CTA at bottom (mobile only) |
+| `mof_v1_call_scheduled_{env}` | Date and time slot selected | Fires when qualified lead selects both date AND time slot on Page 2A (when isCounsellingBooked becomes true) |
 | `mof_v1_page_1_continue_{env}` | Page 1 submission | User clicks continue on Page 1 |
 | `mof_v1_page_2_view_{env}` | Page 2 load | User reaches Page 2 |
 | `mof_v1_page_2_submit_{env}` | Page 2 submission | User submits Page 2 |
@@ -124,20 +128,40 @@ Environment value comes from `VITE_ENVIRONMENT` variable.
 
 ## Proposed Event Architecture Mapping
 
-### Unique Events Not Yet Implemented
-
-- `bh_mof_page_view` - MOF page view tracking
-- `bh_mof_cta_click` - MOF CTA button clicks
-- `bh_call_scheduled` - Call booking confirmation
-
 ### Event Mapping Table
 
 | Proposed Event | Implemented Event | Status |
 | :---- | :---- | :---- |
 | `bh_tof_approach_click` | `tof_v1_cta_understand_our_approach_{env}` | ✅ Implemented |
-| `bh_mof_page_view` | - | ❌ Not Implemented |
-| `bh_mof_cta_click` | - | ❌ Not Implemented |
+| `bh_mof_page_view` | `mof_v1_page_view_{env}` | ✅ Implemented |
+| `bh_mof_cta_click` | `mof_v1_cta_click_{env}` | ✅ Implemented |
 | `bh_questionnaire_load` | `mof_v1_page_2_view_{env}` | ✅ Implemented |
 | `bh_questionnaire_submit` | `mof_v1_form_complete_{env}` | ✅ Implemented |
 | `bh_qualified_lead` | `mof_v1_qualfd_prnt_{env}` / `mof_v1_qualfd_stdnt_{env}` | ✅ Implemented |
-| `bh_call_scheduled` | - | ❌ Not Implemented |
+| `bh_call_scheduled` | `mof_v1_call_scheduled_{env}` | ✅ Implemented |
+
+## New Events Summary
+
+### Recently Implemented Events (4 new events)
+
+1. **`mof_v1_page_view_{env}`**
+   - **Trigger**: Fires when MOF sections (Achievements, WhoWeAre, Results, Process, Trust) become visible after user clicks "Understand Our Approach" button
+   - **Location**: App.tsx - handleUnderstandApproach function
+
+2. **`mof_v1_cta_click_{env}`**
+   - **Trigger**: Fires when user clicks either button in TrustSection
+     - "Book a Founder Strategy Call" (ctaType: 'book_call')
+     - "Request an Evaluation" (ctaType: 'request_evaluation')
+   - **Parameters**: `{ ctaType: 'book_call' | 'request_evaluation' }`
+   - **Location**: TrustSection.tsx - handleBookCall and handleRequestEvaluation functions
+
+3. **`mof_v1_sticky_cta_click_{env}`**
+   - **Trigger**: Fires when user clicks the mobile sticky CTA button at bottom of screen (mobile only, appears after scrolling)
+   - **Button Text**: "Request an Evaluation"
+   - **Location**: StickyMobileCTA.tsx - handleClick function
+
+4. **`mof_v1_call_scheduled_{env}`**
+   - **Trigger**: Fires when qualified lead selects both date AND time slot on Page 2A (QualifiedLeadForm)
+   - **Condition**: When `isCounsellingBooked` becomes `true`
+   - **Parameters**: Includes lead metadata (leadCategory, isQualified, formFillerType, selectedDate, selectedSlot)
+   - **Location**: QualifiedLeadForm.tsx - handleFieldChange function

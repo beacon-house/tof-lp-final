@@ -282,3 +282,19 @@ export function trackPage1CompleteWithCategory(
 
   return events
 }
+
+export function trackMofPageView(): string[] {
+  return [trackMetaEvent('mof_v1_page_view')]
+}
+
+export function trackMofCtaClick(ctaType: 'book_call' | 'request_evaluation'): string[] {
+  return [trackMetaEvent('mof_v1_cta_click', { ctaType })]
+}
+
+export function trackMofStickyCtaClick(): string[] {
+  return [trackMetaEvent('mof_v1_sticky_cta_click')]
+}
+
+export function trackCallScheduled(data?: MetaEventData): string[] {
+  return [trackMetaEvent('mof_v1_call_scheduled', data)]
+}

@@ -3,7 +3,7 @@ import { useFormStore } from '../../store/formStore'
 import { page2ASchema } from '../../lib/validation'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
-import { trackPage2Submit, trackFormComplete } from '../../lib/metaEvents'
+import { trackPage2Submit, trackFormComplete, trackCallScheduled } from '../../lib/metaEvents'
 
 interface QualifiedLeadFormProps {
   onComplete: () => void
@@ -139,12 +139,23 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
 
       if (hasDate && hasSlot) {
         formState.updateField('isCounsellingBooked', true)
+
+        const callScheduledEvents = trackCallScheduled({
+          leadCategory: formState.leadCategory || undefined,
+          isQualified: formState.isQualifiedLead,
+          formFillerType: formState.formFillerType as 'parent' | 'student',
+          selectedDate: hasDate,
+          selectedSlot: hasSlot,
+        })
+        formState.addTriggeredEvents(callScheduledEvents)
+
         saveFormDataIncremental(
           formState.sessionId,
           {
             selectedDate: hasDate,
             selectedSlot: hasSlot,
             isCounsellingBooked: true,
+            triggeredEvents: formState.triggeredEvents,
           },
           '08_page_2_counselling_slot_selected'
         )

@@ -1,5 +1,6 @@
 // Sticky mobile CTA button that appears after first scroll - thumb-friendly position at bottom
 import React, { useState, useEffect } from 'react'
+import { trackMofStickyCtaClick } from '../lib/metaEvents'
 
 interface StickyMobileCTAProps {
   onClick: () => void
@@ -18,13 +19,18 @@ export const StickyMobileCTA: React.FC<StickyMobileCTAProps> = ({ onClick }) => 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const handleClick = () => {
+    trackMofStickyCtaClick()
+    onClick()
+  }
+
   if (!isVisible) return null
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 pointer-events-none">
       <div className="px-4 pb-4 pointer-events-auto">
         <button
-          onClick={onClick}
+          onClick={handleClick}
           className="group relative w-full bg-gradient-to-r from-gold to-goldLight text-navy py-4 px-6 rounded-xl font-bold text-base shadow-glow hover:shadow-luxury transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
         >
           {/* Subtle pulse animation background */}

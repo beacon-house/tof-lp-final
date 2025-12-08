@@ -12,7 +12,7 @@ import { WhoWeAreSection } from './components/sections/WhoWeAreSection'
 import { ResultsSection } from './components/sections/ResultsSection'
 import { ProcessSection } from './components/sections/ProcessSection'
 import { TrustSection } from './components/sections/TrustSection'
-import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA } from './lib/metaEvents'
+import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA, trackMofPageView } from './lib/metaEvents'
 
 function App() {
   const [showFirstGroup, setShowFirstGroup] = useState(false)
@@ -49,6 +49,7 @@ function App() {
     trackUnderstandApproachCTA()
     setShowSecondGroup(true)
     setStickyCtaActivated(true)
+    trackMofPageView()
     setTimeout(() => {
       if (achievementsRef.current) {
         const headerOffset = window.innerWidth < 768 ? 64 : 80
