@@ -214,7 +214,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-8 min-h-[600px]">
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold text-navy">Student Information</h3>
+        <h3 className="text-lg font-semibold text-navy">Student Information</h3>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -336,7 +336,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
       </div>
 
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold text-navy">Academic Information</h3>
+        <h3 className="text-lg font-semibold text-navy">Academic Information</h3>
 
         <div>
           <label htmlFor="curriculumType" className="block text-sm font-medium text-gray-700 mb-2">
@@ -443,7 +443,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
       </div>
 
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold text-navy">Study Preferences</h3>
+        <h3 className="text-lg font-semibold text-navy">Study Preferences</h3>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">

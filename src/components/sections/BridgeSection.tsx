@@ -75,7 +75,7 @@ export const BridgeSection: React.FC<BridgeSectionProps> = ({ onUnderstandApproa
                   style={{ imageRendering: 'crisp-edges' }}
                 />
               </div>
-              <h3 className="text-xs md:text-base font-bold text-navy mb-1 md:mb-2 leading-snug">
+              <h3 className="text-base font-medium text-navy mb-1 md:mb-2 leading-snug">
                 {benefit.title}
               </h3>
               <p className="text-[10px] md:text-sm text-navy/70 leading-relaxed md:mt-auto">

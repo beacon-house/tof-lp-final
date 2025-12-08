@@ -15,10 +15,10 @@ export const FormSection: React.FC<FormSectionProps> = ({ onClose, currentStep }
       <div className="max-w-6xl mx-auto w-full">
         {showHelper && (
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-navy mb-4">
+            <h2 className="text-lg md:text-4xl lg:text-5xl font-serif font-semibold text-navy mb-4">
               Start Your Journey
             </h2>
-            <p className="text-lg md:text-xl text-navy/70 max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-navy/70 max-w-2xl mx-auto">
               Share your details and we'll help you navigate the path to your dream university
             </p>
           </div>

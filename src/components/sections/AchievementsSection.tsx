@@ -52,7 +52,7 @@ export const AchievementsSection = forwardRef<HTMLDivElement>((_props, ref) => {
   return (
     <Section ref={ref} id="achievements" background="navy" className="relative min-h-[calc(100vh-64px)] md:min-h-0 py-8 md:py-12 flex items-center justify-center">
       <div className="w-full">
-        <h2 className="font-serif text-xl md:text-2xl lg:text-3xl text-white mb-6 md:mb-10 leading-tight text-center max-w-4xl mx-auto font-medium">
+        <h2 className="font-serif text-lg md:text-2xl lg:text-3xl text-white mb-6 md:mb-10 leading-tight text-center max-w-4xl mx-auto font-semibold">
           Beacon House exists to give families personalized, <span className="cursive-keyword">clarity-first</span> guidance that traditional counseling models rarely offer
         </h2>
 

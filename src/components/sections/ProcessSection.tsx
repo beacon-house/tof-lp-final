@@ -41,7 +41,7 @@ export const ProcessSection: React.FC = () => {
     <Section id="process" background="navy" className="relative py-12 md:py-16 flex items-center">
       <div className="w-full max-w-4xl mx-auto">
         {/* Heading */}
-        <h2 className="font-serif text-3xl md:text-4xl text-white mb-10 md:mb-14 leading-tight text-center font-medium">
+        <h2 className="font-serif text-lg md:text-4xl text-white mb-10 md:mb-14 leading-tight text-center font-semibold">
           How We Work
         </h2>
 
@@ -61,7 +61,7 @@ export const ProcessSection: React.FC = () => {
 
               {/* Content */}
               <div className="ml-2">
-                <h3 className="text-lg font-bold text-white mb-1.5 leading-tight">
+                <h3 className="text-base font-medium text-white mb-1.5 leading-tight">
                   {step.title}
                 </h3>
                 <p className="text-sm text-white/70 leading-relaxed">

@@ -63,7 +63,7 @@ export const WhoWeAreSection: React.FC = () => {
                     {item.icon}
                   </div>
                   <div>
-                    <p className="font-bold text-navy text-sm md:text-base leading-snug mb-1">
+                    <p className="font-bold text-navy text-base leading-snug mb-1">
                       {item.title}
                     </p>
                     <p className="text-xs md:text-sm text-navy/60 leading-[1.6]">

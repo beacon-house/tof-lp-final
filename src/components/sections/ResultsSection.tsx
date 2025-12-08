@@ -76,7 +76,7 @@ export const ResultsSection: React.FC = () => {
       {/* Navy Background Section - Proven Results */}
       <Section id="results" background="navy" className="relative py-8 md:py-12">
         {/* Main Heading */}
-        <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-white mb-4 md:mb-5 leading-tight text-center font-bold">
+        <h2 className="font-serif text-lg md:text-3xl lg:text-4xl text-white mb-4 md:mb-5 leading-tight text-center font-semibold">
           Proven Results
         </h2>
 
@@ -109,12 +109,12 @@ export const ResultsSection: React.FC = () => {
       {/* White Background Section - Comparison Data */}
       <Section id="comparison" className="relative">
         {/* Main Heading */}
-        <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl text-navy mb-3 md:mb-4 leading-tight text-center font-bold">
+        <h2 className="font-serif text-lg md:text-3xl lg:text-4xl text-navy mb-3 md:mb-4 leading-tight text-center font-semibold">
           Your Odds Of Admission, <span className="relative inline-block px-3 py-1 bg-goldLight/30 rounded">Multiplied By 5x</span>
         </h2>
 
         {/* Subheading */}
-        <p className="font-serif text-sm md:text-lg lg:text-xl text-navy/70 mb-6 md:mb-8 leading-relaxed text-center max-w-3xl mx-auto">
+        <p className="font-serif text-base md:text-lg lg:text-xl text-navy/70 mb-6 md:mb-8 leading-relaxed text-center max-w-3xl mx-auto">
           Here's a comparison of the university selection rates of other students vs our students
         </p>
 

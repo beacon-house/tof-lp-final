@@ -130,7 +130,7 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto space-y-8 min-h-[600px] mt-20 lg:mt-0">
       <div className="text-center space-y-3">
-        <h3 className="text-2xl font-semibold text-navy">{message.title}</h3>
+        <h3 className="text-lg font-semibold text-navy">{message.title}</h3>
         <p className="text-gray-600">{message.description}</p>
       </div>
 

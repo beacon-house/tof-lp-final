@@ -270,7 +270,7 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-1">
-                      <h3 className="text-sm lg:text-base font-bold text-navy leading-tight">{counselor.name}</h3>
+                      <h3 className="text-base font-medium text-navy leading-tight">{counselor.name}</h3>
                       <span className="px-2 py-0.5 bg-navy text-white font-semibold text-[9px] uppercase tracking-wide rounded whitespace-nowrap flex-shrink-0">
                         Founder
                       </span>
