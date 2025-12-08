@@ -27,6 +27,11 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
     }
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-luxury transition-all duration-300 ${
@@ -35,13 +40,17 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
     >
       <div className="max-w-content mx-auto px-6 md:px-8 lg:px-12">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex-shrink-0 max-w-[60%] md:max-w-none">
+          <button
+            onClick={scrollToTop}
+            className="flex-shrink-0 max-w-[60%] md:max-w-none cursor-pointer"
+            aria-label="Go to top"
+          >
             <img
               src="/bh-ig-logo.png"
               alt="Beacon House"
               className="h-7 md:h-10 w-auto hover:scale-105 transition-transform duration-300"
             />
-          </div>
+          </button>
 
           <nav className="hidden md:flex items-center gap-6">
             {!showStickyCTA ? (
@@ -140,8 +149,8 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white backdrop-blur-2xl bg-opacity-95 z-40 animate-fade-in">
-          <nav className="px-6 py-8 space-y-4 h-full">
+        <div className="md:hidden fixed inset-0 top-16 bg-white z-40 animate-fade-in shadow-2xl">
+          <nav className="px-6 py-8 space-y-4 h-full overflow-y-auto">
             <button
               onClick={() => scrollToSection('pain-point')}
               className="block w-full text-left py-4 px-4 text-navy text-xl font-semibold hover:text-gold hover:bg-gold/10 rounded-xl transition-all"
