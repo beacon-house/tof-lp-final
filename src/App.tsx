@@ -121,18 +121,17 @@ function App() {
       trackMofPageView()
 
       setTimeout(() => {
-        const element = document.getElementById('about')
+        const element = document.getElementById('achievements')
         if (element) {
           const headerOffset = window.innerWidth < 768 ? 64 : 80
           const elementPosition = element.getBoundingClientRect().top
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
           window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
+            top: offsetPosition
           })
         }
-      }, 300)
+      }, 100)
     }
   }, [location.pathname])
 
