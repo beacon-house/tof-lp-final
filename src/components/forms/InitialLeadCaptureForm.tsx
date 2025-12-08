@@ -212,7 +212,7 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-8 min-h-[600px]">
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto space-y-8 min-h-[600px] pt-20 lg:pt-0">
       <div className="space-y-6">
         <h3 className="text-lg font-semibold text-navy">Student Information</h3>
 
@@ -446,26 +446,67 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         <h3 className="text-lg font-semibold text-navy">Study Preferences</h3>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Level of Scholarship Needed *
           </label>
+          <p className="text-sm text-gray-600 italic mb-3">
+            Please select your scholarship requirements:
+          </p>
           <div className="space-y-3">
             {[
-              { value: 'full_scholarship', label: 'Full scholarship needed' },
-              { value: 'partial_scholarship', label: 'Partial scholarship needed' },
-              { value: 'scholarship_optional', label: 'Scholarship optional' },
+              {
+                value: 'full_scholarship',
+                label: 'Full scholarship needed',
+                description: 'Seeking complete financial coverage for tuition and expenses'
+              },
+              {
+                value: 'partial_scholarship',
+                label: 'Partial scholarship needed',
+                description: 'Need some financial aid to supplement family contribution'
+              },
+              {
+                value: 'scholarship_optional',
+                label: 'Scholarship optional',
+                description: 'Can proceed without scholarship but open to opportunities'
+              },
             ].map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleFieldChange('scholarshipRequirement', option.value)}
-                className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-left ${
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-all text-left flex items-start gap-3 ${
                   formState.scholarshipRequirement === option.value
-                    ? 'border-gold bg-gold/10 text-navy font-medium'
-                    : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    ? 'border-gold bg-gold/10'
+                    : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
-                {option.label}
+                <div className="flex-shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                    formState.scholarshipRequirement === option.value
+                      ? 'border-gold bg-white'
+                      : 'border-gray-400 bg-white'
+                  }`}>
+                    {formState.scholarshipRequirement === option.value && (
+                      <div className="w-3 h-3 rounded-full bg-gold"></div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <div className={`text-base font-bold mb-1 ${
+                    formState.scholarshipRequirement === option.value
+                      ? 'text-navy'
+                      : 'text-gray-700'
+                  }`}>
+                    {option.label}
+                  </div>
+                  <div className={`text-sm italic ${
+                    formState.scholarshipRequirement === option.value
+                      ? 'text-navy/70'
+                      : 'text-gray-600'
+                  }`}>
+                    {option.description}
+                  </div>
+                </div>
               </button>
             ))}
           </div>
