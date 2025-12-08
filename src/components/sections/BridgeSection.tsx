@@ -64,10 +64,10 @@ export const BridgeSection: React.FC<BridgeSectionProps> = ({ onUnderstandApproa
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="group p-3 md:p-5 bg-gradient-to-br from-white to-gray50 rounded-2xl border border-gold/10 shadow-sm hover:shadow-luxury transition-all duration-300 hover:-translate-y-1 md:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] flex flex-col"
+              className="group p-3 md:p-5 bg-white rounded-2xl border border-gray-200 shadow-sm md:w-[calc(50%-10px)] lg:w-[calc(25%-15px)] flex flex-col"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="w-5 h-5 md:w-8 md:h-8 mb-2 md:mb-3 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-5 h-5 md:w-8 md:h-8 mb-3 md:mb-3">
                 <img
                   src={benefit.icon}
                   alt={benefit.title}
@@ -75,7 +75,7 @@ export const BridgeSection: React.FC<BridgeSectionProps> = ({ onUnderstandApproa
                   style={{ imageRendering: 'crisp-edges' }}
                 />
               </div>
-              <h3 className="text-base font-medium text-navy mb-1 md:mb-2 leading-snug">
+              <h3 className="text-xs font-semibold text-navy mb-1 md:mb-2 leading-snug">
                 {benefit.title}
               </h3>
               <p className="text-[10px] md:text-sm text-navy/70 leading-relaxed md:mt-auto">
