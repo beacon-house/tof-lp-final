@@ -70,7 +70,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onLearnMore }) => {
               </div>
               <div className="text-center">
                 <p className="font-bold text-base md:text-lg text-navy mb-0.5">120+ Ivy League</p>
-                <p className="text-xs md:text-sm text-navy/60">admits</p>
+                <p className="text-xs md:text-sm text-navy/60">admits in 2025</p>
               </div>
             </div>
 
