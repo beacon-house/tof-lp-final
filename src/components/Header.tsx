@@ -149,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({ showStickyCTA = false, onCTAClic
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white z-40 animate-fade-in shadow-2xl">
+        <div className="md:hidden fixed inset-0 top-16 bg-white z-[100] animate-fade-in shadow-2xl">
           <nav className="px-6 py-8 space-y-4 h-full overflow-y-auto">
             <button
               onClick={() => scrollToSection('pain-point')}
