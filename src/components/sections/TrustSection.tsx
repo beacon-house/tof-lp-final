@@ -21,10 +21,10 @@ export const TrustSection: React.FC<TrustSectionProps> = ({ onShowForm }) => {
       <div className="max-w-5xl mx-auto w-full">
         {/* Three Opening Lines */}
         <div className="text-center mb-8 md:mb-10 space-y-4 md:space-y-5">
-          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-light">
+          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-bold">
             Admissions doesn't have to feel chaotic.
           </p>
-          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-medium">
+          <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-bold">
             Clarity is possible.
           </p>
           <p className="font-serif text-lg md:text-3xl lg:text-4xl text-navy leading-tight font-bold">
