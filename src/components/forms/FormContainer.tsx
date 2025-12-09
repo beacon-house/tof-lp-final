@@ -6,6 +6,7 @@ import { QualifiedLeadForm } from './QualifiedLeadForm'
 import { DisqualifiedLeadForm } from './DisqualifiedLeadForm'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { trackPage2View } from '../../lib/metaEvents'
+import { buildWebhookPayload, sendWebhookData } from '../../lib/webhook'
 
 export type FormStep = 'page1' | 'evaluation' | 'page2a' | 'page2b' | 'success'
 
@@ -47,6 +48,17 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
         },
         '10_form_submit'
       )
+
+      try {
+        const webhookUrl = import.meta.env.VITE_WEBHOOK_URL
+        if (webhookUrl) {
+          const webhookPayload = buildWebhookPayload(useFormStore.getState())
+          await sendWebhookData(webhookUrl, webhookPayload)
+        }
+      } catch (webhookError) {
+        console.error('[webhook] Webhook failed but continuing:', webhookError)
+      }
+
       setCurrentStep('success')
       return
     }
@@ -63,6 +75,17 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
         },
         '10_form_submit'
       )
+
+      try {
+        const webhookUrl = import.meta.env.VITE_WEBHOOK_URL
+        if (webhookUrl) {
+          const webhookPayload = buildWebhookPayload(useFormStore.getState())
+          await sendWebhookData(webhookUrl, webhookPayload)
+        }
+      } catch (webhookError) {
+        console.error('[webhook] Webhook failed but continuing:', webhookError)
+      }
+
       setCurrentStep('success')
       return
     }

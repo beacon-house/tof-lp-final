@@ -4,6 +4,7 @@ import { page2BSchema } from '../../lib/validation'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
 import { trackPage2Submit, trackFormComplete } from '../../lib/metaEvents'
+import { buildWebhookPayload, sendWebhookData } from '../../lib/webhook'
 
 interface DisqualifiedLeadFormProps {
   onComplete: () => void
@@ -124,6 +125,18 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
         },
         '10_form_submit'
       )
+
+      try {
+        const webhookUrl = import.meta.env.VITE_WEBHOOK_URL
+        if (webhookUrl) {
+          const webhookPayload = buildWebhookPayload(formState)
+          await sendWebhookData(webhookUrl, webhookPayload)
+        } else {
+          console.warn('[webhook] Webhook URL not configured')
+        }
+      } catch (webhookError) {
+        console.error('[webhook] Webhook failed but continuing:', webhookError)
+      }
 
       onComplete()
     } catch (error) {
