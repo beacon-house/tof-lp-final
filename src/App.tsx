@@ -1,4 +1,5 @@
 // Main App component integrating all sections with progressive reveal functionality
+// Updated: Instant positioning for /about-us route, progressive reveal for main route
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
@@ -26,6 +27,7 @@ function App() {
   const [isInProcessSection, setIsInProcessSection] = useState(false)
   const [isInTrustSection, setIsInTrustSection] = useState(false)
   const [isDirectRouteLoad] = useState(isAboutUsRoute)
+  const [isPageReady, setIsPageReady] = useState(!isAboutUsRoute)
   const formRef = useRef<HTMLDivElement>(null)
   const bridgeSectionRef = useRef<HTMLDivElement>(null)
   const trustSectionRef = useRef<HTMLDivElement>(null)
@@ -122,18 +124,11 @@ function App() {
 
   useLayoutEffect(() => {
     if (isAboutUsRoute && achievementsRef.current) {
-      requestAnimationFrame(() => {
-        if (achievementsRef.current) {
-          const headerOffset = window.innerWidth < 768 ? 64 : 80
-          const elementPosition = achievementsRef.current.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'auto'
-          })
-        }
-      })
+      const headerOffset = window.innerWidth < 768 ? 64 : 80
+      const elementPosition = achievementsRef.current.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+      window.scrollTo(0, offsetPosition)
+      setIsPageReady(true)
     }
   }, [isAboutUsRoute])
 
@@ -173,7 +168,7 @@ function App() {
   }, [stickyCtaActivated, isInProcessSection, isInTrustSection])
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className={`min-h-screen bg-white overflow-x-hidden ${!isPageReady ? 'invisible' : ''}`}>
       <Header
         showStickyCTA={showStickyCTA && !showForm}
         onCTAClick={handleShowForm}
