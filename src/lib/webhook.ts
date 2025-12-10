@@ -17,8 +17,8 @@ export interface WebhookPayload {
   targetGeographiesArray: string[]
   parentName: string
   email: string
-  counsellingDate: string
-  counsellingTime: string
+  counsellingDate: string | null
+  counsellingTime: string | null
   lead_category: string | null
   counsellingSlotPicked: boolean
   funnel_stage: string
@@ -40,6 +40,14 @@ export function buildWebhookPayload(formState: FormState): WebhookPayload {
     ? `${formState.countryCode}${formState.phoneNumber}`
     : ''
 
+  const selectedDate = formState.selectedDate && formState.selectedDate.trim() !== ''
+    ? formState.selectedDate
+    : null
+
+  const selectedSlot = formState.selectedSlot && formState.selectedSlot.trim() !== ''
+    ? formState.selectedSlot
+    : null
+
   return {
     session_id: formState.sessionId,
     environment: import.meta.env.VITE_ENVIRONMENT || 'unknown',
@@ -57,10 +65,10 @@ export function buildWebhookPayload(formState: FormState): WebhookPayload {
     targetGeographiesArray: formState.targetGeographies,
     parentName: formState.parentName,
     email: formState.email,
-    counsellingDate: formState.selectedDate,
-    counsellingTime: formState.selectedSlot,
+    counsellingDate: selectedDate,
+    counsellingTime: selectedSlot,
     lead_category: formState.leadCategory,
-    counsellingSlotPicked: formState.selectedSlot !== '',
+    counsellingSlotPicked: selectedSlot !== null,
     funnel_stage: formState.funnelStage,
     is_qualified_lead: formState.isQualifiedLead,
     page_completed: formState.pageCompleted,
