@@ -48,7 +48,7 @@ export const WhoWeAreSection: React.FC = () => {
       <div className="w-full max-w-4xl mx-auto">
         <TextContainer>
           <h2 className="font-serif text-lg md:text-2xl lg:text-3xl text-navy mb-4 md:mb-6 leading-tight font-bold">
-            Through our partnership with <span className="font-bold text-navy bg-gold/10 px-2 py-0.5 rounded">InGenius Prep</span>, we bring:
+            Why Highly Intentional Families Choose <span className="font-bold text-navy bg-gold/10 px-2 py-0.5 rounded">Beacon House</span>
           </h2>
 
           {/* Vertical list on all screen sizes */}
