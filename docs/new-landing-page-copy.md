@@ -168,7 +168,7 @@ Beacon House exists to give families personalized, **clarity-first** guidance th
 - **620+** Ivy League Acceptances
 - **100+** Admits to top 5 UK Universities
 - **$4Mn+** in Scholarships
-- **509** Top 30 Acceptances in 2024
+- **509** Top 30 Acceptances in 2025
 
 ---
 

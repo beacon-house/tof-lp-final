@@ -44,7 +44,7 @@ const achievements: Achievement[] = [
       </svg>
     ),
     number: '509',
-    description: 'Top 30 Acceptances in 2024'
+    description: 'Top 30 Acceptances in 2025'
   }
 ]
 
