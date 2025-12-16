@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { FormState } from '../store/formStore'
+import { shouldLog } from './logger'
 
 export type FunnelStage =
   | '01_form_start'
@@ -23,10 +24,12 @@ export async function saveFormDataIncremental(
   funnelStage: FunnelStage
 ): Promise<boolean> {
   try {
-    console.log('[formTracking] saveFormDataIncremental called')
-    console.log('[formTracking] sessionId:', sessionId)
-    console.log('[formTracking] funnelStage:', funnelStage)
-    console.log('[formTracking] formData:', formData)
+    if (shouldLog()) {
+      console.log('[formTracking] saveFormDataIncremental called')
+      console.log('[formTracking] sessionId:', sessionId)
+      console.log('[formTracking] funnelStage:', funnelStage)
+      console.log('[formTracking] formData:', formData)
+    }
 
     const dbData: Record<string, any> = {
       environment: import.meta.env.VITE_ENVIRONMENT,
@@ -69,18 +72,24 @@ export async function saveFormDataIncremental(
       dbData.triggered_events = [funnelStage]
     }
 
-    console.log('[formTracking] Final dbData to save:', dbData)
-    console.log('[formTracking] isQualifiedLead value:', dbData.is_qualified_lead)
+    if (shouldLog()) {
+      console.log('[formTracking] Final dbData to save:', dbData)
+      console.log('[formTracking] isQualifiedLead value:', dbData.is_qualified_lead)
+    }
 
     const { error } = await supabase.rpc('upsert_form_session', {
       p_session_id: sessionId,
       p_form_data: dbData
     })
 
-    console.log('[formTracking] RPC call result - error:', error)
+    if (shouldLog()) {
+      console.log('[formTracking] RPC call result - error:', error)
+    }
 
     if (error) {
-      console.error('RPC upsert failed, trying direct upsert:', error)
+      if (shouldLog()) {
+        console.error('RPC upsert failed, trying direct upsert:', error)
+      }
 
       const { error: directError } = await supabase
         .from('form_sessions')
@@ -89,14 +98,18 @@ export async function saveFormDataIncremental(
         })
 
       if (directError) {
-        console.error('Direct upsert failed:', directError)
+        if (shouldLog()) {
+          console.error('Direct upsert failed:', directError)
+        }
         return false
       }
     }
 
     return true
   } catch (error) {
-    console.error('Error saving form data:', error)
+    if (shouldLog()) {
+      console.error('Error saving form data:', error)
+    }
     return false
   }
 }

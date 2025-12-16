@@ -3,6 +3,7 @@ import React from 'react'
 import { StatPill } from '../StatPill'
 import { Button } from '../Button'
 import { trackHeroCTA } from '../../lib/metaEvents'
+import { shouldLog } from '../../lib/logger'
 
 interface HeroSectionProps {
   onLearnMore?: () => void
@@ -10,7 +11,9 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onLearnMore }) => {
   const handleCTAClick = () => {
-    console.log('🎯 Tracking Hero CTA Click...')
+    if (shouldLog()) {
+      console.log('🎯 Tracking Hero CTA Click...')
+    }
     trackHeroCTA()
     if (onLearnMore) {
       onLearnMore()

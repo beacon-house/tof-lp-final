@@ -5,6 +5,7 @@ import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
 import { trackPage2Submit, trackFormComplete } from '../../lib/metaEvents'
 import { buildWebhookPayload, sendWebhookData } from '../../lib/webhook'
+import { shouldLog } from '../../lib/logger'
 
 interface DisqualifiedLeadFormProps {
   onComplete: () => void
@@ -91,23 +92,18 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
 
       formState.updateField('funnelStage', '10_form_submit')
 
-      console.log('DisqualifiedLeadForm final save - isQualifiedLead:', formState.isQualifiedLead)
-      console.log('DisqualifiedLeadForm final save - leadCategory:', formState.leadCategory)
-      console.log('DisqualifiedLeadForm final save - pageCompleted:', formState.pageCompleted)
+      if (shouldLog()) {
+        console.log('DisqualifiedLeadForm final save - isQualifiedLead:', formState.isQualifiedLead)
+        console.log('DisqualifiedLeadForm final save - leadCategory:', formState.leadCategory)
+        console.log('DisqualifiedLeadForm final save - pageCompleted:', formState.pageCompleted)
+        console.log('🎯 Tracking Page 2 Submit Events...')
+      }
+      const page2SubmitEvents = trackPage2Submit(formState)
 
-      console.log('🎯 Tracking Page 2 Submit Events...')
-      const page2SubmitEvents = trackPage2Submit(
-        formState.leadCategory || undefined,
-        formState.isQualifiedLead,
-        formState.formFillerType as 'parent' | 'student'
-      )
-
-      console.log('🎯 Tracking Form Complete Events...')
-      const formCompleteEvents = trackFormComplete(
-        formState.leadCategory || undefined,
-        formState.isQualifiedLead,
-        formState.formFillerType as 'parent' | 'student'
-      )
+      if (shouldLog()) {
+        console.log('🎯 Tracking Form Complete Events...')
+      }
+      const formCompleteEvents = trackFormComplete(formState)
 
       const allMetaEvents = [...page2SubmitEvents, ...formCompleteEvents]
       formState.addTriggeredEvents(allMetaEvents)
@@ -131,16 +127,20 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
         if (webhookUrl) {
           const webhookPayload = buildWebhookPayload(formState)
           await sendWebhookData(webhookUrl, webhookPayload)
-        } else {
+        } else if (shouldLog()) {
           console.warn('[webhook] Webhook URL not configured')
         }
       } catch (webhookError) {
-        console.error('[webhook] Webhook failed but continuing:', webhookError)
+        if (shouldLog()) {
+          console.error('[webhook] Webhook failed but continuing:', webhookError)
+        }
       }
 
       onComplete()
     } catch (error) {
-      console.error('Form submission error:', error)
+      if (shouldLog()) {
+        console.error('Form submission error:', error)
+      }
       setErrors({ submit: 'An error occurred. Please try again.' })
     } finally {
       setIsSubmitting(false)
