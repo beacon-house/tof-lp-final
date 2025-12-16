@@ -1,5 +1,6 @@
 import { LeadCategory } from './leadCategorization'
 import { FormState } from '../store/formStore'
+import { shouldLog } from './logger'
 
 declare global {
   interface Window {
@@ -157,11 +158,14 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
   const env = getEnvironmentSuffix()
   const fullEventName = `${eventName}_${env}`
 
-  console.log('🎯 META EVENT FIRED:', {
-    eventName: fullEventName,
-    timestamp: new Date().toISOString(),
-    userData
-  })
+  if (shouldLog()) {
+    console.log('🎯 META EVENT FIRED:', {
+      eventName: fullEventName,
+      timestamp: new Date().toISOString(),
+      userData: userData || {}
+    })
+    console.log('📊 Event Parameters:', JSON.stringify(userData || {}, null, 2))
+  }
 
   if (typeof window !== 'undefined' && window.fbq) {
     window.fbq('trackCustom', fullEventName, {}, userData || {})
@@ -176,7 +180,9 @@ export function initializeMetaPixel(): void {
   if (typeof window !== 'undefined' && window.fbq && pixelId) {
     window.fbq('init', pixelId)
     window.fbq('track', 'PageView')
-    console.log('✅ Meta Pixel Initialized:', pixelId)
+    if (shouldLog()) {
+      console.log('✅ Meta Pixel Initialized:', pixelId)
+    }
   }
 }
 

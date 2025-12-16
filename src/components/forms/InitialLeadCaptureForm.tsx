@@ -8,6 +8,7 @@ import {
   trackPrimaryClassificationEvents,
   trackPage1CompleteWithCategory
 } from '../../lib/metaEvents'
+import { shouldLog } from '../../lib/logger'
 
 interface InitialLeadCaptureFormProps {
   onComplete: () => void
@@ -114,14 +115,20 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         targetGeographies: formState.targetGeographies,
       }
 
-      console.log('Form submission started')
-      console.log('Form data:', formData)
+      if (shouldLog()) {
+        console.log('Form submission started')
+        console.log('Form data:', formData)
+      }
 
       const result = page1Schema.safeParse(formData)
-      console.log('Validation result:', result.success ? 'SUCCESS' : 'FAILED')
+      if (shouldLog()) {
+        console.log('Validation result:', result.success ? 'SUCCESS' : 'FAILED')
+      }
 
       if (!result.success) {
-        console.log('Validation errors:', result.error.issues)
+        if (shouldLog()) {
+          console.log('Validation errors:', result.error.issues)
+        }
         const newErrors: Record<string, string> = {}
         result.error.issues.forEach((err: any) => {
           if (err.path[0]) {
@@ -150,20 +157,28 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         gradeFormat: formState.gradeFormat,
       })
 
-      console.log('Lead category:', leadCategory)
+      if (shouldLog()) {
+        console.log('Lead category:', leadCategory)
+      }
 
       const isQualified = ['bch', 'lum-l1', 'lum-l2'].includes(leadCategory)
-      console.log('Is qualified lead:', isQualified)
+      if (shouldLog()) {
+        console.log('Is qualified lead:', isQualified)
+      }
 
       formState.updateMultipleFields({
         leadCategory,
         isQualifiedLead: isQualified,
       })
 
-      console.log('🎯 Tracking Primary Classification Events...')
+      if (shouldLog()) {
+        console.log('🎯 Tracking Primary Classification Events...')
+      }
       const primaryEvents = trackPrimaryClassificationEvents(formState)
 
-      console.log('🎯 Tracking Page 1 Complete with Category Events...')
+      if (shouldLog()) {
+        console.log('🎯 Tracking Page 1 Complete with Category Events...')
+      }
       const page1Events = trackPage1CompleteWithCategory(formState)
 
       const allMetaEvents = [...primaryEvents, ...page1Events]
@@ -176,7 +191,9 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         funnelStage: '05_page1_complete',
       })
 
-      console.log('Saving form data to database...')
+      if (shouldLog()) {
+        console.log('Saving form data to database...')
+      }
       const saveResult = await saveFormDataIncremental(
         formState.sessionId,
         {
@@ -189,14 +206,19 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
         },
         '05_page1_complete'
       )
-      console.log('Database save result:', saveResult)
-
-      console.log('Calling onComplete callback...')
+      if (shouldLog()) {
+        console.log('Database save result:', saveResult)
+        console.log('Calling onComplete callback...')
+      }
       onComplete()
-      console.log('Form submission complete!')
+      if (shouldLog()) {
+        console.log('Form submission complete!')
+      }
     } catch (error) {
-      console.error('Form submission error:', error)
-      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace')
+      if (shouldLog()) {
+        console.error('Form submission error:', error)
+        console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace')
+      }
       setErrors({ submit: 'An error occurred. Please try again.' })
     } finally {
       setIsSubmitting(false)

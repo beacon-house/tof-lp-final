@@ -5,6 +5,7 @@ import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
 import { trackPage2Submit, trackFormComplete, trackCallScheduled } from '../../lib/metaEvents'
 import { buildWebhookPayload, sendWebhookData } from '../../lib/webhook'
+import { shouldLog } from '../../lib/logger'
 
 interface QualifiedLeadFormProps {
   onComplete: () => void
@@ -194,15 +195,18 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
 
       formState.updateField('funnelStage', '10_form_submit')
 
-      console.log('QualifiedLeadForm final save - isQualifiedLead:', formState.isQualifiedLead)
-      console.log('QualifiedLeadForm final save - leadCategory:', formState.leadCategory)
-      console.log('QualifiedLeadForm final save - isCounsellingBooked:', formState.isCounsellingBooked)
-      console.log('QualifiedLeadForm final save - pageCompleted:', formState.pageCompleted)
-
-      console.log('🎯 Tracking Page 2 Submit Events...')
+      if (shouldLog()) {
+        console.log('QualifiedLeadForm final save - isQualifiedLead:', formState.isQualifiedLead)
+        console.log('QualifiedLeadForm final save - leadCategory:', formState.leadCategory)
+        console.log('QualifiedLeadForm final save - isCounsellingBooked:', formState.isCounsellingBooked)
+        console.log('QualifiedLeadForm final save - pageCompleted:', formState.pageCompleted)
+        console.log('🎯 Tracking Page 2 Submit Events...')
+      }
       const page2SubmitEvents = trackPage2Submit(formState)
 
-      console.log('🎯 Tracking Form Complete Events...')
+      if (shouldLog()) {
+        console.log('🎯 Tracking Form Complete Events...')
+      }
       const formCompleteEvents = trackFormComplete(formState)
 
       const allMetaEvents = [...page2SubmitEvents, ...formCompleteEvents]
@@ -230,16 +234,20 @@ export const QualifiedLeadForm: React.FC<QualifiedLeadFormProps> = ({ onComplete
         if (webhookUrl) {
           const webhookPayload = buildWebhookPayload(formState)
           await sendWebhookData(webhookUrl, webhookPayload)
-        } else {
+        } else if (shouldLog()) {
           console.warn('[webhook] Webhook URL not configured')
         }
       } catch (webhookError) {
-        console.error('[webhook] Webhook failed but continuing:', webhookError)
+        if (shouldLog()) {
+          console.error('[webhook] Webhook failed but continuing:', webhookError)
+        }
       }
 
       onComplete()
     } catch (error) {
-      console.error('Form submission error:', error)
+      if (shouldLog()) {
+        console.error('Form submission error:', error)
+      }
       setErrors({ submit: 'An error occurred. Please try again.' })
     } finally {
       setIsSubmitting(false)
