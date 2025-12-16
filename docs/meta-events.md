@@ -135,20 +135,73 @@ Environment value comes from `VITE_ENVIRONMENT` variable.
 
 ## Event Parameters
 
-### Parameter Definitions
+### Meta-Recognized Parameters
 
-| Parameter | Type | Description | Possible Values |
-| :---- | :---- | :---- | :---- |
-| `formFillerType` | string | Who is filling the form | `parent`, `student` |
-| `currentGrade` | string | Student's current grade level | `7_below`, `8`, `9`, `10`, `11`, `12`, `masters` |
-| `scholarshipRequirement` | string | Scholarship requirement | `scholarship_optional`, `partial_scholarship`, `full_scholarship` |
-| `targetGeographies` | array | Target countries for admission | `US`, `UK`, `Rest of World`, `Need Guidance` |
-| `gpaValue` | string | GPA score (if grade format is GPA) | e.g., `3.5`, `4.0`, `10` |
-| `percentageValue` | string | Percentage score (if grade format is percentage) | e.g., `85`, `90`, `100` |
-| `gradeFormat` | string | Format of academic grade | `gpa`, `percentage` |
-| `leadCategory` | string | Categorized lead type | `bch`, `lum-l1`, `lum-l2`, `nurture` |
-| `isQualified` | boolean | Whether lead is qualified | `true`, `false` |
-| `isSpam` | boolean | Whether lead is spam | `true`, `false` |
+All parameters are sent in the **fourth parameter** of the `fbq()` function for automatic hashing by Meta.
+
+| Parameter | Type | Description | Format/Requirements | When Available |
+| :---- | :---- | :---- | :---- | :---- |
+| `em` | string | Email address | Lowercase, trimmed (Meta auto-hashes) | After Page 2 (qualified leads only) |
+| `ph` | string | Phone number | E.164 format: digits only with country code, no spaces/dashes (Meta auto-hashes) | After Page 1 completion |
+| `fn` | string | First name | Lowercase (Meta auto-hashes) | After Page 2 (qualified leads only) |
+| `ln` | string | Last name | Lowercase (Meta auto-hashes) - omitted if single name | After Page 2 (qualified leads only) |
+| `ct` | string | City/location | Lowercase, spaces removed (Meta auto-hashes) | After Page 1 completion |
+| `external_id` | string | Session ID | Never hashed | Always available (session_id) |
+| `fbp` | string | Facebook Browser ID | Auto-collected by Pixel | Auto-collected |
+| `fbc` | string | Facebook Click ID | Auto-collected by Pixel | Auto-collected |
+| `client_ip_address` | string | User IP address | Auto-collected by Pixel | Auto-collected |
+| `client_user_agent` | string | Browser user agent | Auto-collected by Pixel | Auto-collected |
+
+### Parameter Formatting Rules
+
+1. **Phone Number**: Combine countryCode + phoneNumber with no spaces/dashes
+   - Example: `"+91"` + `"9876543210"` → `"919876543210"`
+
+2. **Name Handling**:
+   - If name contains space: split on first space → first part = `fn`, remaining = `ln`
+   - If single word: send as `fn` only, omit `ln`
+   - Never send empty strings
+
+3. **Only send parameters with values**: Do not send parameters with empty strings, null, or undefined
+
+4. **All text values**: Lowercase and trimmed before sending
+
+## Implementation Details
+
+### Meta Pixel fbq() Format
+
+Events are sent using the correct format for automatic parameter hashing:
+
+```javascript
+// Correct format with userData in fourth parameter
+window.fbq('trackCustom', 'event_name_prod', {}, {
+  em: 'user@example.com',
+  ph: '919876543210',
+  fn: 'firstname',
+  ln: 'lastname',
+  ct: 'bangalore',
+  external_id: 'session_abc'
+})
+```
+
+The third parameter is always an empty object `{}`, and user data goes in the fourth parameter for Meta to automatically hash sensitive information.
+
+### Helper Functions
+
+#### `buildMetaUserData(formState: Partial<FormState>): MetaUserData`
+
+Builds MetaUserData object from form state, applying all formatting rules:
+- Formats phone to E.164
+- Splits name into fn/ln
+- Lowercases and trims all text values
+- Only includes parameters with actual values
+
+#### `trackMetaEvent(eventName: string, userData?: MetaUserData): string`
+
+Core tracking function that:
+- Adds environment suffix to event name
+- Sends event with userData in fourth parameter
+- Logs event details for debugging
 
 ## Event Storage
 

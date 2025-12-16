@@ -94,11 +94,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
       setCurrentStep('evaluation')
     } else if (leadCategory === 'nurture' || leadCategory === 'masters') {
       console.log('🎯 Tracking Page 2 View Events (nurture/masters)...')
-      const page2ViewEvents = trackPage2View(
-        freshState.leadCategory || undefined,
-        freshState.isQualifiedLead,
-        freshState.formFillerType as 'parent' | 'student'
-      )
+      const page2ViewEvents = trackPage2View(freshState)
       formState.addTriggeredEvents(page2ViewEvents)
 
       formState.updateField('pageCompleted', 2)
@@ -120,11 +116,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
 
   const handleEvaluationComplete = async () => {
     console.log('🎯 Tracking Page 2 View Events (qualified leads)...')
-    const page2ViewEvents = trackPage2View(
-      formState.leadCategory || undefined,
-      formState.isQualifiedLead,
-      formState.formFillerType as 'parent' | 'student'
-    )
+    const page2ViewEvents = trackPage2View(formState)
     formState.addTriggeredEvents(page2ViewEvents)
 
     formState.updateField('pageCompleted', 2)

@@ -96,18 +96,10 @@ export const DisqualifiedLeadForm: React.FC<DisqualifiedLeadFormProps> = ({ onCo
       console.log('DisqualifiedLeadForm final save - pageCompleted:', formState.pageCompleted)
 
       console.log('🎯 Tracking Page 2 Submit Events...')
-      const page2SubmitEvents = trackPage2Submit(
-        formState.leadCategory || undefined,
-        formState.isQualifiedLead,
-        formState.formFillerType as 'parent' | 'student'
-      )
+      const page2SubmitEvents = trackPage2Submit(formState)
 
       console.log('🎯 Tracking Form Complete Events...')
-      const formCompleteEvents = trackFormComplete(
-        formState.leadCategory || undefined,
-        formState.isQualifiedLead,
-        formState.formFillerType as 'parent' | 'student'
-      )
+      const formCompleteEvents = trackFormComplete(formState)
 
       const allMetaEvents = [...page2SubmitEvents, ...formCompleteEvents]
       formState.addTriggeredEvents(allMetaEvents)

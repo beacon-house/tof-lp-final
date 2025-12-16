@@ -1,12 +1,22 @@
 import { LeadCategory } from './leadCategorization'
+import { FormState } from '../store/formStore'
 
 declare global {
   interface Window {
-    fbq?: (command: string, eventName: string, params?: Record<string, any>) => void
+    fbq?: (command: string, eventName: string, customData?: Record<string, any>, userData?: Record<string, any>) => void
   }
 }
 
-export interface MetaEventData {
+export interface MetaUserData {
+  em?: string
+  ph?: string
+  fn?: string
+  ln?: string
+  ct?: string
+  external_id?: string
+}
+
+interface LeadClassificationData {
   formFillerType?: 'parent' | 'student'
   currentGrade?: string
   scholarshipRequirement?: string
@@ -15,9 +25,6 @@ export interface MetaEventData {
   percentageValue?: string
   gradeFormat?: 'gpa' | 'percentage'
   leadCategory?: LeadCategory
-  isQualified?: boolean
-  isSpam?: boolean
-  [key: string]: any
 }
 
 function getEnvironmentSuffix(): string {
@@ -25,7 +32,57 @@ function getEnvironmentSuffix(): string {
   return env === 'prod' ? 'prod' : 'stg'
 }
 
-export function isSpamLead(data: MetaEventData): boolean {
+function formatPhoneE164(countryCode: string, phoneNumber: string): string {
+  const cleanCountry = countryCode.replace(/\D/g, '')
+  const cleanPhone = phoneNumber.replace(/\D/g, '')
+  return cleanCountry + cleanPhone
+}
+
+function formatName(name: string): { fn: string; ln?: string } {
+  const trimmed = name.trim().toLowerCase()
+  const spaceIndex = trimmed.indexOf(' ')
+
+  if (spaceIndex === -1) {
+    return { fn: trimmed }
+  }
+
+  return {
+    fn: trimmed.substring(0, spaceIndex),
+    ln: trimmed.substring(spaceIndex + 1)
+  }
+}
+
+export function buildMetaUserData(formState: Partial<FormState>): MetaUserData {
+  const userData: MetaUserData = {}
+
+  if (formState.sessionId) {
+    userData.external_id = formState.sessionId
+  }
+
+  if (formState.countryCode && formState.phoneNumber) {
+    userData.ph = formatPhoneE164(formState.countryCode, formState.phoneNumber)
+  }
+
+  if (formState.location) {
+    userData.ct = formState.location.toLowerCase().trim().replace(/\s+/g, '')
+  }
+
+  if (formState.email) {
+    userData.em = formState.email.toLowerCase().trim()
+  }
+
+  if (formState.parentName) {
+    const { fn, ln } = formatName(formState.parentName)
+    userData.fn = fn
+    if (ln) {
+      userData.ln = ln
+    }
+  }
+
+  return userData
+}
+
+export function isSpamLead(data: LeadClassificationData): boolean {
   if (data.gradeFormat === 'gpa' && data.gpaValue === '10') {
     return true
   }
@@ -35,7 +92,7 @@ export function isSpamLead(data: MetaEventData): boolean {
   return false
 }
 
-export function simulateStudentAsParent(data: MetaEventData): LeadCategory {
+export function simulateStudentAsParent(data: LeadClassificationData): LeadCategory {
   if (!data.currentGrade || !data.scholarshipRequirement || !data.targetGeographies) {
     return 'nurture'
   }
@@ -96,18 +153,18 @@ export function simulateStudentAsParent(data: MetaEventData): LeadCategory {
   return 'nurture'
 }
 
-export function trackMetaEvent(eventName: string, data?: MetaEventData): string {
+export function trackMetaEvent(eventName: string, userData?: MetaUserData): string {
   const env = getEnvironmentSuffix()
   const fullEventName = `${eventName}_${env}`
 
   console.log('🎯 META EVENT FIRED:', {
     eventName: fullEventName,
     timestamp: new Date().toISOString(),
-    data
+    userData
   })
 
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('trackCustom', fullEventName, data)
+    window.fbq('trackCustom', fullEventName, {}, userData || {})
   }
 
   return fullEventName
@@ -139,143 +196,170 @@ export function trackPage1Continue(): string[] {
   return [trackMetaEvent('mof_v1_page_1_continue')]
 }
 
-export function trackPage2View(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
+export function trackPage2View(formState: Partial<FormState>): string[] {
   const events: string[] = []
+  const userData = buildMetaUserData(formState)
+  const { leadCategory, isQualifiedLead, formFillerType } = formState
 
-  events.push(trackMetaEvent('mof_v1_page_2_view'))
+  events.push(trackMetaEvent('mof_v1_page_2_view', userData))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('mof_v1_bch_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_bch_page_2_view', userData))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_view', userData))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_view'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_view', userData))
   }
 
-  if (isQualified) {
+  if (isQualifiedLead) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_view'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_view', userData))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_view'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_view', userData))
     }
   }
 
   return events
 }
 
-export function trackPage2Submit(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
+export function trackPage2Submit(formState: Partial<FormState>): string[] {
   const events: string[] = []
+  const userData = buildMetaUserData(formState)
+  const { leadCategory, isQualifiedLead, formFillerType } = formState
 
-  events.push(trackMetaEvent('mof_v1_page_2_submit'))
+  events.push(trackMetaEvent('mof_v1_page_2_submit', userData))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('mof_v1_bch_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_bch_page_2_submit', userData))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_2_submit', userData))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_submit'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_2_submit', userData))
   }
 
-  if (isQualified) {
+  if (isQualifiedLead) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_submit'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_2_submit', userData))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_submit'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_2_submit', userData))
     }
   }
 
   return events
 }
 
-export function trackFormComplete(leadCategory?: LeadCategory, isQualified?: boolean, formFillerType?: 'parent' | 'student'): string[] {
+export function trackFormComplete(formState: Partial<FormState>): string[] {
   const events: string[] = []
+  const userData = buildMetaUserData(formState)
+  const { leadCategory, isQualifiedLead, formFillerType } = formState
 
-  events.push(trackMetaEvent('mof_v1_form_complete'))
+  events.push(trackMetaEvent('mof_v1_form_complete', userData))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('mof_v1_bch_form_complete'))
+    events.push(trackMetaEvent('mof_v1_bch_form_complete', userData))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('mof_v1_lum_l1_form_complete'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_form_complete', userData))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('mof_v1_lum_l2_form_complete'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_form_complete', userData))
   }
 
-  if (isQualified) {
+  if (isQualifiedLead) {
     if (formFillerType === 'parent') {
-      events.push(trackMetaEvent('mof_v1_qualfd_prnt_form_complete'))
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_form_complete', userData))
     } else if (formFillerType === 'student') {
-      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_form_complete'))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt_form_complete', userData))
     }
   }
 
   return events
 }
 
-export function trackPrimaryClassificationEvents(data: MetaEventData): string[] {
+export function trackPrimaryClassificationEvents(formState: Partial<FormState>): string[] {
   const events: string[] = []
-  const isSpam = isSpamLead(data)
-  const isParent = data.formFillerType === 'parent'
-  const isStudent = data.formFillerType === 'student'
+  const userData = buildMetaUserData(formState)
+
+  const classificationData: LeadClassificationData = {
+    formFillerType: formState.formFillerType as 'parent' | 'student',
+    currentGrade: formState.currentGrade,
+    scholarshipRequirement: formState.scholarshipRequirement,
+    targetGeographies: formState.targetGeographies,
+    gpaValue: formState.gpaValue,
+    percentageValue: formState.percentageValue,
+    gradeFormat: formState.gradeFormat,
+    leadCategory: formState.leadCategory || undefined
+  }
+
+  const isSpam = isSpamLead(classificationData)
+  const isParent = formState.formFillerType === 'parent'
+  const isStudent = formState.formFillerType === 'student'
 
   if (isParent) {
     if (isSpam) {
-      events.push(trackMetaEvent('mof_v1_spam_prnt', data))
+      events.push(trackMetaEvent('mof_v1_spam_prnt', userData))
     } else {
-      events.push(trackMetaEvent('mof_v1_prnt_event', data))
+      events.push(trackMetaEvent('mof_v1_prnt_event', userData))
 
-      const isQualified = data.leadCategory && ['bch', 'lum-l1', 'lum-l2'].includes(data.leadCategory)
+      const isQualified = formState.leadCategory && ['bch', 'lum-l1', 'lum-l2'].includes(formState.leadCategory)
 
       if (isQualified) {
-        events.push(trackMetaEvent('mof_v1_qualfd_prnt', data))
+        events.push(trackMetaEvent('mof_v1_qualfd_prnt', userData))
       } else {
-        events.push(trackMetaEvent('mof_v1_disqualfd_prnt', data))
+        events.push(trackMetaEvent('mof_v1_disqualfd_prnt', userData))
       }
     }
   } else if (isStudent) {
-    const simulatedCategory = simulateStudentAsParent(data)
+    const simulatedCategory = simulateStudentAsParent(classificationData)
     const wouldQualify = ['bch', 'lum-l1', 'lum-l2'].includes(simulatedCategory)
 
     if (isSpam) {
-      events.push(trackMetaEvent('mof_v1_spam_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_spam_stdnt', userData))
     } else {
-      events.push(trackMetaEvent('mof_v1_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_stdnt', userData))
     }
 
     if (wouldQualify) {
-      events.push(trackMetaEvent('mof_v1_qualfd_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_qualfd_stdnt', userData))
     } else {
-      events.push(trackMetaEvent('mof_v1_disqualfd_stdnt', data))
+      events.push(trackMetaEvent('mof_v1_disqualfd_stdnt', userData))
     }
   }
 
   return events
 }
 
-export function trackPage1CompleteWithCategory(
-  data: MetaEventData,
-  leadCategory: LeadCategory
-): string[] {
+export function trackPage1CompleteWithCategory(formState: Partial<FormState>): string[] {
   const events: string[] = []
-  const isQualified = ['bch', 'lum-l1', 'lum-l2'].includes(leadCategory)
+  const userData = buildMetaUserData(formState)
+  const leadCategory = formState.leadCategory
+  const isQualified = leadCategory && ['bch', 'lum-l1', 'lum-l2'].includes(leadCategory)
 
-  events.push(trackMetaEvent('mof_v1_page_1_continue'))
+  events.push(trackMetaEvent('mof_v1_page_1_continue', userData))
 
   if (leadCategory === 'bch') {
-    events.push(trackMetaEvent('mof_v1_bch_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_bch_page_1_continue', userData))
   } else if (leadCategory === 'lum-l1') {
-    events.push(trackMetaEvent('mof_v1_lum_l1_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_lum_l1_page_1_continue', userData))
   } else if (leadCategory === 'lum-l2') {
-    events.push(trackMetaEvent('mof_v1_lum_l2_page_1_continue'))
+    events.push(trackMetaEvent('mof_v1_lum_l2_page_1_continue', userData))
   }
 
   if (isQualified) {
-    if (data.formFillerType === 'parent') {
-      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_1_continue'))
-    } else if (data.formFillerType === 'student') {
-      const simulatedCategory = simulateStudentAsParent(data)
+    if (formState.formFillerType === 'parent') {
+      events.push(trackMetaEvent('mof_v1_qualfd_prnt_page_1_continue', userData))
+    } else if (formState.formFillerType === 'student') {
+      const classificationData: LeadClassificationData = {
+        formFillerType: formState.formFillerType,
+        currentGrade: formState.currentGrade,
+        scholarshipRequirement: formState.scholarshipRequirement,
+        targetGeographies: formState.targetGeographies,
+        gpaValue: formState.gpaValue,
+        percentageValue: formState.percentageValue,
+        gradeFormat: formState.gradeFormat
+      }
+      const simulatedCategory = simulateStudentAsParent(classificationData)
       const wouldQualify = ['bch', 'lum-l1', 'lum-l2'].includes(simulatedCategory)
       if (wouldQualify) {
-        events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_1_continue'))
+        events.push(trackMetaEvent('mof_v1_qualfd_stdnt_page_1_continue', userData))
       }
     }
   }
@@ -315,6 +399,7 @@ export function trackMofStickyCtaClick(): string[] {
   return events
 }
 
-export function trackCallScheduled(data?: MetaEventData): string[] {
-  return [trackMetaEvent('mof_v1_call_scheduled', data)]
+export function trackCallScheduled(formState: Partial<FormState>): string[] {
+  const userData = buildMetaUserData(formState)
+  return [trackMetaEvent('mof_v1_call_scheduled', userData)]
 }

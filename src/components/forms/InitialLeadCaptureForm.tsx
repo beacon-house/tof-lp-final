@@ -6,8 +6,7 @@ import { saveFormDataIncremental } from '../../lib/formTracking'
 import { Button } from '../Button'
 import {
   trackPrimaryClassificationEvents,
-  trackPage1CompleteWithCategory,
-  MetaEventData
+  trackPage1CompleteWithCategory
 } from '../../lib/metaEvents'
 
 interface InitialLeadCaptureFormProps {
@@ -156,23 +155,16 @@ export const InitialLeadCaptureForm: React.FC<InitialLeadCaptureFormProps> = ({ 
       const isQualified = ['bch', 'lum-l1', 'lum-l2'].includes(leadCategory)
       console.log('Is qualified lead:', isQualified)
 
-      const metaEventData: MetaEventData = {
-        formFillerType: formState.formFillerType as 'parent' | 'student',
-        currentGrade: formState.currentGrade,
-        scholarshipRequirement: formState.scholarshipRequirement,
-        targetGeographies: formState.targetGeographies,
-        gpaValue: formState.gpaValue,
-        percentageValue: formState.percentageValue,
-        gradeFormat: formState.gradeFormat,
+      formState.updateMultipleFields({
         leadCategory,
-        isQualified,
-      }
+        isQualifiedLead: isQualified,
+      })
 
       console.log('🎯 Tracking Primary Classification Events...')
-      const primaryEvents = trackPrimaryClassificationEvents(metaEventData)
+      const primaryEvents = trackPrimaryClassificationEvents(formState)
 
       console.log('🎯 Tracking Page 1 Complete with Category Events...')
-      const page1Events = trackPage1CompleteWithCategory(metaEventData, leadCategory)
+      const page1Events = trackPage1CompleteWithCategory(formState)
 
       const allMetaEvents = [...primaryEvents, ...page1Events]
       formState.addTriggeredEvents(allMetaEvents)
