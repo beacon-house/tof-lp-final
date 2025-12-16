@@ -9,6 +9,9 @@ declare global {
 }
 
 export interface MetaUserData {
+  fbp?: string
+  fbc?: string
+  client_user_agent?: string
   em?: string
   ph?: string
   fn?: string
@@ -53,8 +56,50 @@ function formatName(name: string): { fn: string; ln?: string } {
   }
 }
 
+function getCookie(name: string): string | undefined {
+  if (typeof document === 'undefined') {
+    return undefined
+  }
+
+  const cookies = document.cookie.split(';')
+
+  for (const cookie of cookies) {
+    const trimmed = cookie.trim()
+    if (trimmed.startsWith(name + '=')) {
+      return trimmed.substring(name.length + 1)
+    }
+  }
+
+  return undefined
+}
+
+function getAutomaticMetaParams(): Partial<MetaUserData> {
+  if (typeof window === 'undefined') {
+    return {}
+  }
+
+  const params: Partial<MetaUserData> = {}
+
+  const fbp = getCookie('_fbp')
+  if (fbp) {
+    params.fbp = fbp
+  }
+
+  const fbc = getCookie('_fbc')
+  if (fbc) {
+    params.fbc = fbc
+  }
+
+  if (typeof navigator !== 'undefined' && navigator.userAgent) {
+    params.client_user_agent = navigator.userAgent
+  }
+
+  return params
+}
+
 export function buildMetaUserData(formState: Partial<FormState>): MetaUserData {
-  const userData: MetaUserData = {}
+  const automaticParams = getAutomaticMetaParams()
+  const userData: MetaUserData = { ...automaticParams }
 
   if (formState.sessionId) {
     userData.external_id = formState.sessionId
@@ -159,9 +204,16 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
   const fullEventName = `${eventName}_${env}`
 
   if (shouldLog()) {
+    const automaticParams = {
+      fbp: userData?.fbp || 'NOT FOUND',
+      fbc: userData?.fbc || 'NOT FOUND',
+      client_user_agent: userData?.client_user_agent ? 'PRESENT' : 'NOT FOUND'
+    }
+
     console.log('🎯 META EVENT FIRED:', {
       eventName: fullEventName,
       timestamp: new Date().toISOString(),
+      automaticParams,
       userData: userData || {}
     })
     console.log('📊 Event Parameters:', JSON.stringify(userData || {}, null, 2))
@@ -187,19 +239,23 @@ export function initializeMetaPixel(): void {
 }
 
 export function trackPageView(): string[] {
-  return [trackMetaEvent('tof_v1_page_view')]
+  const userData = buildMetaUserData({})
+  return [trackMetaEvent('tof_v1_page_view', userData)]
 }
 
 export function trackHeroCTA(): string[] {
-  return [trackMetaEvent('tof_v1_cta_hero')]
+  const userData = buildMetaUserData({})
+  return [trackMetaEvent('tof_v1_cta_hero', userData)]
 }
 
 export function trackUnderstandApproachCTA(): string[] {
-  return [trackMetaEvent('tof_v1_cta_understand_our_approach')]
+  const userData = buildMetaUserData({})
+  return [trackMetaEvent('tof_v1_cta_understand_our_approach', userData)]
 }
 
 export function trackPage1Continue(): string[] {
-  return [trackMetaEvent('mof_v1_page_1_continue')]
+  const userData = buildMetaUserData({})
+  return [trackMetaEvent('mof_v1_page_1_continue', userData)]
 }
 
 export function trackPage2View(formState: Partial<FormState>): string[] {
@@ -374,20 +430,20 @@ export function trackPage1CompleteWithCategory(formState: Partial<FormState>): s
 }
 
 export function trackMofPageView(): string[] {
-  return [trackMetaEvent('mof_v1_page_view')]
+  const userData = buildMetaUserData({})
+  return [trackMetaEvent('mof_v1_page_view', userData)]
 }
 
 export function trackMofCtaClick(ctaType: 'book_call' | 'request_evaluation'): string[] {
   const events: string[] = []
+  const userData = buildMetaUserData({})
 
-  // Common event that fires for ALL CTA clicks
-  events.push(trackMetaEvent('mof_v1_cta_click'))
+  events.push(trackMetaEvent('mof_v1_cta_click', userData))
 
-  // Specific event based on button type
   if (ctaType === 'book_call') {
-    events.push(trackMetaEvent('mof_v1_book_call'))
+    events.push(trackMetaEvent('mof_v1_book_call', userData))
   } else if (ctaType === 'request_evaluation') {
-    events.push(trackMetaEvent('mof_v1_request_evaluation'))
+    events.push(trackMetaEvent('mof_v1_request_evaluation', userData))
   }
 
   return events
@@ -395,12 +451,11 @@ export function trackMofCtaClick(ctaType: 'book_call' | 'request_evaluation'): s
 
 export function trackMofStickyCtaClick(): string[] {
   const events: string[] = []
+  const userData = buildMetaUserData({})
 
-  // Common event that fires for ALL CTA clicks
-  events.push(trackMetaEvent('mof_v1_cta_click'))
+  events.push(trackMetaEvent('mof_v1_cta_click', userData))
 
-  // Specific event for sticky CTA
-  events.push(trackMetaEvent('mof_v1_sticky_cta_click'))
+  events.push(trackMetaEvent('mof_v1_sticky_cta_click', userData))
 
   return events
 }
