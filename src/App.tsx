@@ -113,10 +113,16 @@ function App() {
 
   useEffect(() => {
     if (shouldLog()) {
-      console.log('🎯 Initializing Meta Pixel and tracking page view...')
+      console.log('🎯 Initializing Meta Pixel...')
     }
     initializeMetaPixel()
-    trackPageView()
+
+    setTimeout(() => {
+      if (shouldLog()) {
+        console.log('🎯 Tracking page view after Meta Pixel initialization...')
+      }
+      trackPageView()
+    }, 150)
   }, [])
 
   useEffect(() => {
