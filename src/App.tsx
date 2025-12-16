@@ -15,6 +15,7 @@ import { ResultsSection } from './components/sections/ResultsSection'
 import { ProcessSection } from './components/sections/ProcessSection'
 import { TrustSection } from './components/sections/TrustSection'
 import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA, trackMofPageView } from './lib/metaEvents'
+import { shouldLog } from './lib/logger'
 
 function App() {
   const location = useLocation()
@@ -111,7 +112,9 @@ function App() {
   }
 
   useEffect(() => {
-    console.log('🎯 Initializing Meta Pixel and tracking page view...')
+    if (shouldLog()) {
+      console.log('🎯 Initializing Meta Pixel...')
+    }
     initializeMetaPixel()
     trackPageView()
   }, [])

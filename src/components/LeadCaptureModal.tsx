@@ -1,6 +1,7 @@
 // Lead capture form modal (no database integration)
 import React, { useState } from 'react'
 import { Button } from './Button'
+import { shouldLog } from '../lib/logger'
 
 interface LeadCaptureModalProps {
   isOpen: boolean
@@ -48,15 +49,17 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
 
     try {
       // Log form data to console (no database)
-      console.log('Form submission:', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        student_grade: formData.studentGrade,
-        school_name: formData.schoolName,
-        request_type: type,
-        created_at: new Date().toISOString()
-      })
+      if (shouldLog()) {
+        console.log('Form submission:', {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          student_grade: formData.studentGrade,
+          school_name: formData.schoolName,
+          request_type: type,
+          created_at: new Date().toISOString()
+        })
+      }
 
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500))
@@ -75,7 +78,9 @@ export const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({
       }, 3000)
     } catch (err) {
       setError('Something went wrong. Please try again.')
-      console.error('Form submission error:', err)
+      if (shouldLog()) {
+        console.error('Form submission error:', err)
+      }
     } finally {
       setIsSubmitting(false)
     }

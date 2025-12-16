@@ -7,6 +7,7 @@ import { DisqualifiedLeadForm } from './DisqualifiedLeadForm'
 import { saveFormDataIncremental } from '../../lib/formTracking'
 import { trackPage2View } from '../../lib/metaEvents'
 import { buildWebhookPayload, sendWebhookData } from '../../lib/webhook'
+import { shouldLog } from '../../lib/logger'
 
 export type FormStep = 'page1' | 'evaluation' | 'page2a' | 'page2b' | 'success'
 
@@ -56,7 +57,9 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
           await sendWebhookData(webhookUrl, webhookPayload)
         }
       } catch (webhookError) {
-        console.error('[webhook] Webhook failed but continuing:', webhookError)
+        if (shouldLog()) {
+          console.error('[webhook] Webhook failed but continuing:', webhookError)
+        }
       }
 
       setCurrentStep('success')
@@ -83,7 +86,9 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
           await sendWebhookData(webhookUrl, webhookPayload)
         }
       } catch (webhookError) {
-        console.error('[webhook] Webhook failed but continuing:', webhookError)
+        if (shouldLog()) {
+          console.error('[webhook] Webhook failed but continuing:', webhookError)
+        }
       }
 
       setCurrentStep('success')
@@ -93,12 +98,10 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
     if (leadCategory === 'bch' || leadCategory === 'lum-l1' || leadCategory === 'lum-l2') {
       setCurrentStep('evaluation')
     } else if (leadCategory === 'nurture' || leadCategory === 'masters') {
-      console.log('🎯 Tracking Page 2 View Events (nurture/masters)...')
-      const page2ViewEvents = trackPage2View(
-        freshState.leadCategory || undefined,
-        freshState.isQualifiedLead,
-        freshState.formFillerType as 'parent' | 'student'
-      )
+      if (shouldLog()) {
+        console.log('🎯 Tracking Page 2 View Events (nurture/masters)...')
+      }
+      const page2ViewEvents = trackPage2View(freshState)
       formState.addTriggeredEvents(page2ViewEvents)
 
       formState.updateField('pageCompleted', 2)
@@ -119,12 +122,10 @@ export const FormContainer: React.FC<FormContainerProps> = ({ onClose }) => {
   }
 
   const handleEvaluationComplete = async () => {
-    console.log('🎯 Tracking Page 2 View Events (qualified leads)...')
-    const page2ViewEvents = trackPage2View(
-      formState.leadCategory || undefined,
-      formState.isQualifiedLead,
-      formState.formFillerType as 'parent' | 'student'
-    )
+    if (shouldLog()) {
+      console.log('🎯 Tracking Page 2 View Events (qualified leads)...')
+    }
+    const page2ViewEvents = trackPage2View(formState)
     formState.addTriggeredEvents(page2ViewEvents)
 
     formState.updateField('pageCompleted', 2)

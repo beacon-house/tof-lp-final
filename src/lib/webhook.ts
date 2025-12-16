@@ -1,4 +1,5 @@
 import { FormState } from '../store/formStore'
+import { shouldLog } from './logger'
 
 export interface WebhookPayload {
   session_id: string
@@ -86,8 +87,10 @@ export function buildWebhookPayload(formState: FormState): WebhookPayload {
 
 export async function sendWebhookData(webhookUrl: string, payload: WebhookPayload): Promise<boolean> {
   try {
-    console.log('[webhook] Sending webhook data to:', webhookUrl)
-    console.log('[webhook] Payload:', payload)
+    if (shouldLog()) {
+      console.log('[webhook] Sending webhook data to:', webhookUrl)
+      console.log('[webhook] Payload:', payload)
+    }
 
     const response = await fetch(webhookUrl, {
       method: 'POST',
@@ -98,14 +101,20 @@ export async function sendWebhookData(webhookUrl: string, payload: WebhookPayloa
     })
 
     if (!response.ok) {
-      console.error('[webhook] Webhook request failed with status:', response.status)
+      if (shouldLog()) {
+        console.error('[webhook] Webhook request failed with status:', response.status)
+      }
       return false
     }
 
-    console.log('[webhook] Webhook sent successfully')
+    if (shouldLog()) {
+      console.log('[webhook] Webhook sent successfully')
+    }
     return true
   } catch (error) {
-    console.error('[webhook] Error sending webhook:', error)
+    if (shouldLog()) {
+      console.error('[webhook] Error sending webhook:', error)
+    }
     return false
   }
 }
