@@ -1,6 +1,7 @@
 import { LeadCategory } from './leadCategorization'
 import { FormState } from '../store/formStore'
 import { shouldLog } from './logger'
+import { cookiePolling } from './cookiePolling'
 
 declare global {
   interface Window {
@@ -57,20 +58,7 @@ function formatName(name: string): { fn: string; ln?: string } {
 }
 
 function getCookie(name: string): string | undefined {
-  if (typeof document === 'undefined') {
-    return undefined
-  }
-
-  const cookies = document.cookie.split(';')
-
-  for (const cookie of cookies) {
-    const trimmed = cookie.trim()
-    if (trimmed.startsWith(name + '=')) {
-      return trimmed.substring(name.length + 1)
-    }
-  }
-
-  return undefined
+  return cookiePolling.getCookie(name)
 }
 
 function getAutomaticMetaParams(): Partial<MetaUserData> {
@@ -203,27 +191,77 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
   const env = getEnvironmentSuffix()
   const fullEventName = `${eventName}_${env}`
 
+  if (!cookiePolling.isCookiesReady()) {
+    if (shouldLog()) {
+      console.log(`⏳ Cookies not ready, queuing event: ${fullEventName}`)
+    }
+    cookiePolling.queueEvent(fullEventName, userData)
+    return fullEventName
+  }
+
+  const enrichedUserData = userData || buildMetaUserData({})
+
   if (shouldLog()) {
     const automaticParams = {
-      fbp: userData?.fbp || 'NOT FOUND',
-      fbc: userData?.fbc || 'NOT FOUND',
-      client_user_agent: userData?.client_user_agent ? 'PRESENT' : 'NOT FOUND'
+      fbp: enrichedUserData?.fbp || 'NOT FOUND',
+      fbc: enrichedUserData?.fbc || 'NOT FOUND',
+      client_user_agent: enrichedUserData?.client_user_agent ? 'PRESENT' : 'NOT FOUND'
     }
 
     console.log('🎯 META EVENT FIRED:', {
       eventName: fullEventName,
       timestamp: new Date().toISOString(),
       automaticParams,
-      userData: userData || {}
+      userData: enrichedUserData || {}
     })
-    console.log('📊 Event Parameters:', JSON.stringify(userData || {}, null, 2))
+    console.log('📊 Event Parameters:', JSON.stringify(enrichedUserData || {}, null, 2))
   }
 
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('trackCustom', fullEventName, {}, userData || {})
+    window.fbq('trackCustom', fullEventName, {}, enrichedUserData || {})
   }
 
   return fullEventName
+}
+
+function processQueuedEvents(): void {
+  const queuedEvents = cookiePolling.getQueuedEvents()
+
+  if (queuedEvents.length === 0) {
+    if (shouldLog()) {
+      console.log('📭 No queued events to process')
+    }
+    return
+  }
+
+  if (shouldLog()) {
+    console.log(`📤 Processing ${queuedEvents.length} queued events with cookies`)
+  }
+
+  queuedEvents.forEach(({ eventName, userData }) => {
+    const enrichedUserData = { ...userData, ...getAutomaticMetaParams() }
+
+    if (shouldLog()) {
+      const automaticParams = {
+        fbp: enrichedUserData?.fbp || 'NOT FOUND',
+        fbc: enrichedUserData?.fbc || 'NOT FOUND',
+        client_user_agent: enrichedUserData?.client_user_agent ? 'PRESENT' : 'NOT FOUND'
+      }
+
+      console.log('🎯 META EVENT FIRED (from queue):', {
+        eventName,
+        timestamp: new Date().toISOString(),
+        automaticParams,
+        userData: enrichedUserData
+      })
+    }
+
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('trackCustom', eventName, {}, enrichedUserData)
+    }
+  })
+
+  cookiePolling.clearQueue()
 }
 
 export function initializeMetaPixel(): void {
@@ -235,6 +273,13 @@ export function initializeMetaPixel(): void {
     if (shouldLog()) {
       console.log('✅ Meta Pixel Initialized:', pixelId)
     }
+
+    cookiePolling.startPolling(() => {
+      if (shouldLog()) {
+        console.log('✅ Cookies ready, processing queued events')
+      }
+      processQueuedEvents()
+    })
   }
 }
 
