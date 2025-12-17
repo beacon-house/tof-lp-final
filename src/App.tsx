@@ -16,6 +16,7 @@ import { ProcessSection } from './components/sections/ProcessSection'
 import { TrustSection } from './components/sections/TrustSection'
 import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA, trackMofPageView } from './lib/metaEvents'
 import { shouldLog } from './lib/logger'
+import { useFormStore } from './store/formStore'
 
 function App() {
   const location = useLocation()
@@ -112,6 +113,15 @@ function App() {
   }
 
   useEffect(() => {
+    // Initialize session early so events have sessionId
+    const formState = useFormStore.getState()
+    if (!formState.sessionId) {
+      formState.initializeSession()
+      if (shouldLog()) {
+        console.log('✅ Session initialized:', formState.sessionId)
+      }
+    }
+    
     if (shouldLog()) {
       console.log('🎯 Initializing Meta Pixel...')
     }
