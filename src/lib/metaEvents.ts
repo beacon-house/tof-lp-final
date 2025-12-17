@@ -2,6 +2,8 @@ import { LeadCategory } from './leadCategorization'
 import { FormState } from '../store/formStore'
 import { shouldLog } from './logger'
 import { cookiePolling } from './cookiePolling'
+import { generateEventId, sendCAPIEvent } from './metaCAPI'
+import { useFormStore } from '../store/formStore'
 
 declare global {
   interface Window {
@@ -191,6 +193,12 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
   const env = getEnvironmentSuffix()
   const fullEventName = `${eventName}_${env}`
 
+  // Get session ID and counter for event_id generation
+  const formState = useFormStore.getState()
+  const sessionId = formState.sessionId
+  const counter = formState.incrementEventCounter()
+  const eventId = sessionId ? generateEventId(sessionId, fullEventName, counter) : undefined
+
   if (!cookiePolling.isCookiesReady()) {
     if (shouldLog()) {
       console.log(`⏳ Cookies not ready, queuing event: ${fullEventName}`)
@@ -210,6 +218,7 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
 
     console.log('🎯 META EVENT FIRED:', {
       eventName: fullEventName,
+      eventId,
       timestamp: new Date().toISOString(),
       automaticParams,
       userData: enrichedUserData || {}
@@ -217,8 +226,23 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
     console.log('📊 Event Parameters:', JSON.stringify(enrichedUserData || {}, null, 2))
   }
 
+  // Send to Meta Pixel (client-side)
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('trackCustom', fullEventName, {}, enrichedUserData || {})
+    window.fbq('trackCustom', fullEventName, { event_id: eventId }, enrichedUserData || {})
+  }
+
+  // Send to Meta CAPI (server-side)
+  if (eventId && sessionId) {
+    if (shouldLog()) {
+      console.log('[CAPI] Sending event to CAPI:', fullEventName, eventId)
+    }
+    sendCAPIEvent(fullEventName, enrichedUserData, eventId).catch((error) => {
+      if (shouldLog()) {
+        console.error('[CAPI] Failed to send event:', error)
+      }
+    })
+  } else if (shouldLog()) {
+    console.warn('[CAPI] Skipping event - missing eventId or sessionId:', { eventId, sessionId, eventName: fullEventName })
   }
 
   return fullEventName
@@ -238,8 +262,24 @@ function processQueuedEvents(): void {
     console.log(`📤 Processing ${queuedEvents.length} queued events with cookies`)
   }
 
+  const formState = useFormStore.getState()
+  let sessionId = formState.sessionId
+  
+  // Initialize session if not already done
+  if (!sessionId) {
+    formState.initializeSession()
+    sessionId = useFormStore.getState().sessionId
+    if (shouldLog()) {
+      console.log('✅ Session initialized in processQueuedEvents:', sessionId)
+    }
+  }
+
   queuedEvents.forEach(({ eventName, userData }) => {
     const enrichedUserData = { ...userData, ...getAutomaticMetaParams() }
+    const currentFormState = useFormStore.getState()
+    const counter = currentFormState.incrementEventCounter()
+    const currentSessionId = currentFormState.sessionId
+    const eventId = currentSessionId ? generateEventId(currentSessionId, eventName, counter) : undefined
 
     if (shouldLog()) {
       const automaticParams = {
@@ -250,6 +290,7 @@ function processQueuedEvents(): void {
 
       console.log('🎯 META EVENT FIRED (from queue):', {
         eventName,
+        eventId,
         timestamp: new Date().toISOString(),
         automaticParams,
         userData: enrichedUserData
@@ -257,7 +298,21 @@ function processQueuedEvents(): void {
     }
 
     if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('trackCustom', eventName, {}, enrichedUserData)
+      window.fbq('trackCustom', eventName, { event_id: eventId }, enrichedUserData)
+    }
+
+    // Send to CAPI
+    if (eventId && currentSessionId) {
+      if (shouldLog()) {
+        console.log('[CAPI] Sending queued event to CAPI:', eventName, eventId)
+      }
+      sendCAPIEvent(eventName, enrichedUserData, eventId).catch((error) => {
+        if (shouldLog()) {
+          console.error('[CAPI] Failed to send queued event:', error)
+        }
+      })
+    } else if (shouldLog()) {
+      console.warn('[CAPI] Skipping queued event - missing eventId or sessionId:', { eventId, currentSessionId })
     }
   })
 

@@ -29,6 +29,7 @@ export interface FormState {
   pageCompleted: number
   triggeredEvents: string[]
   utmParams: UtmParams
+  eventCounter: number
 }
 
 interface FormStore extends FormState {
@@ -36,6 +37,7 @@ interface FormStore extends FormState {
   updateField: <K extends keyof FormState>(field: K, value: FormState[K]) => void
   updateMultipleFields: (updates: Partial<FormState>) => void
   addTriggeredEvents: (events: string[]) => void
+  incrementEventCounter: () => number
   resetForm: () => void
 }
 
@@ -65,6 +67,7 @@ const initialState: FormState = {
   pageCompleted: 1,
   triggeredEvents: [],
   utmParams: {},
+  eventCounter: 0,
 }
 
 export const useFormStore = create<FormStore>((set, get) => ({
@@ -72,7 +75,7 @@ export const useFormStore = create<FormStore>((set, get) => ({
   initializeSession: () => {
     const sessionId = crypto.randomUUID()
     const utmParams = extractUtmParams()
-    set({ sessionId, utmParams, funnelStage: '01_form_start', triggeredEvents: [] })
+    set({ sessionId, utmParams, funnelStage: '01_form_start', triggeredEvents: [], eventCounter: 0 })
   },
   updateField: (field, value) => set({ [field]: value }),
   updateMultipleFields: (updates) => set(updates),
@@ -80,6 +83,12 @@ export const useFormStore = create<FormStore>((set, get) => ({
     const currentEvents = get().triggeredEvents
     const newEvents = [...currentEvents, ...events]
     set({ triggeredEvents: newEvents })
+  },
+  incrementEventCounter: () => {
+    const current = get().eventCounter
+    const next = current + 1
+    set({ eventCounter: next })
+    return next
   },
   resetForm: () => set(initialState),
 }))
