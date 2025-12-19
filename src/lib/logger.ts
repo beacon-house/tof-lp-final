@@ -1,3 +1,3 @@
 export function shouldLog(): boolean {
-  return import.meta.env.VITE_ENVIRONMENT !== 'prod'
+  return import.meta.env.VITE_ENVIRONMENT === 'stg'
 }

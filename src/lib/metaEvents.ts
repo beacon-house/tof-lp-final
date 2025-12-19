@@ -227,8 +227,24 @@ export function trackMetaEvent(eventName: string, userData?: MetaUserData): stri
   }
 
   // Send to Meta Pixel (client-side)
+  // eventID must be in 4th parameter (user data object) for proper deduplication
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('trackCustom', fullEventName, { event_id: eventId }, enrichedUserData || {})
+    const pixelUserData = { ...(enrichedUserData || {}), eventID: eventId }
+    console.log('[PIXEL] Firing Pixel event:', {
+      eventName: fullEventName,
+      eventId: eventId,
+      userData: pixelUserData,
+      hasEventID: 'eventID' in pixelUserData
+    })
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/f27e6032-db54-4552-b2d9-7883b24c15b8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'metaEvents.ts:232',message:'Pixel event fired',data:{eventName:fullEventName,eventId:eventId,hasEventID:'eventID' in pixelUserData,userDataKeys:Object.keys(pixelUserData)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    window.fbq('trackCustom', fullEventName, {}, pixelUserData)
+  } else {
+    console.warn('[PIXEL] window.fbq not available:', { hasWindow: typeof window !== 'undefined', hasFbq: typeof window !== 'undefined' && !!window.fbq })
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/f27e6032-db54-4552-b2d9-7883b24c15b8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'metaEvents.ts:232',message:'Pixel not available',data:{hasWindow:typeof window !== 'undefined',hasFbq:typeof window !== 'undefined' && !!window.fbq},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
   }
 
   // Send to Meta CAPI (server-side)
@@ -297,8 +313,24 @@ function processQueuedEvents(): void {
       })
     }
 
+    // eventID must be in 4th parameter (user data object) for proper deduplication
     if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('trackCustom', eventName, { event_id: eventId }, enrichedUserData)
+      const pixelUserData = { ...enrichedUserData, eventID: eventId }
+      console.log('[PIXEL] Firing queued Pixel event:', {
+        eventName: eventName,
+        eventId: eventId,
+        userData: pixelUserData,
+        hasEventID: 'eventID' in pixelUserData
+      })
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/f27e6032-db54-4552-b2d9-7883b24c15b8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'metaEvents.ts:303',message:'Queued Pixel event fired',data:{eventName:eventName,eventId:eventId,hasEventID:'eventID' in pixelUserData,userDataKeys:Object.keys(pixelUserData)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
+      window.fbq('trackCustom', eventName, {}, pixelUserData)
+    } else {
+      console.warn('[PIXEL] window.fbq not available for queued event:', { hasWindow: typeof window !== 'undefined', hasFbq: typeof window !== 'undefined' && !!window.fbq })
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/f27e6032-db54-4552-b2d9-7883b24c15b8',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'metaEvents.ts:303',message:'Pixel not available for queued event',data:{hasWindow:typeof window !== 'undefined',hasFbq:typeof window !== 'undefined' && !!window.fbq},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      // #endregion
     }
 
     // Send to CAPI
