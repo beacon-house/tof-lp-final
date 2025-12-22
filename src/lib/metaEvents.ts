@@ -4,6 +4,7 @@ import { shouldLog } from './logger'
 import { cookiePolling } from './cookiePolling'
 import { generateEventId, sendCAPIEvent } from './metaCAPI'
 import { useFormStore } from '../store/formStore'
+import { getClientIpAddress, getClientUserAgent } from './clientInfo'
 
 declare global {
   interface Window {
@@ -15,6 +16,7 @@ export interface MetaUserData {
   fbp?: string
   fbc?: string
   client_user_agent?: string
+  client_ip_address?: string
   em?: string
   ph?: string
   fn?: string
@@ -80,8 +82,17 @@ function getAutomaticMetaParams(): Partial<MetaUserData> {
     params.fbc = fbc
   }
 
-  if (typeof navigator !== 'undefined' && navigator.userAgent) {
-    params.client_user_agent = navigator.userAgent
+  // Get client user agent (synchronous, always available)
+  const userAgent = getClientUserAgent()
+  if (userAgent) {
+    params.client_user_agent = userAgent
+  }
+
+  // Get client IP address (may be undefined if fetch hasn't completed yet)
+  // This is acceptable - early events may lack IP, but subsequent events will have it
+  const clientIp = getClientIpAddress()
+  if (clientIp) {
+    params.client_ip_address = clientIp
   }
 
   return params
