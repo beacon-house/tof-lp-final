@@ -17,6 +17,7 @@ import { TrustSection } from './components/sections/TrustSection'
 import { initializeMetaPixel, trackPageView, trackUnderstandApproachCTA, trackMofPageView } from './lib/metaEvents'
 import { shouldLog } from './lib/logger'
 import { useFormStore } from './store/formStore'
+import { fetchClientIpAddress } from './lib/clientInfo'
 
 function App() {
   const location = useLocation()
@@ -127,6 +128,15 @@ function App() {
     }
     initializeMetaPixel()
     trackPageView()
+
+    // Fetch client IP asynchronously (non-blocking)
+    // Early events may fire without IP, but subsequent events will have it cached
+    fetchClientIpAddress().catch(() => {
+      // Silently fail - events will still fire without IP
+      if (shouldLog()) {
+        console.warn('[App] IP fetch failed, events will continue without IP')
+      }
+    })
   }, [])
 
   useEffect(() => {
