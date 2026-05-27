@@ -31,3 +31,7 @@ pnpm-debug.log*
 
 # OS files
 Thumbs.db
+
+# Local agent/reference files that should live outside the repo
+CLAUDE.md
+CAPI-implementation-guideline.md
