@@ -34,6 +34,11 @@ export interface WebhookPayload {
   utm_term?: string
   utm_content?: string
   utm_id?: string
+  campaign_id?: string
+  utm_adset?: string
+  adset_id?: string
+  ad_id?: string
+  utm_placement?: string
 }
 
 export function buildWebhookPayload(formState: FormState): WebhookPayload {
@@ -82,6 +87,11 @@ export function buildWebhookPayload(formState: FormState): WebhookPayload {
     utm_term: formState.utmParams.utm_term,
     utm_content: formState.utmParams.utm_content,
     utm_id: formState.utmParams.utm_id,
+    campaign_id: formState.utmParams.campaign_id,
+    utm_adset: formState.utmParams.utm_adset,
+    adset_id: formState.utmParams.adset_id,
+    ad_id: formState.utmParams.ad_id,
+    utm_placement: formState.utmParams.utm_placement,
   }
 }
 
